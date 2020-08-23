@@ -1,0 +1,147 @@
+<div class="conteudo-cadastro">
+
+    <div class="header-cadastro">
+        <div class="col-md-10 pt-3">
+            <div class="row">
+                <div class="col d-flex align-items-center">
+                    <h6 class="text-roxo">Cadastrar Exercício</h6>
+                </div>
+                <div class="col-auto">
+                    
+                    <button type="button" class="btn btn-voltar font-18" [routerLink]="['/painel/modulo1/exercicio']">
+                        <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
+                        voltar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-cadastro">
+        <div class="col-md-8">
+            <form #formNivel="ngForm" *ngIf ="!requisitando">
+                <div class="form-row">
+                  <div class="form-group col-12 mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputEmail4">Nome do exercício</label>
+                    <input type="text" class="form-control form-control-sm"  id="nome" name="nome" [(ngModel)]="exercicio.nome" required>
+                  </div>
+        
+                  <div class="form-group col-12  mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputPassword4">Descrição</label>
+                    <input type="text" class="form-control form-control-sm"  id="descricao" name="descricao" [(ngModel)]="exercicio.descricao" required>
+                  </div>
+
+                  <div class="form-group col-12  mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputPassword4">Enunciado</label>
+                    <input type="text" class="form-control form-control-sm"  id="enunciado" name="enunciado" [(ngModel)]="exercicio.enunciado" required>
+                  </div>
+
+                  
+                  <div class="form-group col-12  mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputPassword4">Formula</label>
+                    <input type="text" class="form-control form-control-sm"  id="formula" name="formula" [(ngModel)]="exercicio.id_formula.formula" required>
+                  </div>
+
+                  <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="iniciar_zerada" name="iniciar_zerada" [(ngModel)]="exercicio.id_formula.iniciar_zerada">
+                      <label class="form-check-label col-form-label-sm" for="ativo">
+                        Iniciar Zerada
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="inicio_personalizado" name="inicio_personalizado" [(ngModel)]="exercicio.id_formula.inicio_personalizado">
+                      <label class="form-check-label col-form-label-sm" for="ativo">
+                        Personalizar Inicio
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-12  mb-2">
+                    <label for="formControlRange">Quantidade de Regras</label>
+                    <input type="range" class="form-control-range" id="formControlRange">
+                  </div>
+
+
+                  <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="iniciar_zerada" name="iniciar_zerada" [(ngModel)]="exercicio.id_formula.fechar_automaticamente">
+                      <label class="form-check-label col-form-label-sm" for="ativo">
+                        Fechamento Automático 
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="inicio_personalizado" name="inicio_personalizado" [(ngModel)]="exercicio.id_formula.ticar_automaticamente">
+                      <label class="form-check-label col-form-label-sm" for="ativo">
+                        Ticagem Automática
+                      </label>
+                    </div>
+                  </div>
+
+
+        
+                  <div class="form-group col-4  mb-2">
+                    <div class="form-check" (click)="tempoDesbilitar()">
+                      <input class="form-check-input form-control-sm" type="checkbox"  id="tempoDesbilita" name="!tempoDesbilita" [(ngModel)]="tempoDesbilita">
+                      <label class="form-check-label col-form-label-sm " for="tempoDesbilita">
+                        Definir tempo
+                      </label>
+                    </div>
+                    <div>
+                        <input type="number" class="form-control form-control-sm"  id="tempo" name="tempo" [(ngModel)]="exercicio.tempo" [disabled]="tempoDesbilita" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-8  mb-2">
+                        <div>
+                            <label class="col-form-label-sm mb-0" for="id_recompensa">Recompensa</label>
+                            <select id="id_recompensa" name="id_recompensa" [(ngModel)]="exercicio.id_recompensa"class="form-control form-control-sm" required>
+                                <option *ngFor="let recompensa of listaRecompensas" value="{{recompensa.id}}">{{recompensa.nome}}</option>
+                            </select>
+                        </div>
+                        <div  *ngIf="loadingRecompensa" class="spinner-border spinner-border-sm text-roxo ml-2" role="status">
+                            <span class="sr-only">Carregando...</span>
+                        </div>
+                    </div>
+ 
+        
+                  <div class="form-group col-12  mb-2">
+                    <div class="form-check">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="ativo" name="ativo" [(ngModel)]="exercicio.ativo">
+                      <label class="form-check-label col-form-label-sm" for="ativo">
+                        Ativo
+                      </label>
+                    </div>
+                  </div>
+        
+                  <div class="form-group col-12 text-right">
+                    <button (click)="cadastrarNivel()" class="btn btn-padrao" [disabled]=" !formNivel.form.valid?true:false">Salvar</button>
+                  </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-center" *ngIf ="spineer">
+                <div class="spinner-border text-roxo" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf ="erroSalvar!=null">
+                
+                <div class="alert alert-danger pt-1" role="alert">
+                    <div class="row d-flex justify-content-end">
+                        <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
+                    </div>
+                    
+                    <h5 class="alert-heading text-center">Error!</h5>
+                    <p class=" text-center">{{erroSalvar}}</p>
+                    <hr class="m-2">
+                    <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+

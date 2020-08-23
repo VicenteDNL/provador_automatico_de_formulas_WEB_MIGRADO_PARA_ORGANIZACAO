@@ -1,0 +1,244 @@
+body,html{
+ 
+ height: 100%;
+}
+
+body{
+    padding:      0;
+    margin:       0;
+    background: rgb(85,217,202);
+    background:   linear-gradient(180deg, rgba(85,217,202,1) 7%, rgba(95,165,206,1) 47%, rgba(106,112,210,1) 90%, rgba(106,112,210,1) 99%);
+}
+
+.tamanho-conteudo{
+    height: 100%;
+    width:  100%;
+}
+
+@media screen and (min-width: 576px) {
+    .tamanho-conteudo {
+        height: 95%;
+        width:  90%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .tamanho-conteudo {
+        height: 90%;
+        width:  75%;
+    }
+}
+ 
+@media screen and (min-width: 992px) {
+    .tamanho-conteudo {
+        height: 85%;
+        width:  80%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .tamanho-conteudo {
+        height: 80%;
+        width:  70%;
+    }
+}
+
+.conteudo{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    background-image: url("src/assets/img/back-padrao.png");
+    background-repeat:no-repeat;
+    background-position:bottom right;
+    -webkit-box-shadow: 3px 4px 10px 0px rgba(50, 50, 50, 0.85);
+    -moz-box-shadow:    3px 4px 10px 0px rgba(50, 50, 50, 0.85);
+    box-shadow:         3px 4px 10px 0px rgba(50, 50, 50, 0.85);
+
+}
+.container-central{
+    flex: 1;
+}
+
+
+
+.botao-primario {
+    background-color: #A852D2;
+    color:            white;
+    border-radius:      50px;
+}
+
+.botao-primario:hover{
+    color:            white;
+    background-color: #bc74e0;
+}
+
+.barra-navegacao{
+
+    background-color: #F6F6F6;
+    width:              100%;
+}
+.grupo-itens{
+    display:            flex;
+    justify-content:    flex-end; 
+}
+
+
+.item-navegacao{
+    cursor:             pointer;
+    display:            flex;
+    align-items:        flex-end;
+    font-weight:        bold;
+    color:            #DCDCDC;
+}
+
+.navegacao-ativa{
+    color:            #6E52D2;
+    transition:         all 0.5s;
+}
+
+.caixa-barra{
+    position:           relative;
+    top:                3px;
+    width:              100%;
+}
+.barra-ativa{
+    height:             10px;
+    width:              100px;
+    background:       #6E52D2;
+    transition:         all 0.5s;
+}
+
+.barra-ativa-interna{
+    height:             7px;
+    width:              50px;
+    background:         #6E52D2;
+    transition:         all 0.5s;
+}
+
+.item-cor{
+    color:              #6E52D2;
+}
+
+.item-cor:hover{
+    color:              #6E52D2;
+text-decoration-style:  none!important;
+}
+
+.modal-content{
+    background-clip:    initial!important; 
+    border:             0px transparent!important ;
+    border-radius:      0%!important;
+}
+
+
+.dropdown-navegacao{
+    color:              #888888;
+    font-weight:          bold;
+}
+
+.dropdown-navegacao:hover{
+    color:              #9d8ed4;
+    font-weight:          bold;
+}
+
+
+.btn-padrao{
+    color:            #6E52D2;
+    font-weight: bold;
+    border-bottom: 5px solid #6E52D2 ;
+    /* border-radius: 0% !important; */
+    padding-bottom: 0px!important;
+}
+
+.btn-padrao:hover{
+    color:            #4b3d80;
+    border-bottom: 5px solid #4b3d80 ;
+}
+
+.text-roxo{
+    color: #6E52D2;
+    
+}
+
+.btn-tabela{
+    color: white;
+    background:#6E52D2 ;
+}
+.btn-tabela:hover{
+    color: white;
+    background:#4b3d80 ;
+}
+
+.btn-paginacao{
+    color: white;
+    background: #56d6ca;
+}
+.btn-paginacao-desabilitado{
+    color: white;
+    background: #56d6ca;
+}
+.btn-paginacao-desabilitado:hover{
+    color: white;
+    background: #56d6ca;
+}
+
+.btn-paginacao:hover{
+    color: white;
+    background:#3e9b91 ;
+}
+
+.btn-voltar{
+    color:#6E52D2;
+}
+
+.btn-voltar:hover{
+    color:#4b3d80;
+}
+
+.btn-fecharAviso{
+    background:transparent;
+    color: #721c24 ;
+}
+
+th{
+    color: #5e5e5e;
+}
+
+.table thead th {
+    border-bottom: 2px solid #f5f5f5!important;
+}
+
+.table td, .table th {
+    color: #5e5e5e ;
+    border-top:2px solid #fdfdfd!important;
+}
+
+.table tbody tr:hover {
+    background:#fdfdfd ;
+}
+
+.form-check-input {
+     margin-top: 0px!important
+    }
+
+.titulo-modal{
+    background: #F6F6F6;
+    color: #6E52D2;
+    font-weight: bold;
+
+}
+.barra-modal{
+    position: relative;
+    top:-2px;
+    height: 3px;
+    width: 100px;
+    background: #6E52D2;
+}
+
+
+.container-mensagem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

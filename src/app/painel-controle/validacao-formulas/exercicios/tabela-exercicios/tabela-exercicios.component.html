@@ -1,0 +1,105 @@
+<ng-template #DeletarModal>
+    <div class="modal-body text-center p-0">
+        <div class=" text-center titulo-modal p-2">
+            <span>Deletar Nível</span>
+        </div>
+        <div class="text-center d-flex justify-content-center w-100" >
+            <div class="barra-modal"></div>
+        </div>
+        <div class="p-3 w-100 text-center ">
+            <p>Realmente deseja deletar?</p>
+        </div>
+        <div class="pb-3 w-100 text-center" *ngIf="!excluindo">
+            <button type="button" class="btn btn-padrao mx-2" (click)="confirmarDelete()" >Sim</button>
+            <button type="button" class="btn btn-padrao mx-2" (click)="cancelarDelete()" >Não</button>
+        </div>
+        <div class="pb-3 w-100 text-center" *ngIf="excluindo">
+            <div class="spinner-border text-roxo" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+
+    </div>
+  </ng-template>
+
+
+<div *ngIf="errorMensagen==null" class="container conteudo-exercicio" >
+    <div class=" mb-5">
+        <div class="col-md-10 m-auto pt-4 text-right">
+            <button type="button" class="btn btn-padrao mx-2"  (click)=abrirCadastro()  >Cadastrar</button>
+        </div>
+        
+    </div>
+    <div class="tabela-exercicio">
+        <div class="col-md-10 m-auto pt-2">
+            <div *ngIf="lista_exercicio$ |async as exercicios" >
+                <table class="table table-sm table-responsive-md">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let exercicio of exercicios" >
+                        <td>{{exercicio.nome}}</td>
+                        <td>{{exercicio.ativo}}</td>
+                        <td>
+                            <div class="btn-group my-1">
+                                <button class="btn btn-sm btn-tabela" >
+                                    <fa-icon class="mx-1" [icon]="iconEditar" (click)="abrirEdicao(exercicio.id)"></fa-icon>
+                                </button>
+                                <button type="button" class="btn btn-tabela btn-sm">
+                                <fa-icon class="mx-1" [icon]="iconDeletar" (click)="deletar(DeletarModal, exercicio.id)"></fa-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div class=" text-center folder-exercicio">
+
+                <div *ngIf="buscando" class="spinner-border text-roxo pinner-border-sm mb-2" role="status">
+                <span class="sr-only">Loading...</span>
+                </div>
+                
+
+        <div>
+            <div class="btn-group my-1">
+                <button class="btn btn-sm btn-paginacao" (click)="carregarLista('prev')"  [disabled]="prevPage==0">
+                    <fa-icon class="mx-1" [icon]="prev"></fa-icon>
+                </button>
+                <button class="btn btn-sm btn-paginacao-desabilitado" disabled>
+                     {{from}} - {{to}} de um total de {{total}}
+                </button>
+                <button type="button" class="btn btn-paginacao btn-sm" (click)="carregarLista('next')" [disabled]="nextPage==0">
+                <fa-icon class="mx-1" [icon]="next"></fa-icon>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container-mensagem"  *ngIf="errorMensagen!=null">
+    <div class="alert alert-danger pt-1" role="alert">
+        <div class="row d-flex justify-content-end">
+            <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
+        </div>
+        
+        <h5 class="alert-heading text-center">Error!</h5>
+        <p class=" text-center">{{errorMensagen}}</p>
+        <hr class="m-2">
+        <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
+    </div>
+</div>
+

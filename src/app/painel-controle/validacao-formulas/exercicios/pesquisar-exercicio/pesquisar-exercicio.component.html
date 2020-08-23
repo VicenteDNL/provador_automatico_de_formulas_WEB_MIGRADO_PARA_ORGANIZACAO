@@ -1,0 +1,15 @@
+<div class="container-pesquisar">
+    <div class="col-md-6 m-auto pt-2">
+        <div class="form-group">
+            <div>
+                <label class="col-form-label-sm mb-0" for="id_recompensa">Recompensa</label>
+                <select (change)="carregarExercicios()" id="nivelId" name="nivelId" [(ngModel)]="nivelId"class="form-control form-control-sm"  >
+                    <option *ngFor="let nivel of lista_niveis" value="{{nivel.id}}">{{nivel.nome}}</option>
+                </select>
+            </div>
+            <div  *ngIf="loadingNiveis" class="spinner-border spinner-border-sm text-roxo ml-2" role="status">
+                <span class="sr-only">Carregando...</span>
+            </div>
+        </div>
+    </div>
+</div>

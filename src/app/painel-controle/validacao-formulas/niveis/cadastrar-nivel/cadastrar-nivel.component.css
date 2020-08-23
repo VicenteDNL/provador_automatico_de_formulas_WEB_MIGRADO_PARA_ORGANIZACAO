@@ -1,0 +1,18 @@
+.conteudo-cadastro{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.form-cadastro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex:1 
+}
+
+.header-cadastro{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+}
