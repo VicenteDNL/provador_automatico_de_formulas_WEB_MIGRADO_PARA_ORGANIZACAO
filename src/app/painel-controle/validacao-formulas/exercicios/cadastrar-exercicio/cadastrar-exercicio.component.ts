@@ -7,6 +7,9 @@ import { Recompensa } from 'src/app/painel-controle/models/recompensa.model';
 import { Niveis } from 'src/app/painel-controle/models/niveis.model';
 import { Formula } from 'src/app/painel-controle/models/formula.model';
 
+// import { GramLogic } from '../../../../../../gramLogic/gramLogic';
+declare var gramLogic: any;
+
 @Component({
   selector: 'app-cadastrar-exercicio',
   templateUrl: './cadastrar-exercicio.component.html',
@@ -22,11 +25,16 @@ export class CadastrarExercicioComponent implements OnInit {
   requisitando=false;
   spineer=false
   erroSalvar=null;
-  tempoDesbilita=false
+  tempoDesbilita=false;
+
+ 
   constructor(
               private service: ExerciciosService,
               private router:Router,
-  ) { }
+              // private gramlogic:GramLogic
+  ) {
+   
+   }
 
 
   ngOnInit(): void {
@@ -36,6 +44,8 @@ export class CadastrarExercicioComponent implements OnInit {
       recompensas=> this.carregacomboRecompensas(recompensas),
       error=>this.errorBuscaRecompensas()
     );
+
+    console.log(gramLogic.validar('|- ~P',false));
   }
 
 
