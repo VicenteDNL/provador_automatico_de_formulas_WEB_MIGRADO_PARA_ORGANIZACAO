@@ -16,3 +16,53 @@
     justify-content: center;
     align-items: flex-end; 
 }
+
+
+.btn-inf-formula-2{
+    background: #efefef;
+    color: #b2b2b2;
+    border-radius: 0 0 0  0!important;
+    border-top: 1px solid!important;
+    border-bottom: 1px solid!important;
+    border-right: 1px solid!important;
+    
+}
+
+.btn-inf-formula-1{
+    background: #efefef;
+    color: #b2b2b2;
+    border-radius: 0 .2rem .2rem 0!important;
+    border-right: 1px solid!important;
+    border-top: 1px solid!important;
+    border-bottom: 1px solid!important;
+}
+
+#formula{
+    border-radius: .2rem  0 0 .2rem !important; 
+}
+
+.btn-invalid-formula{
+    background: #d22838;
+    color: white;
+    border-radius: 0 0 0 0!important;
+    border-top: 1px solid #b2b2b2!important;
+    border-bottom: 1px solid #b2b2b2!important;
+    border-right: 1px solid #b2b2b2!important;
+}
+
+.errorFormulaInput{
+    border: 2px solid #d22838;
+
+}
+
+.cor-tabela-error{
+    background: #f5f5f5;
+    color:#d22838
+}
+
+.conteudo-modal-error{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+

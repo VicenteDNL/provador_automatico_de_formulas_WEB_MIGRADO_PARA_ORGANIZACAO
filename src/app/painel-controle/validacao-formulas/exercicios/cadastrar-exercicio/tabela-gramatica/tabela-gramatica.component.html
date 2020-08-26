@@ -1,0 +1,138 @@
+<div class="row mt-5">
+    <div class="col-3 border-right d-flex align-items-stretch text-left">
+        <div class="nav flex-column rounded nav-pills cor-fundo1 shadow-sm " id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <div class=" container rounded-top cor-fundo2 text-center p-2 mb-3 ">
+                <h6 class="h6">Regras de Construção</h6>
+            </div>
+            <a class="nav-link  mx-2"[ngClass]="{'active': modulos.conectivos==true}" id="s-conectivos" (click)="abrirInfo('conectivos')">Conectivos</a>
+            <a class="nav-link mx-2" [ngClass]="{'active': modulos.negacao==true}" id="s-negacao" (click)="abrirInfo('negacao')">Negação</a>
+            <a class="nav-link mx-2" [ngClass]="{'active': modulos.letra==true}" id="s-letra"(click)="abrirInfo('letra')">Letra Predicativas</a>
+            <a class="nav-link mx-2" [ngClass]="{'active': modulos.conclusao==true}" id="s-conclusao" (click)="abrirInfo('conclusao')">Conclusão</a>
+            <a class="nav-link mx-2 mb-2" [ngClass]="{'active': modulos.premissas==true}" id="s-premissas" (click)="abrirInfo('premissas')">Premissas</a>
+        </div>
+    </div>
+
+
+    <div class="col-9  d-flex align-items-center">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div *ngIf="modulos.conectivos==true" id="conectivos">
+                <p> Os conectivos lógicos abaixo são utilizados pela gramática para representação de fórmulas proposicionais. Para representar uma fórmula, deve-se utilizar os conectivos listados abaixo.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Operação</th>
+                            <th scope="col">Conectivos</th>
+                            <th scope="col">Estrutura Lógica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Negação</td>
+                            <td>~</td>
+                            <td>~P</td>
+                        </tr>
+                        <tr>
+                            <td>Conjunção</td>
+                            <td>^</td>
+                            <td>P^Q</td>
+                        </tr>
+                        <tr>
+                            <td>Disjunção</td>
+                            <td>v</td>
+                            <td>PvQ</td>
+                        </tr>
+                        <tr>
+                            <td>Conjunção</td>
+                            <td>-></td>
+                            <td>P->Q</td>
+                        </tr> 
+                        <tr>
+                            <td>Bicondicional</td>
+                            <td><-></td>
+                            <td>P<->Q</td>
+                        </tr>                                                                                                   
+                    </tbody>
+                </table>  
+            </div>
+
+
+            <div *ngIf="modulos.negacao==true" id="negacao" >
+                <p>A negação pode ser utilizada para negar uma premissa ou uma fórmula relacionadas por conectivos. Neste caso os parênteses são utilizados para organizar a sequência de prioridade da fórmula aplicada. Ou seja, para negar uma fórmula relacionada a conectivo deve utilizar obrigatóriamente parênteses conforme apresentado na tabela abaixo.</p> 
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Negação de Predicados</th>
+                            <th scope="col">Negação de Predicados Relacionados por Conectivos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>~(P)</td>
+                            <td>~(P->~Q)</td>
+                        </tr>
+                        <tr>
+                            <td>~P</td>
+                            <td>~(PvQ)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div *ngIf="modulos.letra==true"  id="letra" >
+                <p>A gramática utiliza letras maiúsculas podendo ser qualquer letra de "A" a "Z", para representar letras predicativas da fórmula proposicional.</p>
+            </div>
+
+
+            <div *ngIf="modulos.conclusao==true" id="conclusao">
+                    <p>A conclusão é definida através do identificador de conclusão "|-" seguida do argumento de conclusão.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                        <th scope="col">Indicador de Conclusão</th>
+                        <th scope="col">Argumento de Conclusão</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>|-</td>
+                            <td>~(P->~Q)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            <div *ngIf="modulos.premissas==true" id="premissas">
+                <p>Para definição de premissas(argumentos) é utilizado letras predicativas. Uma fórmula pode ser composta por zero ou mais premissas e obrigatóriamente uma conclusão, para definição de mais premissas deve-se utilizar a vírgula para determinar a separação das premissas.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                        <th scope="col">Premissa</th>
+                        <th scope="col">Premissas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>P->Q</td>
+                            <td>P->Q,PvQ</td>
+                        </tr>
+                        <tr>
+                            <td>(P->Q)</td>
+                            <td>(P->Q),(PvQ)</td>
+                        </tr>
+                        <tr>
+                            <td>~Q</td>
+                            <td>P->Q,~Q</td>
+                        </tr>
+                        <tr>
+                            <td>~(P->Q)</td>
+                            <td>~(P->Q),Q</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>                            
+</div>

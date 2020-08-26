@@ -17,6 +17,7 @@ import { EditarNivelComponent } from './validacao-formulas/niveis/editar-nivel/e
 import { PesquisarExercicioComponent } from './validacao-formulas/exercicios/pesquisar-exercicio/pesquisar-exercicio.component';
 import { TabelaExerciciosComponent } from './validacao-formulas/exercicios/tabela-exercicios/tabela-exercicios.component';
 import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
+import { TabelaGramaticaComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/tabela-gramatica/tabela-gramatica.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cad
     EditarNivelComponent,
     PesquisarExercicioComponent,
     TabelaExerciciosComponent,
-    CadastrarExercicioComponent
+    CadastrarExercicioComponent,
+    TabelaGramaticaComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

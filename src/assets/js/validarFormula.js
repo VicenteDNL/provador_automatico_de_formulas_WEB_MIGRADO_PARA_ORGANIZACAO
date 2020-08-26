@@ -30,7 +30,6 @@ var gramLogic = (function() {
       var htmlGramLogic = new HtmlGramLogicListener();
       antlr4.tree.ParseTreeWalker.DEFAULT.walk(htmlGramLogic, tree);
 
-
     if (errorListener.errors.length == 0) {
             return {
                 sucesso:true,
@@ -39,14 +38,20 @@ var gramLogic = (function() {
             }
     } else {
        
-        var msg = ' <ul>';
+       var listaErros=[];
         for (var i = 0; i < errorListener.errors.length; i++) {
-           
-            var error = errorListener.errors[i];
-            console.log(error.msg)
-            msg += '<li>Linha:  ' + error.line + '</li>'
-                + '<li>Coluna: ' + error.column + '</li>';
+            var msg = {
+                'linha':null,
+                'coluna':null,
+                'info':null
+            };
 
+
+            var error = errorListener.errors[i];
+            msg.linha = error.line;
+            msg.coluna =  error.column;;
+
+            var infos =[]
                 if (error.msg.indexOf('expecting')>=0){
                     var x = error.msg.indexOf('expecting')+11;
                     var tamanho = error.msg.length;
@@ -55,22 +60,20 @@ var gramLogic = (function() {
                     if (index==-1){
                         
                         if(esperados=='EOF'){
-                            msg +='<li>Final da fórmula inválido<ul>';
+                            infos.push('Final da fórmula inválido') 
                         }else{
-                            msg +='<li>Os valores esperados são:<ul>';
-                            msg +='<li>'+esperados+'</li>';
+                            infos.push('Os valores esperados são: '+esperados)
                         }
                        
     
                     }else{
-                        msg +='<li>Os valores esperados são:<ul>';
                         while(index>=0){
-                            msg +='<li>'+esperados.substring(0,index)+ '</li>';
+                            infos.push('Valor esperado: '+esperados.substring(0,index))
                             esperados =esperados.substring(index+2);
                             index = esperados.indexOf(', ');
                         }
                         if(esperados=='PRED'){
-                            msg +="<li>letras predicativas de 'A' a 'Z' </li>";
+                            infos.push("Valor esperado: letras predicativas de 'A' a 'Z'")
                         }
                     }
                 }else{
@@ -80,31 +83,27 @@ var gramLogic = (function() {
                     var entrada = error.msg.substring(index+1,tamanho-1);
                     
                     if(entrada=='~'){
-                        msg +="<li>Os valores esperados são:<ul>";
-                        msg += "<li>'('</li>"
-                        + "<li>Letras predicativas de 'A' a 'Z' </li></li>";
+                        infos.push("Valor esperado: Letras predicativas de 'A' a 'Z'")
+
                     }
                     else if(entrada=='('){
-                        msg +="<li>Os valores esperados são:<ul>";
-                        msg += "<li>'~'</li>"
-                        + "<li>letras predicativas de 'A' a 'Z' </li></li>";
+                        infos.push("Valor esperado: Simbolo de negação '~' Letras predicativas de 'A' a 'Z'")
+
                     }
                     else{
-                        msg +="<li>O Argumento '"+entrada+"' não é válido<ul>";
-        
+                        infos.push("O Argumento '"+entrada+"' não é válido")
                     }
                 }
 
-                msg +='</ul>';
-
+                msg.info = infos
+                listaErros.push(msg)
     
            
         }
-        msg += '</ul>';
             return {
-                sucesso:true,
-                mensagem:'Opaa! seu arquivo acabou de ser gerado',
-                xml: msg
+                sucesso:false,
+                mensagem:listaErros,
+                xml: ''
             }
 
         

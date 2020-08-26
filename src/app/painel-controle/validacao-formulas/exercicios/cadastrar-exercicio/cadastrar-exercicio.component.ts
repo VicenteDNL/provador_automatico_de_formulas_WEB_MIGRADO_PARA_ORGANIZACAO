@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { faArrowAltCircleLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { faArrowAltCircleLeft, faTimes, faQuestionCircle, faEye, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { Exercicio } from 'src/app/painel-controle/models/exercicio.model';
 import { ExerciciosService } from '../exercicios.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Recompensa } from 'src/app/painel-controle/models/recompensa.model';
 import { Niveis } from 'src/app/painel-controle/models/niveis.model';
 import { Formula } from 'src/app/painel-controle/models/formula.model';
+import { TabelaExerciciosComponent } from '../tabela-exercicios/tabela-exercicios.component';
+import { map, switchMap } from 'rxjs/operators';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
 
 // import { GramLogic } from '../../../../../../gramLogic/gramLogic';
 declare var gramLogic: any;
@@ -19,6 +23,9 @@ export class CadastrarExercicioComponent implements OnInit {
 
   iconVoltar= faArrowAltCircleLeft;
   iconFechar=faTimes;
+  duvida= faQuestionCircle;
+  visual=faEye;
+  error=faExclamationTriangle;
   listaRecompensas=[]
   loadingRecompensa=false
   exercicio:Exercicio
@@ -26,26 +33,34 @@ export class CadastrarExercicioComponent implements OnInit {
   spineer=false
   erroSalvar=null;
   tempoDesbilita=false;
-
+  modalRef:BsModalRef;
+  formulaInvalida=false
+  visualizararvore=false
+  mensagemError;
  
   constructor(
+              private modalService: BsModalService,
               private service: ExerciciosService,
               private router:Router,
-              // private gramlogic:GramLogic
+              private route: ActivatedRoute,   
   ) {
    
    }
 
 
   ngOnInit(): void {
-    this.exercicio = new Exercicio(null,new Recompensa() ,new Niveis(),new Formula(),null,null,null,null,null,null,null,null,null,);
+    this.exercicio = new Exercicio(null,new Recompensa() ,null,new Formula());
+    this.route.params.subscribe(params => {
+      this.exercicio.id_nivel = new Niveis(params['idNivel']);
+   })
+
+    
     this.loadingRecompensa=true
     this.service.todasRecompensas().subscribe(
       recompensas=> this.carregacomboRecompensas(recompensas),
       error=>this.errorBuscaRecompensas()
     );
 
-    console.log(gramLogic.validar('|- ~P',false));
   }
 
 
@@ -92,6 +107,45 @@ export class CadastrarExercicioComponent implements OnInit {
   fecharAvisoError(){
     this.erroSalvar=null;
     this.requisitando=false
+  }
+
+  infoGramatica(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template,Object.assign({}, { class: 'gray modal-lg' }));
+  }
+  errorGramatica(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template,Object.assign({}, { class: 'modal-sm' }));
+  }
+  
+
+  fechar(){
+    this.modalRef.hide();
+  }
+
+
+  validarFormula(){
+    if(this.exercicio.id_formula.formula==null || this.exercicio.id_formula.formula=='' || this.exercicio.id_formula.formula==undefined){
+      
+      this.formulaInvalida=false
+      this.visualizararvore=true
+    }
+    else{
+      var validacao = gramLogic.validar(this.exercicio.id_formula.formula,false)
+
+      console.log(validacao)
+      if(validacao['sucesso']==true){
+      this.formulaInvalida=false
+      this.visualizararvore=true
+      this.exercicio.id_formula.xml=validacao['xml'];
+      }
+      else{
+        this.formulaInvalida=true
+        this.visualizararvore=false
+        this.mensagemError=validacao['mensagem'];
+        
+      }
+
+    }
+
   }
 
 }

@@ -1,3 +1,55 @@
+<ng-template #modalInfoGramatica>
+  <div class="modal-body text-center p-0">
+      <div class=" text-center titulo-modal p-2">
+          <span>Informações Gramatica</span>
+      </div>
+      <div class="text-center d-flex justify-content-center w-100" >
+          <div class="barra-modal"></div>
+      </div>
+      <div class="p-3 w-100 text-center ">
+          <app-tabela-gramatica></app-tabela-gramatica>
+      </div>
+      <div class="pb-3 w-100 text-center">
+          <button type="button" class="btn btn-padrao mx-2" (click)="fechar()" >Fechar</button>
+      </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modalErroGramatica>
+  <div class="modal-body text-center p-0">
+      <div class=" text-center titulo-modal p-2">
+          <span>Erros da Fórmula</span>
+      </div>
+      <div class="text-center d-flex justify-content-center w-100" >
+          <div class="barra-modal"></div>
+      </div>
+      <div class="p-3 w-100 conteudo-modal-error">
+        <div *ngFor="let item of mensagemError  text-center mt-2">
+          <div class="card mt-3">
+            <div class="card-header">
+              <h6>Erro na posição: {{item.coluna}}</h6>
+            </div>
+            <div class="card-body">
+              <table class="table table-sm table-responsive">
+                <tbody>
+                  <tr *ngFor="let info of item.info ">
+                    <td class="cor-tabela-error dor">{{info}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="pb-3 w-100 text-center">
+          <button type="button" class="btn btn-padrao mx-2" (click)="fechar()" >Fechar</button>
+      </div>
+  </div>
+</ng-template>
+
+
 <div class="conteudo-cadastro">
 
     <div class="header-cadastro">
@@ -31,20 +83,34 @@
                   </div>
 
                   <div class="form-group col-12  mb-2">
-                    <label class="col-form-label-sm mb-0" for="inputPassword4">Enunciado</label>
-                    <input type="text" class="form-control form-control-sm"  id="enunciado" name="enunciado" [(ngModel)]="exercicio.enunciado" required>
+                    <label class="col-form-label-sm mb-0"  for="exampleFormControlTextarea1">Enunciado</label>
+                    <textarea class="form-control  form-control-sm" id="enunciado" name="enunciado" [(ngModel)]="exercicio.enunciado" required rows="2"></textarea>
                   </div>
 
                   
                   <div class="form-group col-12  mb-2">
                     <label class="col-form-label-sm mb-0" for="inputPassword4">Formula</label>
-                    <input type="text" class="form-control form-control-sm"  id="formula" name="formula" [(ngModel)]="exercicio.id_formula.formula" required>
+                    <div class="d-flex">
+                      <input type="text" (blur)="validarFormula()" class="form-control form-control-sm"  id="formula" name="formula" [(ngModel)]="exercicio.id_formula.formula" [ngClass]="{'errorFormulaInput': formulaInvalida==true}" required>
+                      <div class="btn-group">
+                        <button *ngIf="!formulaInvalida" type="button" class="btn btn-inf-formula-2 btn-sm" (click)="infoGramatica(modalInfoGramatica)" [disabled]="!visualizararvore" >
+                          <fa-icon class="mx-1" [icon]="visual" ></fa-icon>
+                        </button>
+                        <button *ngIf="formulaInvalida" class="btn btn-inf-formula-2 btn-sm" (click)="errorGramatica(modalErroGramatica)">
+                          <fa-icon class="mx-1" [icon]="error"></fa-icon>
+                        </button>
+                        <button class="btn btn-sm btn-inf-formula-1"  (click)="infoGramatica(modalInfoGramatica)" [ngClass]="{'errorFormulaBtn': formulaInvalida==true}">
+                          <fa-icon class="mx-1" [icon]="duvida" ></fa-icon>
+                        </button>
+                    </div>
+                    </div>
+                    
                   </div>
 
                   <div class="form-group col-6  mb-2">
                     <div class="form-check">
                       <input class="form-check-input form-control-sm" type="checkbox"id="iniciar_zerada" name="iniciar_zerada" [(ngModel)]="exercicio.id_formula.iniciar_zerada">
-                      <label class="form-check-label col-form-label-sm" for="ativo">
+                      <label class="form-check-label col-form-label-sm" for="iniciar_zerada">
                         Iniciar Zerada
                       </label>
                     </div>
@@ -53,7 +119,7 @@
                   <div class="form-group col-6  mb-2">
                     <div class="form-check">
                       <input class="form-check-input form-control-sm" type="checkbox"id="inicio_personalizado" name="inicio_personalizado" [(ngModel)]="exercicio.id_formula.inicio_personalizado">
-                      <label class="form-check-label col-form-label-sm" for="ativo">
+                      <label class="form-check-label col-form-label-sm" for="inicio_personalizado">
                         Personalizar Inicio
                       </label>
                     </div>
@@ -67,8 +133,8 @@
 
                   <div class="form-group col-6  mb-2">
                     <div class="form-check">
-                      <input class="form-check-input form-control-sm" type="checkbox"id="iniciar_zerada" name="iniciar_zerada" [(ngModel)]="exercicio.id_formula.fechar_automaticamente">
-                      <label class="form-check-label col-form-label-sm" for="ativo">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="fechar_automaticamente" name="fechar_automaticamente" [(ngModel)]="exercicio.id_formula.fechar_automaticamente">
+                      <label class="form-check-label col-form-label-sm" for="fechar_automaticamente">
                         Fechamento Automático 
                       </label>
                     </div>
@@ -76,8 +142,8 @@
 
                   <div class="form-group col-6  mb-2">
                     <div class="form-check">
-                      <input class="form-check-input form-control-sm" type="checkbox"id="inicio_personalizado" name="inicio_personalizado" [(ngModel)]="exercicio.id_formula.ticar_automaticamente">
-                      <label class="form-check-label col-form-label-sm" for="ativo">
+                      <input class="form-check-input form-control-sm" type="checkbox"id="ticar_automaticamente" name="ticar_automaticamente" [(ngModel)]="exercicio.id_formula.ticar_automaticamente">
+                      <label class="form-check-label col-form-label-sm" for="ticar_automaticamente">
                         Ticagem Automática
                       </label>
                     </div>

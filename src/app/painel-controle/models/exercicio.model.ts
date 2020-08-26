@@ -15,7 +15,7 @@ export class Exercicio {
         public hash?: string,
         public url?: string,
         public tempo?: number,
-        public ativo?: boolean,
+        public ativo: boolean=true,
         public created_at?: Date,
         public updated_at?: Date,
         ) {}
