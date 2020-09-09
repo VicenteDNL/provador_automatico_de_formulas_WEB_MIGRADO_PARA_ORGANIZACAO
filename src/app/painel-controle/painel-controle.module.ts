@@ -6,6 +6,8 @@ import { PainelRoutingModule } from './painel-routing.modules';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 import { ValidacaoFormulasComponent } from './validacao-formulas/validacao-formulas.component';
 import { EstudoConceitosComponent } from './estudo-conceitos/estudo-conceitos.component';
 import { NiveisComponent } from './validacao-formulas/niveis/niveis.component';
@@ -18,6 +20,8 @@ import { PesquisarExercicioComponent } from './validacao-formulas/exercicios/pes
 import { TabelaExerciciosComponent } from './validacao-formulas/exercicios/tabela-exercicios/tabela-exercicios.component';
 import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
 import { TabelaGramaticaComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/tabela-gramatica/tabela-gramatica.component';
+import { VisualizadorArvoreComponent } from './visualizador-arvore/visualizador-arvore.component';
+import { PersonalizarArvoreComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/personalizar-arvore/personalizar-arvore.component';
 
 
 @NgModule({
@@ -34,11 +38,14 @@ import { TabelaGramaticaComponent } from './validacao-formulas/exercicios/cadast
     PesquisarExercicioComponent,
     TabelaExerciciosComponent,
     CadastrarExercicioComponent,
-    TabelaGramaticaComponent
+    TabelaGramaticaComponent,
+    VisualizadorArvoreComponent,
+    PersonalizarArvoreComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    CollapseModule.forRoot(),
     CommonModule,
     PainelRoutingModule,
     FontAwesomeModule,

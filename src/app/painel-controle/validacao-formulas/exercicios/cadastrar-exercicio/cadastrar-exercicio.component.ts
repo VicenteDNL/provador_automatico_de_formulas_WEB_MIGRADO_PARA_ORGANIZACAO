@@ -11,7 +11,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
-// import { GramLogic } from '../../../../../../gramLogic/gramLogic';
+
 declare var gramLogic: any;
 
 @Component({
@@ -37,6 +37,15 @@ export class CadastrarExercicioComponent implements OnInit {
   formulaInvalida=false
   visualizararvore=false
   mensagemError;
+  listaImpressaoNo=[]
+  listaImpressaoAresta=[]
+
+
+
+  listaPassoInicial=[]
+  listaDerivacoes=[]
+  listaTicagem=[]
+  listaFechamento=[]
  
   constructor(
               private modalService: BsModalService,
@@ -64,15 +73,17 @@ export class CadastrarExercicioComponent implements OnInit {
   }
 
 
-  cadastrarNivel(){
-    console.log( this.exercicio)
-    // this.requisitando=true
-    // this.spineer=true
+  cadastrarExercicio(){
+    this.exercicio.id_formula.lista_derivacoes=this.listaDerivacoes
+    this.exercicio.id_formula.lista_fechamento=this.listaFechamento
+    this.exercicio.id_formula.lista_ticagem=this.listaTicagem
+    this.exercicio.id_formula.lista_passos=this.listaPassoInicial
 
-    // this.service.cadastrar(this.exercicio).subscribe(
-    //   response=> this.sucessoCadastro(response),
-    //   error=>this.errorCadastro(error)
-    // );
+    console.log( this.exercicio)
+
+    this.service.cadastrarExercicio(this.exercicio).subscribe(
+    );
+    
   }
 
   sucessoCadastro(response){
@@ -124,7 +135,7 @@ export class CadastrarExercicioComponent implements OnInit {
 
   validarFormula(){
     if(this.exercicio.id_formula.formula==null || this.exercicio.id_formula.formula=='' || this.exercicio.id_formula.formula==undefined){
-      
+      this.exercicio.id_formula.xml='';
       this.formulaInvalida=false
       this.visualizararvore=true
     }
@@ -146,6 +157,50 @@ export class CadastrarExercicioComponent implements OnInit {
 
     }
 
+  }
+
+  abrirArvore(template: TemplateRef<any>){
+      if(this.exercicio.id_formula.xml!=''){
+        this.service.arvoreOtimizada(this.exercicio.id_formula.xml).subscribe(
+          response=> {
+            console.log(response['data']['impresao'])
+            this.listaImpressaoNo=response['data']['impresao']['nos'];
+            this.listaImpressaoAresta=response['data']['impresao']['arestas'];
+            this.modalRef = this.modalService.show(template,Object.assign({}, { class: 'modal-lg', }))
+          },
+          error=>{
+            console.log(error)
+          }
+        );
+
+        
+      }
+   
+   
+  }
+
+  iniciarZerada(){
+    
+  this.listaPassoInicial=[]
+  this.listaDerivacoes=[]
+  this.listaTicagem=[]
+  this.listaFechamento=[]
+  this.exercicio.id_formula.inicio_personalizado=false;
+  }
+
+  modalPersonalizarInicio(template){
+  this.exercicio.id_formula.iniciar_zerada=false;
+    if(this.exercicio.id_formula.inicio_personalizado!=true){
+      var config = {
+        backdrop: true,
+        ignoreBackdropClick: true,
+         class: 'modal-xl',
+         keyboard: false
+      };
+    
+      this.modalRef = this.modalService.show(template, config)
+    }
+   
   }
 
 }
