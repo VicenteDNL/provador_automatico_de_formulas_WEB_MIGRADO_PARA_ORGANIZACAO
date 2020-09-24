@@ -6,6 +6,7 @@ import { faTrash, faEdit, faStepForward, faStepBackward, faTimes } from '@fortaw
 import { Observable } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Exercicio } from 'src/app/painel-controle/models/exercicio.model';
+import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
 
 @Component({
   selector: 'app-tabela-exercicios',
@@ -23,7 +24,8 @@ export class TabelaExerciciosComponent implements OnInit {
   iconFechar=faTimes;
   // --------------
 
-  lista_exercicio$: Observable<[Exercicio]> ;
+  lista_exercicio=[] ;
+  exibirTabela=false
   buscando=false;
   nextPage=null;
   prevPage=null;
@@ -41,7 +43,8 @@ export class TabelaExerciciosComponent implements OnInit {
               private modalService: BsModalService,
               private service:ExerciciosService,
               private router:Router,
-              private route: ActivatedRoute,   
+              private route: ActivatedRoute,
+              private painelCpm: PainelControleComponent 
 
               ) { }
 
@@ -52,6 +55,7 @@ export class TabelaExerciciosComponent implements OnInit {
   
 
   carregarLista(acao=null){
+    this.exibirTabela=false
     this.buscando=true
     var page;
     switch (acao) {
@@ -70,52 +74,52 @@ export class TabelaExerciciosComponent implements OnInit {
     }
 
 
-    this.lista_exercicio$ = this.route.params.pipe(
-      map((params:any)=>params['id']),
-      switchMap(id=> 
-        {
-        this.idNivel=id
-        return this.service.buscarExerciciosPorNivel(id).pipe(map((response) => {
+    this.route.params.subscribe(params => {
+      this.idNivel=params['id'];
+    
+      this.service.buscarExerciciosPorNivel(this.idNivel,page).subscribe(
+        response=>{
           if (response['success']==true) {
-    
-            // PreparandoPaginação
-            var next =response['data']['next_page_url']; 
-            this.nextPage = next ==null? 0 : next.substr(next.indexOf('=')+1,next.length)
-            
-            var prev = response['data']['prev_page_url']; 
-            this.prevPage = prev ==null? 0 : prev.substr(prev.indexOf('=')+1,prev.length)
-    
-            this.total=response['data']['total'];
-            this.from=response['data']['from'];
-            this.to=response['data']['to']
-            // ----------------------------------------------------
-    
-    
-            var data =response['data']['data'];
-            for (var cont in response['data']['data']){
-              if(data[cont]['ativo']=='1'){
-                data[cont]['ativo']='Ativo'
-               }
-               else{
-                data[cont]['ativo']='Inativo'
-               } 
-            }
-            this.buscando=false
-            return data;
-          } else {
-            this.errorMensagem()
-            return [];
-    
-          }
-        }));
-        })
-      )
 
+          // PreparandoPaginação
+          var next =response['data']['next_page_url']; 
+          this.nextPage = next ==null? 0 : next.substr(next.indexOf('=')+1,next.length)
+          
+          var prev = response['data']['prev_page_url']; 
+          this.prevPage = prev ==null? 0 : prev.substr(prev.indexOf('=')+1,prev.length)
+
+          this.total=response['data']['total'];
+          this.from=response['data']['from'];
+          this.to=response['data']['to']
+          // ----------------------------------------------------
+
+
+          var data =response['data']['data'];
+          for (var cont in response['data']['data']){
+            if(data[cont]['ativo']=='1'){
+              data[cont]['ativo']='Ativo'
+            }
+            else{
+              data[cont]['ativo']='Inativo'
+            } 
+          }
+          this.exibirTabela=true
+          this.buscando=false
+          this.lista_exercicio =data;
+          } else {
+            this.errorMensagem(response['msg'])
+
+          }
+        },
+        error => this.errorMensagem(error.message)
+      )
+    }
+    )
   }
 
 
-  errorMensagem(){
-    console.log('error Service')
+  errorMensagem(error){
+    this.painelCpm.errorMensagen=error
   }
 
   abrirEdicao(id){
@@ -135,8 +139,8 @@ export class TabelaExerciciosComponent implements OnInit {
 
   confirmarDelete(){
     this.excluindo=true;
-    var  sair = this.service.deletar(this.idExercicioDeletar).subscribe(
-        response=> this.sucessoDelecao(),
+    this.service.deletar(this.idExercicioDeletar).subscribe(
+        response=> this.sucessoDelecao(response),
         error => this.erroDelecao(error)
       )
   }
@@ -146,16 +150,21 @@ export class TabelaExerciciosComponent implements OnInit {
   }
 
 
-  sucessoDelecao(){
-    this.carregarLista();
+  sucessoDelecao(response){
     this.modalRef.hide();
     this.excluindo=false;
+    if(response['success']){
+      this.carregarLista();
+    }
+    else{
+      this.errorMensagem(response['msg'])
+    }
     
   }
   
   erroDelecao(error){
     this.excluindo=false;
-    this.errorMensagen=error.message
+    this.errorMensagem(error.message)
     this.modalRef.hide();
 
   }

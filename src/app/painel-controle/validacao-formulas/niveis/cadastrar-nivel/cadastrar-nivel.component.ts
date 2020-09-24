@@ -3,6 +3,7 @@ import { faArrowAltCircleLeft, faTimes } from '@fortawesome/free-solid-svg-icons
 import { Niveis } from 'src/app/painel-controle/models/niveis.model';
 import { NiveisService } from '../niveis.service';
 import { Router } from '@angular/router';
+import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
 
 @Component({
   selector: 'app-cadastrar-nivel',
@@ -22,6 +23,7 @@ export class CadastrarNivelComponent implements OnInit {
   constructor(
               private service: NiveisService,
               private router:Router,
+              private painelCmp:PainelControleComponent
   ) { }
 
 
@@ -30,7 +32,7 @@ export class CadastrarNivelComponent implements OnInit {
     this.loadingRecompensa=true
     this.service.todasRecompensas().subscribe(
       recompensas=> this.carregacomboRecompensas(recompensas),
-      error=>this.errorBuscaRecompensas()
+      error=>this.errorBuscaRecompensas(error.message)
     );
   }
 
@@ -41,30 +43,44 @@ export class CadastrarNivelComponent implements OnInit {
 
     this.service.cadastrar(this.nivel).subscribe(
       response=> this.sucessoCadastro(response),
-      error=>this.errorCadastro(error)
+      error=>this.errorCadastro(error.message)
     );
   }
 
   sucessoCadastro(response){
     this.requisitando=false
     this.spineer=false
-    this.router.navigate(['/painel/modulo1/niveis'])
+    if(response['success']==true){
+      this.router.navigate(['/painel/modulo1/niveis'])
+    }
+    else{
+      this.painelCmp.errorMensagen=response['msg']
+    }
+   
+    
 
   }
-  errorCadastro(response){
+  errorCadastro(error){
     this.spineer=false
-    this.erroSalvar=response.message
+    this.painelCmp.errorMensagen=error
 
   }
 
 
   carregacomboRecompensas(recompensas){
-    this.listaRecompensas = recompensas
     this.loadingRecompensa =false;
+    if(recompensas['success']==true){
+      console.log(recompensas['data']);
+      this.listaRecompensas = recompensas['data']
+    
+    }
+    else{
+      this.painelCmp.errorMensagen=recompensas['msg']
+    }    
   }
 
-  errorBuscaRecompensas(){
-    this.listaRecompensas=['ERROR AO CARREGAR!']
+  errorBuscaRecompensas(error){
+    this.painelCmp.errorMensagen=error
   }
 
   recompensaDesbilita(){

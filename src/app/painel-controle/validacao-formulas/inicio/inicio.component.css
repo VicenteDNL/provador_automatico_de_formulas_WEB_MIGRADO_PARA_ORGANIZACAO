@@ -1,0 +1,32 @@
+.conteudo-inicio{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartao-inicio{
+    background: white;
+    padding: 1rem;
+}
+
+.titulo-inicio{
+    color: #57D0CA;
+}
+
+.barra-titulo{
+    height: 5px;
+    width: 50px;
+    background: #57D0CA;
+}
+
+.texto-inicio{
+    color: #707070;
+}
+
+.conteudo-texto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+}

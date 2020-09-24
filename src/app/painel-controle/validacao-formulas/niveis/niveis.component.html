@@ -24,7 +24,7 @@
   </ng-template>
 
 
-<div *ngIf="errorMensagen==null" class="container conteudo-niveis" >
+<div class="container conteudo-niveis" >
     <div class=" mb-5">
         <div class="col-md-10 m-auto pt-4 text-right">
             <button type="button" class="btn btn-padrao mx-2"  [routerLink]="['/painel/modulo1/niveis/cadastrar']"  >Cadastrar</button>
@@ -33,7 +33,7 @@
     </div>
     <div class="tabela-nivel">
         <div class="col-md-10 m-auto pt-2">
-            <div *ngIf="lista_niveis$ |async as niveis" >
+            <div *ngIf="exibirTabela" >
                 <table class="table table-sm table-responsive-md">
                     <thead>
                     <tr>
@@ -43,7 +43,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let nivel of niveis" >
+                    <tr *ngFor="let nivel of lista_niveis" >
                         <td>{{nivel.nome}}</td>
                         <td>{{nivel.ativo}}</td>
                         <td>
@@ -86,20 +86,6 @@
             </div>
         </div>
 
-    </div>
-</div>
-
-
-<div class="container-mensagem"  *ngIf="errorMensagen!=null">
-    <div class="alert alert-danger pt-1" role="alert">
-        <div class="row d-flex justify-content-end">
-            <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
-        </div>
-        
-        <h5 class="alert-heading text-center">Error!</h5>
-        <p class=" text-center">{{errorMensagen}}</p>
-        <hr class="m-2">
-        <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
     </div>
 </div>
 

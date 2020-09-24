@@ -14,9 +14,16 @@ import { EditarNivelComponent } from './validacao-formulas/niveis/editar-nivel/e
 import { PesquisarExercicioComponent } from './validacao-formulas/exercicios/pesquisar-exercicio/pesquisar-exercicio.component';
 import { TabelaExerciciosComponent } from './validacao-formulas/exercicios/tabela-exercicios/tabela-exercicios.component';
 import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
+import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
 
 export const routes : Routes = [
 
+
+  {
+    path:'modulo1',
+    redirectTo: 'modulo1/inicio',
+    pathMatch: 'full'
+  },
   {
     path: '',
     component:PainelControleComponent,
@@ -24,6 +31,7 @@ export const routes : Routes = [
       { path: 'modulo1',
         component: ValidacaoFormulasComponent,
         children: [
+          { path: 'inicio', component: InicioComponent },
           { path: 'niveis', component: NiveisComponent },
           { path: 'niveis/cadastrar', component: CadastrarNivelComponent },
           { path: 'niveis/editar/:id', component: EditarNivelComponent },

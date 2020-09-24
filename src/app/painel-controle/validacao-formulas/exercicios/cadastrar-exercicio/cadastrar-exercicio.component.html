@@ -59,7 +59,7 @@
           <div class="barra-modal"></div>
       </div>
       <div class="p-3 w-100">
-        <app-visualizador-arvore [impressaoNo]="listaImpressaoNo" [impressaoAresta]="listaImpressaoAresta"></app-visualizador-arvore>
+        <app-visualizador-arvore [impressaoNo]="listaImpressaoNo" [impressaoAresta]="listaImpressaoAresta" [width]="700" [height]="660"></app-visualizador-arvore>
       </div>
       <div class="pb-3 w-100 text-center">
           <button type="button" class="btn btn-padrao mx-2" (click)="fechar()" >Fechar</button>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="col-auto">
                     
-                    <button type="button" class="btn btn-voltar font-18" [routerLink]="['/painel/modulo1/exercicio']">
+                    <button type="button" class="btn btn-voltar font-18" (click)=voltar()>
                         <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
                         voltar
                     </button>
@@ -184,7 +184,7 @@
 
 
         
-                  <div class="form-group col-4  mb-2">
+                  <div class="form-group col-3  mb-2">
                     <div class="form-check" (click)="tempoDesbilitar()">
                       <input class="form-check-input form-control-sm" type="checkbox"  id="tempoDesbilita" name="!tempoDesbilita" [(ngModel)]="tempoDesbilita" [disabled]="!visualizararvore">
                       <label class="form-check-label col-form-label-sm " for="tempoDesbilita">
@@ -195,17 +195,28 @@
                         <input type="number" class="form-control form-control-sm"  id="tempo" name="tempo" [(ngModel)]="exercicio.tempo" [disabled]="!tempoDesbilita" required>
                     </div>
                   </div>
-                  <div class="form-group col-8  mb-2">
+                  <div class="form-group col-3  mb-2">
+                    <div class="form-check" (click)="limitarerrosDesbilitar()">
+                      <input class="form-check-input form-control-sm" type="checkbox"  id="limitarerros" name="!limitarerros" [(ngModel)]="limitarerros" [disabled]="!visualizararvore">
+                      <label class="form-check-label col-form-label-sm " for="limitarerros">
+                        Limitar Erros
+                      </label>
+                    </div>
+                    <div>
+                        <input type="number" class="form-control form-control-sm"  id="qndt_erros" name="qndt_erros" [(ngModel)]="exercicio.qndt_erros" [disabled]="!limitarerros" required>
+                    </div>
+                  </div>
+                  <div class="form-group col-6  mb-2">
                         <div>
                             <label class="col-form-label-sm mb-0" for="id_recompensa">Recompensa</label>
-                            <select id="id_recompensa" name="id_recompensa" [(ngModel)]="exercicio.id_recompensa"class="form-control form-control-sm" required>
+                            <select id="id_recompensa" name="id_recompensa" [(ngModel)]="exercicio.id_recompensa.id"class="form-control form-control-sm" required>
                                 <option *ngFor="let recompensa of listaRecompensas" value="{{recompensa.id}}">{{recompensa.nome}}</option>
                             </select>
                         </div>
                         <div  *ngIf="loadingRecompensa" class="spinner-border spinner-border-sm text-roxo ml-2" role="status">
                             <span class="sr-only">Carregando...</span>
                         </div>
-                    </div>
+                  </div>
  
         
                   <div class="form-group col-12  mb-2">
@@ -222,23 +233,10 @@
                   </div>
                 </div>
             </form>
-            <div class="d-flex justify-content-center" *ngIf ="spineer">
+            <div class="d-flex justify-content-center" *ngIf ="requisitando">
                 <div class="spinner-border text-roxo" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
-            </div>
-            <div class="d-flex justify-content-center" *ngIf ="erroSalvar!=null">
-                
-                <div class="alert alert-danger pt-1" role="alert">
-                    <div class="row d-flex justify-content-end">
-                        <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
-                    </div>
-                    
-                    <h5 class="alert-heading text-center">Error!</h5>
-                    <p class=" text-center">{{erroSalvar}}</p>
-                    <hr class="m-2">
-                    <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
-                  </div>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <ng-template #DeletarModal>
     <div class="modal-body text-center p-0">
         <div class=" text-center titulo-modal p-2">
-            <span>Deletar Nível</span>
+            <span>Deletar Exercício</span>
         </div>
         <div class="text-center d-flex justify-content-center w-100" >
             <div class="barra-modal"></div>
@@ -33,7 +33,7 @@
     </div>
     <div class="tabela-exercicio">
         <div class="col-md-10 m-auto pt-2">
-            <div *ngIf="lista_exercicio$ |async as exercicios" >
+            <div *ngIf="exibirTabela" >
                 <table class="table table-sm table-responsive-md">
                     <thead>
                     <tr>
@@ -43,7 +43,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let exercicio of exercicios" >
+                    <tr *ngFor="let exercicio of lista_exercicio" >
                         <td>{{exercicio.nome}}</td>
                         <td>{{exercicio.ativo}}</td>
                         <td>
@@ -86,20 +86,6 @@
             </div>
         </div>
 
-    </div>
-</div>
-
-
-<div class="container-mensagem"  *ngIf="errorMensagen!=null">
-    <div class="alert alert-danger pt-1" role="alert">
-        <div class="row d-flex justify-content-end">
-            <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
-        </div>
-        
-        <h5 class="alert-heading text-center">Error!</h5>
-        <p class=" text-center">{{errorMensagen}}</p>
-        <hr class="m-2">
-        <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
     </div>
 </div>
 

@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         this.logando =false;
         this.email='';
         this.senha='';
-        this.router.navigate(['painel']);
+        this.router.navigate(['painel/modulo1/inicio']);
       },
               
       error=>{

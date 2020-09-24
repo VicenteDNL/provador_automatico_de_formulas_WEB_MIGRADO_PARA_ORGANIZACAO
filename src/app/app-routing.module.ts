@@ -6,6 +6,11 @@ import { AuthGuardAdmin } from './painel-controle/guard/admin-auth.guard';
 
 const routes: Routes = [
 
+  {
+    path:'painel',
+    redirectTo: 'painel/modulo1/inicio',
+    pathMatch: 'full'
+  },
   { 
     path: 'login', 
     component: LoginComponent 
@@ -17,7 +22,7 @@ const routes: Routes = [
     
   {
     path:'**',
-    redirectTo: 'painel',
+    redirectTo: 'painel/modulo1/inicio',
     pathMatch: 'full'
   },
 ];

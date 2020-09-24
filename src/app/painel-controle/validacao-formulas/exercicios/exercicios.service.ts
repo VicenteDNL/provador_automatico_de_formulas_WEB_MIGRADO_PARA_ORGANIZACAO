@@ -21,8 +21,8 @@ export class ExerciciosService {
   }
 
 
-  buscarExerciciosPorNivel(id){
-    return this.http.get<Niveis[]>(`${this.API}mvflp/exercicio/nivel/${id}`).pipe(take(1));
+  buscarExerciciosPorNivel(id,pg){
+    return this.http.get<Niveis[]>(`${this.API}mvflp/exercicio/nivel/${id}?page=${pg}`).pipe(take(1));
   }
 
   deletar(id){
@@ -44,8 +44,9 @@ export class ExerciciosService {
     return this.http.post(`${this.API}mvflp/exercicio/`,exer)
   }
 
-  arvoreOtimizada(xml){
-    return this.http.post(`${this.API}arvore/otimizada/`,{'xml':xml}).pipe(take(1));
+  arvoreOtimizada(xml , width=700 ){
+    return this.http.post(`${this.API}arvore/otimizada/`,{'xml':xml, 'width':width}).pipe(take(1));
+
   }
 
 

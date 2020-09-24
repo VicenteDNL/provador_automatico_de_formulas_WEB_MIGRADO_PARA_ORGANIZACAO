@@ -19,15 +19,7 @@ export class NiveisService {
   }
 
   todasRecompensas(){
-    return this.http.get<Niveis[]>(`${this.API}recompensas`).pipe(map((response) => {
-      if (response['success']==true) {
-
-        return response['data'];
-      } else {
-        return response;
-
-      }
-    }))
+    return this.http.get<Niveis[]>(`${this.API}recompensas`).pipe(take(1))
   }
 
   cadastrar(nivel:Niveis){

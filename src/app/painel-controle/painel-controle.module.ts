@@ -22,6 +22,7 @@ import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cad
 import { TabelaGramaticaComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/tabela-gramatica/tabela-gramatica.component';
 import { VisualizadorArvoreComponent } from './visualizador-arvore/visualizador-arvore.component';
 import { PersonalizarArvoreComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/personalizar-arvore/personalizar-arvore.component';
+import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { PersonalizarArvoreComponent } from './validacao-formulas/exercicios/cad
     TabelaGramaticaComponent,
     VisualizadorArvoreComponent,
     PersonalizarArvoreComponent,
+    InicioComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),

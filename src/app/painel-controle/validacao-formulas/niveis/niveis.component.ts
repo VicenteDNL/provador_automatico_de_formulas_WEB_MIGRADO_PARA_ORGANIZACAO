@@ -6,6 +6,7 @@ import { NiveisService } from './niveis.service';
 import { map, delay } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { PainelControleComponent } from '../../painel-controle.component';
 
 @Component({
   selector: 'app-niveis',
@@ -22,15 +23,16 @@ export class NiveisComponent implements OnInit {
   iconFechar=faTimes;
   // --------------
 
-  lista_niveis$: Observable<Niveis[]> ;
+  lista_niveis=[] ;
+  exibirTabela=false
   buscando=false;
   nextPage=null;
   prevPage=null;
   total=0;
   from=0;
   to=0
-  errorMensagen=null;
 
+  
   excluindo=false
   modalRef:BsModalRef;
   idNivelDeletar=null
@@ -39,7 +41,7 @@ export class NiveisComponent implements OnInit {
               private modalService: BsModalService,
               private service:NiveisService,
               private router:Router,
-              private route: ActivatedRoute,   
+              private painelCpm: PainelControleComponent 
 
               ) { }
 
@@ -50,6 +52,7 @@ export class NiveisComponent implements OnInit {
   
 
   carregarLista(acao=null){
+    this.exibirTabela=false
     this.buscando=true
     var page;
     switch (acao) {
@@ -67,44 +70,51 @@ export class NiveisComponent implements OnInit {
         
     }
 
-    this.lista_niveis$ = this.service.listar(page).pipe(map((response) => {
-      if (response['success']==true) {
+    this.service.listar(page).subscribe(
+      response=>{
+        if (response['success']==true) {
 
-        // PreparandoPaginação
-        var next =response['data']['next_page_url']; 
-        this.nextPage = next ==null? 0 : next.substr(next.indexOf('=')+1,next.length)
-        
-        var prev = response['data']['prev_page_url']; 
-        this.prevPage = prev ==null? 0 : prev.substr(prev.indexOf('=')+1,prev.length)
-
-        this.total=response['data']['total'];
-        this.from=response['data']['from'];
-        this.to=response['data']['to']
-        // ----------------------------------------------------
-
-
-        var data =response['data']['data'];
-        for (var cont in response['data']['data']){
-          if(data[cont]['ativo']=='1'){
-            data[cont]['ativo']='Ativo'
-           }
-           else{
-            data[cont]['ativo']='Inativo'
-           } 
+          // PreparandoPaginação
+          var next =response['data']['next_page_url']; 
+          this.nextPage = next ==null? 0 : next.substr(next.indexOf('=')+1,next.length)
+          
+          var prev = response['data']['prev_page_url']; 
+          this.prevPage = prev ==null? 0 : prev.substr(prev.indexOf('=')+1,prev.length)
+  
+          this.total=response['data']['total'];
+          this.from=response['data']['from'];
+          this.to=response['data']['to']
+          // ----------------------------------------------------
+  
+  
+          var data =response['data']['data'];
+          for (var cont in response['data']['data']){
+            if(data[cont]['ativo']=='1'){
+              data[cont]['ativo']='Ativo'
+             }
+             else{
+              data[cont]['ativo']='Inativo'
+             } 
+          }
+          this.buscando=false
+          this.exibirTabela=true
+          this.lista_niveis =  data;
+        } else {
+          this.errorMensagem(response['msg'])
+          return [];
+  
         }
-        this.buscando=false
-        return data;
-      } else {
-        this.errorMensagem()
-        return [];
+      },
+      error => this.errorMensagem(error.message)
+    )
+    
+    
 
-      }
-    }));
   }
 
 
-  errorMensagem(){
-    console.log('error Service')
+  errorMensagem(error){
+    this.painelCpm.errorMensagen=error
   }
 
   abrirEdicao(id){
@@ -120,8 +130,8 @@ export class NiveisComponent implements OnInit {
 
   confirmarDelete(){
     this.excluindo=true;
-    var  sair = this.service.deletar(this.idNivelDeletar).subscribe(
-        response=> this.sucessoDelecao(),
+    this.service.deletar(this.idNivelDeletar).subscribe(
+        response=> this.sucessoDelecao(response),
         error => this.erroDelecao(error)
       )
   }
@@ -131,21 +141,22 @@ export class NiveisComponent implements OnInit {
   }
 
 
-  sucessoDelecao(){
-    this.carregarLista();
+  sucessoDelecao(response){
     this.modalRef.hide();
     this.excluindo=false;
-    
+    if(response['success']){
+      this.carregarLista();
+    }
+    else{
+      this.errorMensagem(response['msg'])
+    }
   }
   
   erroDelecao(error){
     this.excluindo=false;
-    this.errorMensagen=error.message
+    this.errorMensagem(error.message)
     this.modalRef.hide();
 
   }
 
-  fecharAvisoError(){
-    this.errorMensagen=null
-  }
 }

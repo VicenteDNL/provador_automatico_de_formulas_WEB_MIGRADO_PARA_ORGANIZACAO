@@ -9,6 +9,8 @@ export class VisualizadorArvoreComponent implements OnInit {
 
    @Input() impressaoNo:Array<any>;
    @Input() impressaoAresta:Array<any>;
+   @Input() width:number;
+   @Input() height:number;
   constructor() { }
   fillColor = 'url(#grad1)';
   ngOnInit(): void {

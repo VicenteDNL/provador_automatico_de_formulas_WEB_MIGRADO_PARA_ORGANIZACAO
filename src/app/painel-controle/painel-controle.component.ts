@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { faCog, faUser} from  '@fortawesome/free-solid-svg-icons' ;
+import { faCog, faUser, faTimes} from  '@fortawesome/free-solid-svg-icons' ;
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -17,6 +17,9 @@ import { AuthService } from '../auth/services/auth.service';
 export class PainelControleComponent implements OnInit {
   config =faCog;
   user = faUser;
+  iconFechar=faTimes;
+
+  errorMensagen=null
 
   modulos ={
     'modulo1':[
@@ -134,14 +137,7 @@ export class PainelControleComponent implements OnInit {
 
 
   animacaoIniciar(){
-
-    var cordeNav =  document.getElementById('barra-navegacao').getBoundingClientRect().left, 
-        eleItem=document.getElementsByClassName("navegacao-ativa")[0],
-        item = eleItem.getBoundingClientRect().left - cordeNav;
-    var  metadeTamanhoItem =eleItem.getBoundingClientRect().width/2,
-        metadeTamanhoBarra =  document.getElementById('barra-ativa-interna').getBoundingClientRect().width/2,
-        centralizar = item + (metadeTamanhoItem-metadeTamanhoBarra)
-document.getElementById('barra-ativa-interna').style.transform = "translateX("+centralizar+"px)";
+  document.getElementById('barra-ativa-interna').style.transform = "translateX(50px)";
 
 
     // -----------------------------------
@@ -149,7 +145,7 @@ document.getElementById('barra-ativa-interna').style.transform = "translateX("+c
 
 
   irpara(item){
-   
+
     var itens =document.getElementsByClassName("li-item")
     for (var i = 0; i < itens.length; i++){  
       var arr = itens[i].className.split(" ");
@@ -167,9 +163,11 @@ document.getElementById('barra-ativa-interna').style.transform = "translateX("+c
       case 1:
         document.getElementById('botao-dropdown').innerHTML="Validação de Fórmulas";
         document.getElementById('li-item-1').classList.add("d-none");
-        this.router.navigate(['painel/modulo1']);
+        this.router.navigate(['painel/modulo1/inicio']);
         this.itensNaveracao=this.modulos.modulo1;
+  
         document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
+        
         break;
       case 2:
         document.getElementById('botao-dropdown').innerHTML="Estudo dos Conceitos";
@@ -195,6 +193,11 @@ document.getElementById('barra-ativa-interna').style.transform = "translateX("+c
     
     }
 
+  }
+
+
+  fecharAvisoError(){
+    this.errorMensagen=null
   }
 
 }

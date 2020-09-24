@@ -9,6 +9,7 @@ import { Formula } from 'src/app/painel-controle/models/formula.model';
 import { TabelaExerciciosComponent } from '../tabela-exercicios/tabela-exercicios.component';
 import { map, switchMap } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
 
 
 
@@ -30,9 +31,9 @@ export class CadastrarExercicioComponent implements OnInit {
   loadingRecompensa=false
   exercicio:Exercicio
   requisitando=false;
-  spineer=false
-  erroSalvar=null;
+
   tempoDesbilita=false;
+  limitarerros=false;
   modalRef:BsModalRef;
   formulaInvalida=false
   visualizararvore=false
@@ -52,6 +53,7 @@ export class CadastrarExercicioComponent implements OnInit {
               private service: ExerciciosService,
               private router:Router,
               private route: ActivatedRoute,   
+              private painetlCmp:PainelControleComponent
   ) {
    
    }
@@ -79,22 +81,28 @@ export class CadastrarExercicioComponent implements OnInit {
     this.exercicio.id_formula.lista_ticagem=this.listaTicagem
     this.exercicio.id_formula.lista_passos=this.listaPassoInicial
 
-    console.log( this.exercicio)
 
+   
+    this.requisitando=true
     this.service.cadastrarExercicio(this.exercicio).subscribe(
+      response=>this.sucessoCadastro(response),
+      error=>this.errorCadastro(error.message)
     );
     
   }
 
   sucessoCadastro(response){
     this.requisitando=false
-    this.spineer=false
-    this.router.navigate(['/painel/modulo1/exercicio'])
+    if(response['success']=true){
+      this.router.navigate(['/painel/modulo1/exercicios/'+this.exercicio.id_nivel.id])
+    }
+    else
+      this.painetlCmp.errorMensagen=response['msg']
 
   }
   errorCadastro(response){
-    this.spineer=false
-    this.erroSalvar=response.message
+    this.requisitando=false
+    this.painetlCmp.errorMensagen=response
 
   }
 
@@ -109,16 +117,16 @@ export class CadastrarExercicioComponent implements OnInit {
   }
 
   tempoDesbilitar(){
-
-    if(this.tempoDesbilita==false){
-      this.exercicio.tempo=undefined;
-    }
+      this.exercicio.tempo=null;
+  
   }
 
-  fecharAvisoError(){
-    this.erroSalvar=null;
-    this.requisitando=false
+
+  limitarerrosDesbilitar(){
+      this.exercicio.qndt_erros=null;
+  
   }
+
 
   infoGramatica(template: TemplateRef<any>){
     this.modalRef = this.modalService.show(template,Object.assign({}, { class: 'gray modal-lg' }));
@@ -163,7 +171,6 @@ export class CadastrarExercicioComponent implements OnInit {
       if(this.exercicio.id_formula.xml!=''){
         this.service.arvoreOtimizada(this.exercicio.id_formula.xml).subscribe(
           response=> {
-            console.log(response['data']['impresao'])
             this.listaImpressaoNo=response['data']['impresao']['nos'];
             this.listaImpressaoAresta=response['data']['impresao']['arestas'];
             this.modalRef = this.modalService.show(template,Object.assign({}, { class: 'modal-lg', }))
@@ -203,4 +210,7 @@ export class CadastrarExercicioComponent implements OnInit {
    
   }
 
+  voltar(){
+    this.router.navigate(['/painel/modulo1/exercicios/'+this.exercicio.id_nivel.id])
+  }
 }

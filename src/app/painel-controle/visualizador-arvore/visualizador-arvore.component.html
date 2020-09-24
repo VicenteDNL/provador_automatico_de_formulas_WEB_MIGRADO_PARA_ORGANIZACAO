@@ -1,5 +1,5 @@
 
-<svg width="700" height="660" >
+<svg [attr.width]="width" [attr.height]="height" >
         <g *ngFor="let item of impressaoAresta; let i= index;">
             <line [attr.x1]=item.linhaX1 [attr.y1]=item.linhaY1 [attr.x2]=item.linhaX2 [attr.y2]=item.linhaY2 stroke="rgb(175,175,175)" stroke-width=1 stroke-linecap="butt"/>
         </g>
