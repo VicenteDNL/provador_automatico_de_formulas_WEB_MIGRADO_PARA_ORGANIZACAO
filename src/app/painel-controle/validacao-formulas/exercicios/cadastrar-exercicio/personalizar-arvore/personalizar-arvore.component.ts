@@ -412,12 +412,14 @@ export class PersonalizarArvoreComponent implements OnInit {
     this.cadastrarCmp.exercicio.id_formula.inicio_personalizado=false;
     this.cadastrarCmp.exercicio.id_formula.iniciar_zerada=true;
     this.refModal.hide()
+    this.inializacaoCompleta=false
   }
 
   salvar(){
     this.cadastrarCmp.exercicio.id_formula.inicio_personalizado=true;
     this.cadastrarCmp.exercicio.id_formula.iniciar_zerada=false;
     this.refModal.hide()
+    this.inializacaoCompleta=false
   }
 
 }
