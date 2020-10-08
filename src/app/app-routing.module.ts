@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'painel',
      loadChildren: () => import('./painel-controle/painel-controle.module').then(m => m.PainelControleModule),
     canLoad: [AuthGuardAdmin],
+  }
+  ,{
+    path: 'exercicio',
+     loadChildren: () => import('./exercicios/exercicios.module').then(m => m.ExerciciosModule),
   },
     
   {

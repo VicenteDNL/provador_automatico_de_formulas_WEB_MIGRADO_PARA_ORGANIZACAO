@@ -8,7 +8,7 @@
         <g *ngFor="let item of impressaoNo; let i= index;" (mouseover)="alterarcor(i)" (mouseleave)="voltarcor(i)">
             <circle [attr.cx]=item.posX [attr.cy]=item.posY+27 r="3" fill="#AFAFA4"/>
             <circle [attr.cx]=item.posX [attr.cy]=item.posY-27 r="3" fill="#AFAFAF"/>
-
+            <text font-size="20" font-weight="bold" fill="rgb(175,175,175)" [attr.x]=30 [attr.y]=item.posY+5>Linha {{item.linha}}</text>
             <defs>
                 <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
                     <stop offset="0%" style="stop-color:rgb(32,178,170);stop-opacity:1" />

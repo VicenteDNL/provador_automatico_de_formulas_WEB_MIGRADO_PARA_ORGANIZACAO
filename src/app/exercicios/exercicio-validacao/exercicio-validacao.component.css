@@ -1,0 +1,167 @@
+.body{
+    background-color: white;
+}
+
+.controle-flex{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.controle-titulo{
+    color: white;
+    background: #4E73DF;
+    padding: 5px;
+    border-radius: 5px 5px 0 0;
+}
+
+.controle-body{
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #a8aab1;
+    border-right: 1px solid #a8aab1;
+    border-bottom: 1px solid #a8aab1;
+    border-radius: 0 0 5px 5px ;
+    flex:1 
+}
+
+.curso-svg{
+    cursor: pointer;
+}
+
+.curso-svg:hover{
+    text-decoration:none!important;
+}
+
+.botoes-fim{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    flex-direction: column-reverse;
+    
+}
+
+
+.btn-ticar{
+    color: #fff;
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+ }
+ 
+ .btn-ticar:hover{
+    background-color: #16885e;
+  }
+
+
+
+  .btn-inserir{
+    color: #fff;
+    background-color: #3085d6;
+    border-color: #3085d6;
+ }
+ 
+ .btn-inserir:hover{
+    background-color: #235d94;
+
+}
+
+
+
+.btn-fechar-ramo{
+    color: #fff;
+    background-color: #e74a3b;
+    border-color: #e74a3b;
+}
+
+.btn-fechar-ramo:hover{
+    background-color: #963128;
+
+}
+
+.grupo-controles{
+    border: 1px solid #88888836;
+    border-radius: .25rem;
+}
+
+.btn-func{
+    color: #fff;
+    background-color:#3371ac;;
+}
+
+
+.btn-func:hover{
+    background-color: #275580;
+
+}
+
+
+.btn-icon{
+    color: #fff;
+    background-color:#275580;
+}
+
+.btn-icon:hover{
+    background-color: #243e57;
+
+}
+
+.mensaggem-console{
+    height: 75px;
+    overflow: auto;
+}
+
+.btn-icon-console{
+    color: white;
+    transform: scale(1.4,1.4);
+    cursor: pointer;
+}
+
+.btn-icon-console:hover{
+    color: rgba(255, 255, 255, 0.582);
+}
+
+.error-msg{
+    color: #aa3434;
+}
+.sucesso-msg{
+    color: #48aa34; 
+}
+.info-msg{
+    color: #888888;
+}
+
+.vidas{
+    transform: scale(1.4,1.4); 
+    color:#385FCF;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.plus{
+    transform: scale(1.2,1.2); 
+    color:#385FCF;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.adicional{
+    color:#385FCF;
+    transform: scale(1.5,1.5); 
+    font-weight: bold;
+}
+
+.tempo{
+    font-weight: bold;
+    font-size: 20px;
+    color:#00be33b4;
+}
+
+.tempo-infinito{
+    position: relative;
+    top:+5px;
+    transform: scale(1.4,1.4); 
+    color:#00be33b4;
+    margin-left: 5px;
+    margin-right: 5px;
+}

@@ -1,79 +1,176 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ExerciciosService } from '../../exercicios.service';
-import { faTimes, faTree, faPlus, faInfoCircle, faTrashAlt, faWindowMinimize, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
-import { CadastrarExercicioComponent } from '../cadastrar-exercicio.component';
-import { Mensagem } from 'src/app/painel-controle/models/mensagem.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { faWindowClose, faCheckSquare, faTrashAlt, faCaretSquareUp, faCaretSquareDown , faHeart, faPlus, faInfinity} from '@fortawesome/free-solid-svg-icons';
+import { MensagemConsole } from '../models/mensagemConsole';
+import { ValidacaoService } from './validacao.service';
 @Component({
-  selector: 'app-personalizar-arvore',
-  templateUrl: './personalizar-arvore.component.html',
-  styleUrls: ['./personalizar-arvore.component.css']
+  selector: 'app-exercicio-validacao',
+  templateUrl: './exercicio-validacao.component.html',
+  styleUrls: ['./exercicio-validacao.component.css']
 })
-export class PersonalizarArvoreComponent implements OnInit {
+export class ExercicioValidacaoComponent implements OnInit {
 
-  @Input() xmlFormula;
-  @Input()refModal;
 
-  // ICONES DO Font Awesome
-  iconFechar=faTimes;
-  arvore=faTree;
-  add=faPlus;
-  info=faInfoCircle
+  close = faWindowClose;
+  check = faCheckSquare
   limpar=faTrashAlt
-  minimizar=faMinusSquare
+  min =faCaretSquareUp
+  max =faCaretSquareDown
+  heart=faHeart
+  plus=faPlus
+  infinity=faInfinity;
+ // Variaveis do CONSOLE
+ listaconsole:Array<MensagemConsole>=[];
+ isCollapsed = false;
+ carregamentoConsole=false
+ // --------
+
+ // Variaveis da etapa de INICIALIZACAO
+ argSelecionado;
+ listaPremissaConclusao;
+ inializacaoCompleta=false;
+ // --------
+
+ // Variaveis para geração do SVG DA ARVORE
+ listaNos=[];
+ listaAresta;
+ // --------
+
+ // Variaveis para controlar a ativação dos botoes
+ ativosBtnFecharRamo=false;
+ ativosBtnTicarNo=false;
+ ativosCheckDerivacao=false;
+ // --------
+
+ // Variaveis para salvar os passos do usario
+ noInsercao=[];
+ listaPassoInicial=[];
+ listaDerivacoes=[];
+ listaTicagem=[];
+ listaFechamento=[];
+
+ noDerivacao=null;
+ regra=null;
+ // --------
+
+// outras variaveis de controle
+ xmlFormula=null;
+ desmarcadonoInsercao=false;
+ idExercicio=null;
   // --------
 
-  // Variaveis do CONSOLE
-  listaconsole:Array<Mensagem>=[];
-  isCollapsed = false;
-  carregamentoConsole=false
-  // --------
+  // controle tempo
+  minutos_restante=0
+  segundos_restante=0
+  acabou_restante=false
+  interval;
 
-  // Variaveis da etapa de INICIALIZACAO
-  argSelecionado;
-  listaPremissaConclusao;
 
-  // --------
+  ticarAutomatico=false
+  fecharAutomatico=false
 
-  // Variaveis para geração do SVG DA ARVORE
-  listaNos=[];
-  listaAresta;
-  // --------
+  vida={'qnt': [], 'infinito':false, 'adicional':0, 'total':-1 }
 
-  // Variaveis para controlar a ativação dos botoes
-  ativosBtnFecharRamo=false;
-  ativosBtnTicarNo=false;
-  ativosCheckDerivacao=false;
-  // --------
-
-  // Variaveis para salvar os passos do usario
-  noInsercao=[];
-  noDerivacao=null;
-  regra=null;
-  // --------
- 
-  // outras variaveis de controle
-  errorMensagen=null;
-  strFormula
-  desmarcadonoInsercao=false;
-  inializacaoCompleta
-   // --------
-  
+  enunciado=null;
   constructor(
-          private service: ExerciciosService,
-          private cadastrarCmp: CadastrarExercicioComponent
-        ) { }
+          private service: ValidacaoService,
+          private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    this.carregamentoConsole=true
-    this.exibirNoConsole("Buscando Fórmula",'info');
-    this.service.buscarInicioArvore(this.xmlFormula).subscribe(
-      response=>{
-        this.sucessoCarregar(response);
-      },
-      error=>{
-        this.errorCarregar(error.message)
+
+    this.buscarExercicio();
+  }
+
+
+
+  buscarExercicio(){
+    this.route.params.subscribe(params => {
+      this.idExercicio=params['id'];
+      this.service.buscarExercicios(this.idExercicio).subscribe(
+        response=>{
+          if(response['success']){           
+            this.preparaExercicio(response['data']['exercicio'] )
+            this.preparaCamposDerivacao(response['data']['formula'],response['data']['listapcoes'])
+            this.preparaArvore(response['data']['impresao'])
+          }
+          else{
+            // redirecionar pagina de erro
+          }
+          
+        },
+        error =>{} // redirecionar pagina de erro
+      )
+    }
+    )
+  }
+
+
+  preparaExercicio(exercicio){
+    this.enunciado = exercicio.enunciado;
+
+    // Prepara a quantidade de erros
+    if(exercicio.qndt_erros==null){
+      this.vida={'qnt': [1,2,3], 'infinito':true, 'adicional':0, 'total':-1 }
+    }
+    else if(exercicio.qndt_erros<=3){
+      var qnt=[]
+       switch(exercicio.qndt_erros){
+        case 1:
+          qnt=[1]
+          break
+        case 2:
+          qnt=[1,2]
+          break
+        case 3:
+          qnt=[1,2,3]
+          break
+        default:
+          qnt=[1,2,3]
+       }
+        
+      this.vida={'qnt': qnt, 'infinito':false, 'adicional':0 , 'total':exercicio.qndt_erros}
+    }
+    else{
+      this.vida={'qnt': [1,2,3], 'infinito':false, 'adicional':exercicio.qndt_erros-3, 'total':-1 }
+    }
+    //---------------------------------
+
+    // Cria o controle de tempo restante
+    this.relogioTempoRestante(exercicio.tempo)
+    //---------------------------------
+
+  } 
+
+  preparaCamposDerivacao(formula,listapcoes){
+
+    // Verificar ticagem e fechamento automatico
+    this.ticarAutomatico=formula.ticar_automaticamente
+    this.fecharAutomatico=formula.fechar_automaticamente
+    console.log(this.fecharAutomatico)
+    // ------
+
+    if(formula.iniciar_zerada==true && formula.inicio_personalizado==false ){
+      this.listaPremissaConclusao=listapcoes
+      this.exibirNoConsole("Fórmula buscada do sucesso",'sucesso');
+    }
+    else{
+
+      if(formula.inicializacao_completa==true){ //verifica se a inicialização esta completa  
+        this.inializacaoCompleta=true
       }
-    );
+      this.listaPassoInicial=formula.lista_passos;
+      this.listaDerivacoes=formula.lista_derivacoes;
+      this.listaTicagem=formula.lista_ticagem;
+      this.listaFechamento=formula.lista_fechamento;  
+    }
+ 
+  }
+
+  preparaArvore(impresao){
+    this.listaNos=impresao['nos']
+    this.listaAresta=impresao['arestas']
+    
   }
 
 
@@ -84,7 +181,7 @@ export class PersonalizarArvoreComponent implements OnInit {
   adicionarPremCon(){
     this.carregamentoConsole=true
     this.exibirNoConsole("Inserindo o argumento  '"+this.argSelecionado['str']+"'",'info');
-    this.service.adicionarNo(this.xmlFormula,this.cadastrarCmp.listaPassoInicial,this.argSelecionado['id']).subscribe(
+    this.service.adicionarNo(this.xmlFormula,this.listaPassoInicial,this.argSelecionado['id'],this.idExercicio).subscribe(
       response=>this.sucessoInserirNo(response),
       error=>{this.errorCarregar(error.message)}
     )
@@ -94,7 +191,7 @@ export class PersonalizarArvoreComponent implements OnInit {
   adicionarPremConNeg(){
     this.carregamentoConsole=true
     this.exibirNoConsole("Inserindo o argumento  '"+this.argSelecionado['str']+"'",'info');
-    this.service.adicionarNoNegando(this.xmlFormula,this.cadastrarCmp.listaPassoInicial,this.argSelecionado['id']).subscribe(
+    this.service.adicionarNoNegando(this.xmlFormula,this.listaPassoInicial,this.argSelecionado['id'],this.idExercicio).subscribe(
       response=>this.sucessoInserirNo(response),
       error=>{this.errorCarregar(error.message)}
     )
@@ -112,13 +209,12 @@ export class PersonalizarArvoreComponent implements OnInit {
     if(response['success']==true){
       this.listaNos=response['data']['impresao']['nos']
       this.listaAresta=response['data']['impresao']['arestas']
-      this.cadastrarCmp.listaPassoInicial=response['data']['lista']
+      this.listaPassoInicial=response['data']['lista']
       this.listaPremissaConclusao=response['data']['listasopcoes']
       this.exibirNoConsole("Argumento  '"+this.argSelecionado['str']+"' inserido",'sucesso');
       this.argSelecionado=null;
       if(response['data']['finalizado']==true){
         this.inializacaoCompleta=true
-        this.cadastrarCmp.inializacaoCompleta=true
       }
 
       this.ativosCheckDerivacao=false
@@ -141,20 +237,17 @@ export class PersonalizarArvoreComponent implements OnInit {
 
 
 
-
-
-
-  // ------------ Metodos da etapa de Derivavao ---------------------Está etapa é responsavel por derivar os nos da arvore conforme as regras 
+// ------------ Metodos da etapa de Derivavao ---------------------Está etapa é responsavel por derivar os nos da arvore conforme as regras 
   
 
   // Este metodo envia a requisição para informar a ticagem do nó
   marcarComoUtilizada(){
     var modelTicagem={
-      'xml':this.xmlFormula,
-      'listaInicial':this.cadastrarCmp.listaPassoInicial,
-      'listaDerivacoes': this.cadastrarCmp.listaDerivacoes,
-      'listaTicagem':this.cadastrarCmp.listaTicagem,
-      'listaFechamento':this.cadastrarCmp.listaFechamento,
+      'idExercicio':this.idExercicio,
+      'listaInicial':this.listaPassoInicial,
+      'listaDerivacoes': this.listaDerivacoes,
+      'listaTicagem':this.listaTicagem,
+      'listaFechamento':this.listaFechamento,
       'no':this.noDerivacao['idNo'],
 
     }
@@ -172,7 +265,7 @@ export class PersonalizarArvoreComponent implements OnInit {
     if(response['success']==true){
       this.listaNos=response['data']['impresao']['nos']
       this.listaAresta=response['data']['impresao']['arestas']
-      this.cadastrarCmp.listaTicagem.push(response['data']['noticado'])
+      this.listaTicagem.push(response['data']['noticado'])
       this.exibirNoConsole("Nó '"+this.noDerivacao['str']+"' ticado com sucesso!",'sucesso');
       this.noInsercao=[]
       this.noDerivacao=null
@@ -195,11 +288,11 @@ export class PersonalizarArvoreComponent implements OnInit {
   // Este metodo envia a requisição para informar o fechamento do nó
   fecharRamo(){
     var modelFechamento={
-      'xml':this.xmlFormula,
-      'listaInicial':this.cadastrarCmp.listaPassoInicial,
-      'listaDerivacoes': this.cadastrarCmp.listaDerivacoes,
-      'listaTicagem':this.cadastrarCmp.listaTicagem,
-      'listaFechamento':this.cadastrarCmp.listaFechamento,
+      'idExercicio':this.idExercicio,
+      'listaInicial':this.listaPassoInicial,
+      'listaDerivacoes': this.listaDerivacoes,
+      'listaTicagem':this.listaTicagem,
+      'listaFechamento':this.listaFechamento,
       'noFolha':this.noDerivacao['idNo'],
       'noContradicao':this.noInsercao[0]['idNo'],
 
@@ -220,7 +313,7 @@ export class PersonalizarArvoreComponent implements OnInit {
 
       this.exibirNoConsole("Fechamento do nó  '"+this.noDerivacao['str']+"' realizado com sucesso",'sucesso');
 
-      this.cadastrarCmp.listaFechamento.push({
+      this.listaFechamento.push({
         'nofechado': response['data']['nofechado'], 
         'noContradicao': response['data']['noContradicao']  
         })
@@ -251,11 +344,11 @@ export class PersonalizarArvoreComponent implements OnInit {
       nomes= "[ "+item.str+", linha: "+item.linha+" ] ,"
     })
     var modelDerivacao={
-      'xml':this.xmlFormula,
-      'listaInicial':this.cadastrarCmp.listaPassoInicial,
-      'listaDerivacoes': this.cadastrarCmp.listaDerivacoes,
-      'listaTicagem':this.cadastrarCmp.listaTicagem,
-      'listaFechamento':this.cadastrarCmp.listaFechamento,
+      'idExercicio':this.idExercicio,
+      'listaInicial':this.listaPassoInicial,
+      'listaDerivacoes': this.listaDerivacoes,
+      'listaTicagem':this.listaTicagem,
+      'listaFechamento':this.listaFechamento,
       'derivacao':this.noDerivacao['idNo'],
       'insercao':listaIds,
       'regra':this.regra
@@ -275,7 +368,7 @@ export class PersonalizarArvoreComponent implements OnInit {
     if(response['success']==true){
       this.listaNos=response['data']['impresao']['nos']
       this.listaAresta=response['data']['impresao']['arestas']
-      this.cadastrarCmp.listaDerivacoes=response['data']['listaDerivacoes']
+      this.listaDerivacoes=response['data']['listaDerivacoes']
       this.exibirNoConsole("Derivaçãod do nó '"+this.noDerivacao['str']+"' realizado com sucesso",'sucesso');
       this.noInsercao=[]
       this.noDerivacao=null
@@ -296,11 +389,7 @@ export class PersonalizarArvoreComponent implements OnInit {
 
   // ------------------------------------------------------------------
 
-
-
-
-
-// ---------------------Metodos para controlar a selecção dos nós---------------------------------------------
+  // ---------------------Metodos para controlar a selecção dos nós---------------------------------------------
  
   alterarcor(index){
     this.listaNos[index].fill='url(#grad2)'
@@ -319,7 +408,7 @@ export class PersonalizarArvoreComponent implements OnInit {
 
   selecionarNo(index){
  
-    if(this.cadastrarCmp.inializacaoCompleta==true){
+    if(this.inializacaoCompleta==true){
         if(this.noInsercao.length==0 && this.noDerivacao==null  && this.desmarcadonoInsercao==false){
           this.listaNos[index].strokeColor="#b91d1d"
           this.listaNos[index].strokeWidth="3"
@@ -383,20 +472,20 @@ export class PersonalizarArvoreComponent implements OnInit {
 
 
   exibirNoConsole(msg, tipo){
-    this.listaconsole.push(new Mensagem(msg,tipo))
+    this.listaconsole.push(new MensagemConsole(msg,tipo))
   }
   limparConsole(){
     this.listaconsole=[]
   }
-  fecharAvisoError(){
-    this.errorMensagen=null
-  }
+
+
+
   sucessoCarregar(response){
     this.carregamentoConsole=false
     if(response['success']==true){
 
       this.listaPremissaConclusao=response['data']['listapcoes']
-      this.strFormula=response['data']['strformula']
+      // this.strFormula=response['data']['strformula']
       this.exibirNoConsole("Fórmula buscada do sucesso",'sucesso');
 
     }
@@ -406,22 +495,38 @@ export class PersonalizarArvoreComponent implements OnInit {
 
   }
 
+
+  relogioTempoRestante(tempo){
+    this.minutos_restante = tempo
+    if(this.minutos_restante!=null){
+      this.interval = setInterval(() => {
+        if(this.segundos_restante > 0) {
+          this.segundos_restante--;
+        } else {
+          if(this.minutos_restante<=0){
+            this.acabou_restante=true
+          }else{
+            this.segundos_restante = 60;
+            this.minutos_restante--
+          }
+        }
+      },1000)
+
+    }
+
+
+
+
+  }
+
   fechar(){
-    this.cadastrarCmp.listaFechamento=[];
-    this.cadastrarCmp.listaTicagem=[];
-    this.cadastrarCmp.listaDerivacoes=[];
-    this.cadastrarCmp.listaPassoInicial=[];
-    this.cadastrarCmp.exercicio.id_formula.inicio_personalizado=false;
-    this.cadastrarCmp.exercicio.id_formula.iniciar_zerada=true;
-    this.refModal.hide()
-    this.inializacaoCompleta=false
+
   }
 
   salvar(){
-    this.cadastrarCmp.exercicio.id_formula.inicio_personalizado=true;
-    this.cadastrarCmp.exercicio.id_formula.iniciar_zerada=false;
-    this.refModal.hide()
-    this.inializacaoCompleta=false
+
   }
 
+
+  
 }

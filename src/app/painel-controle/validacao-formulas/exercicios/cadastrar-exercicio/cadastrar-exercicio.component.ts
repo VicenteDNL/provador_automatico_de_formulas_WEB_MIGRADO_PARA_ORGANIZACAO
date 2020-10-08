@@ -47,6 +47,7 @@ export class CadastrarExercicioComponent implements OnInit {
   listaDerivacoes=[]
   listaTicagem=[]
   listaFechamento=[]
+  inializacaoCompleta=false
  
   constructor(
               private modalService: BsModalService,
@@ -80,9 +81,8 @@ export class CadastrarExercicioComponent implements OnInit {
     this.exercicio.id_formula.lista_fechamento=this.listaFechamento
     this.exercicio.id_formula.lista_ticagem=this.listaTicagem
     this.exercicio.id_formula.lista_passos=this.listaPassoInicial
+    this.exercicio.id_formula.inicializacao_completa=this.inializacaoCompleta
 
-
-   
     this.requisitando=true
     this.service.cadastrarExercicio(this.exercicio).subscribe(
       response=>this.sucessoCadastro(response),

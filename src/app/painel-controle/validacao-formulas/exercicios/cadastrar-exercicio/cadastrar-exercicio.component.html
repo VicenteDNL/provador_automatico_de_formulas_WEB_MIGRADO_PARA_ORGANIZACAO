@@ -53,7 +53,7 @@
 <ng-template #modalVizualizarArvore>
   <div class="modal-body text-center p-0">
       <div class=" text-center titulo-modal p-2">
-          <span>Erros da Fórmula</span>
+          <span>Árvore Otimizada</span>
       </div>
       <div class="text-center d-flex justify-content-center w-100" >
           <div class="barra-modal"></div>
@@ -117,7 +117,7 @@
 
                   
                   <div class="form-group col-12  mb-2">
-                    <label class="col-form-label-sm mb-0" for="inputPassword4">Formula</label>
+                    <label class="col-form-label-sm mb-0" for="inputPassword4">Fórmula</label>
                     <div class="d-flex">
                       <input type="text" (blur)="validarFormula()" class="form-control form-control-sm"  id="formula" name="formula" [(ngModel)]="exercicio.id_formula.formula" [ngClass]="{'errorFormulaInput': formulaInvalida==true}" required>
                       <div class="btn-group">
