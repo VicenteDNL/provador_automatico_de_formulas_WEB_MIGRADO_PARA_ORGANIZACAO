@@ -15,6 +15,7 @@ import { PesquisarExercicioComponent } from './validacao-formulas/exercicios/pes
 import { TabelaExerciciosComponent } from './validacao-formulas/exercicios/tabela-exercicios/tabela-exercicios.component';
 import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
 import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
+import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
 
 export const routes : Routes = [
 
@@ -24,11 +25,15 @@ export const routes : Routes = [
     redirectTo: 'modulo1/inicio',
     pathMatch: 'full'
   },
+
+ 
   {
     path: '',
     component:PainelControleComponent,
     children: [
-      { path: 'modulo1',
+
+    { path: 'configuracao/logiclive', component: LogicLiveComponent },
+     { path: 'modulo1',
         component: ValidacaoFormulasComponent,
         children: [
           { path: 'inicio', component: InicioComponent },

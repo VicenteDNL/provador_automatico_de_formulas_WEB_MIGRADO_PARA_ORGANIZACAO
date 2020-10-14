@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { faCog, faUser, faTimes} from  '@fortawesome/free-solid-svg-icons' ;
+import { faCog, faUser, faTimes, faArrowAltCircleLeft, faMousePointer} from  '@fortawesome/free-solid-svg-icons' ;
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -18,27 +18,44 @@ export class PainelControleComponent implements OnInit {
   config =faCog;
   user = faUser;
   iconFechar=faTimes;
+  iconVoltar= faArrowAltCircleLeft;
+  mouse=faMousePointer
 
   errorMensagen=null
 
   modulos ={
-    'modulo1':[
-              {'item':'Níveis','url':'painel/modulo1/niveis','id':'item-nav1', 'ativo':true},
-              {'item':'Exercícios','url':'painel/modulo1/exercicios/pesquisar','id':'item-nav2','ativo':false},
-              {'item':'Respostas','url':'painel/modulo1/respostas','id':'item-nav3','ativo':false}
-            ],
-    'modulo2':[
-              {'item':'Níveis','url':'painel/modulo2/niveis','id':'item-nav1','ativo':true},
-              {'item':'Exercícios','url':'painel/modulo2/exercicios','id':'item-nav2','ativo':false},
-              {'item':'Perguntas','url':'painel/modulo2/perguntas','id':'item-nav3','ativo':false},
-              {'item':'Respostas','url':'painel/modulo2/respostas','id':'item-nav4','ativo':false}
-            ],
-    'modulo3':[]
+    'modulo1':{'itens':[
+                      {'item':'Níveis','url':'painel/modulo1/niveis','id':'item-nav1', 'ativo':false},
+                      {'item':'Exercícios','url':'painel/modulo1/exercicios/pesquisar','id':'item-nav2','ativo':false},
+                      {'item':'Respostas','url':'painel/modulo1/respostas','id':'item-nav3','ativo':false}
+                      ],
+               'menu':[false,true,true],
+               'nome':'Validação de fórmulas',
+               'id':1
+    }
+    
+    ,
+    'modulo2':{'itens':[
+                      {'item':'Níveis','url':'painel/modulo2/niveis','id':'item-nav1','ativo':true},
+                      {'item':'Exercícios','url':'painel/modulo2/exercicios','id':'item-nav2','ativo':false},
+                      {'item':'Perguntas','url':'painel/modulo2/perguntas','id':'item-nav3','ativo':false},
+                      {'item':'Respostas','url':'painel/modulo2/respostas','id':'item-nav4','ativo':false}
+                      ], 
+               'menu':[true,false,true],
+               'nome':'Estudo dos conceitos',
+               'id':2
+
+    },
+    'modulo3':{'itens':[],
+                'menu':[true,true,false],
+                'nome':'Criação livre de fórmulas',
+                'id':3
+    }
   };
 
   emailUser=null;
-
-  itensNaveracao=null
+  configAberta=null
+  itensNavegacao=null
 
   // Config Modal logout
   modalRef: BsModalRef;
@@ -54,8 +71,42 @@ export class PainelControleComponent implements OnInit {
               ) { }
 
   ngOnInit(): void {
-    this.itensNaveracao=this.modulos.modulo1;
+
+    this.rotaAtiva(this.router.url)
+    // this.itensNavegacao=this.modulos.modulo2;
     this.emailUser= this.getEmailUser();
+   
+  }
+
+
+
+  rotaAtiva(url){
+    
+    var lista=url.split("/")[2]
+    switch (lista){
+      case 'modulo1': 
+        this.itensNavegacao=this.modulos.modulo1;
+        this.router.navigate(['painel/modulo1/inicio']);
+
+        break    
+
+      case 'modulo2':
+        this.itensNavegacao=this.modulos.modulo2;  
+        this.router.navigate(['painel/modulo2']);
+        break    
+        
+      case 'modulo3':
+        this.itensNavegacao=this.modulos.modulo3; 
+        this.router.navigate(['painel/modulo3']);
+        break  
+      
+        case 'configuracao':
+        this.itensNavegacao=this.modulos.modulo1; 
+        this.router.navigate(['painel/modulo1/inicio']);
+        break  
+    }
+  
+
   }
   
   getEmailUser() {
@@ -161,34 +212,25 @@ export class PainelControleComponent implements OnInit {
 
     switch (item) {
       case 1:
-        document.getElementById('botao-dropdown').innerHTML="Validação de Fórmulas";
-        document.getElementById('li-item-1').classList.add("d-none");
         this.router.navigate(['painel/modulo1/inicio']);
-        this.itensNaveracao=this.modulos.modulo1;
-  
+        this.itensNavegacao=this.modulos.modulo1;
         document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
         
         break;
       case 2:
-        document.getElementById('botao-dropdown').innerHTML="Estudo dos Conceitos";
-        document.getElementById('li-item-2').classList.add("d-none");
         this.router.navigate(['painel/modulo2']);
-        this.itensNaveracao=this.modulos.modulo2;
+        this.itensNavegacao=this.modulos.modulo2;
         document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
         break;
       case 3:
-        document.getElementById('botao-dropdown').innerHTML="Criação livre de Fórmulas";
-        document.getElementById('li-item-3').classList.add("d-none");
         this.router.navigate(['painel/modulo3']);
-        this.itensNaveracao=this.modulos.modulo3;
+        this.itensNavegacao=this.modulos.modulo3;
         document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
         break;
 
       default:
-        document.getElementById('botao-dropdown').innerHTML="Validação de Fórmulas";
-        document.getElementById('li-item-1').classList.add("d-none"); 
         this.router.navigate(['painel/modulo1']);
-        this.itensNaveracao=this.modulos.modulo1;
+        this.itensNavegacao=this.modulos.modulo1;
 
     
     }
@@ -200,4 +242,27 @@ export class PainelControleComponent implements OnInit {
     this.errorMensagen=null
   }
 
+  abriConfigLogicLive(){
+    this.router.navigate(['painel/configuracao/logiclive']);
+    this.configAberta=true;
+  }
+
+  voltar(){
+
+    switch ( this.itensNavegacao.id){
+      case 1:
+        this.router.navigate(['painel/modulo1/inicio']);
+        break
+      case 2:
+        this.router.navigate(['painel/modulo2']);
+        break
+      case 3:
+        this.router.navigate(['painel/modulo3']);
+        break
+      default:
+        this.router.navigate(['painel/modulo1/inicio']);
+    }
+    
+    this.configAberta=false;
+  }
 }

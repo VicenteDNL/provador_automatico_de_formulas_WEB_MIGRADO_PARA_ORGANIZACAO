@@ -1,3 +1,23 @@
+
+.response-linha{
+    height:100%;
+}
+
+@media screen and (max-width: 576px) {
+    .response-linha {
+        height:auto;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .barra-navegacao {
+        box-shadow: -3px -10px 11px -7px rgba(0,0,0,0.75);
+    }
+}
+
+
+
+
 .area-login{
     background-color: #6E52D2;
 }

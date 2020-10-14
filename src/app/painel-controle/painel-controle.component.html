@@ -24,73 +24,107 @@
     </div>
   </ng-template>
 
-
-<div class="config-usuario">
-    <a> <fa-icon [icon]="config"></fa-icon> Configurar</a>
-</div>
-<div class="login-usuario">
-    <div class="btn-group" dropdown>
-        <a id="button-animated" dropdownToggle class="btn btn-email dropdown-toggle" aria-controls="dropdown-animated">
-            <fa-icon [icon]="user"></fa-icon> {{emailUser}}<span class="caret"></span>
-        </a>
-        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu cursor-drop"
-            role="menu" aria-labelledby="button-animated">
-          <li  (click)="logout(Logout)" role="menuitem"><a class="dropdown-item">Sair</a></li>
-        </ul>
-    </div>
-      
-</div>
-
-
-
-<div style="height: 100%;" class="d-flex justify-content-center align-items-center">
-
-    <div class="tamanho-conteudo conteudo ">
-        <div>  
-            <div class="barra-navegacao" id="barra-navegacao">     
-                <div class="d-flex">
-                    <div class="pt-2 pb-1 px-3 mr-auto">
-                        <div class="btn-group" dropdown  >
-                            <a id="botao-dropdown" dropdownToggle  class="btn dropdown-navegacao dropdown-toggle " aria-controls="dropdown-animated">
-                                Validação de Fórmulas<span class="caret"></span>
-                            </a>
-                            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated" >
-                                <li role="menuitem" (click)="irpara(1)" id="li-item-1" class="li-item d-none"><a class="dropdown-item "  >Validação de Fórmulas</a></li>
-                                <li role="menuitem" (click)="irpara(2)" id="li-item-2" class="li-item"><a class="dropdown-item" >Estudo dos Conceitos</a></li>
-                                <li role="menuitem" (click)="irpara(3)" id="li-item-3" class="li-item"><a class="dropdown-item" >Criação livre de Fórmulas</a></li>
-                            </ul>
-                        </div>
+<div style="height: 100%;" class="base-conteudo">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col mr-auto p-0">
+                <div class="config-usuario">
+                    <div class="btn-group" dropdown>
+                        <a id="button-animated" dropdownToggle class="btn btn-email dropdown-toggle" aria-controls="dropdown-animated">
+                            <fa-icon [icon]="config"></fa-icon> Configurar<span class="caret"></span>
+                        </a>
+                        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu cursor-drop"role="menu" aria-labelledby="button-animated">
+                            <li  role="menuitem"><a class="dropdown-item">Usuários</a></li>
+                            <li  (click)="abriConfigLogicLive()" role="menuitem"><a class="dropdown-item">LogicLive</a></li>
+                        </ul>
                     </div>
-                    <div class="pt-3 pb-1 px-3">
-                        <div class="d-flex justify-content-center"> 
-                            <div *ngFor="let itens of itensNaveracao " class="item-navegacao mx-2   text-center" (click)="navegarPara(itens.id,itens.url)" id={{itens.id}} [ngClass]="{'navegacao-ativa': itens.ativo}">
-                                <a>{{itens.item}}</a>
+
+                </div>
+            </div>
+            <div class="col-auto p-0">
+                <div class="btn-group" dropdown>
+                    <a id="button-animated" dropdownToggle class="btn btn-email dropdown-toggle" aria-controls="dropdown-animated">
+                        <fa-icon [icon]="user"></fa-icon> {{emailUser}}<span class="caret"></span>
+                    </a>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu cursor-drop"
+                        role="menu" aria-labelledby="button-animated">
+                    <li  (click)="logout(Logout)" role="menuitem"><a class="dropdown-item">Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+ 
+  
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center flex-conteudo ">
+        <div class="tamanho-conteudo conteudo ">
+            <div>  
+                <div class="barra-navegacao" id="barra-navegacao">    
+                    <div *ngIf="configAberta">
+                        <button type="button" class="btn btn-voltar my-2 mx-3" (click)=voltar()>
+                            <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
+                            voltar
+                        </button>
+                    </div> 
+                    <div *ngIf="!configAberta" class="d-flex" >
+                        <div class=" mr-auto">
+                            <div class="btn-group d-sm-block d-none pt-2 pb-1 px-3" dropdown  >
+                                <a id="botao-dropdown" dropdownToggle  class="btn dropdown-navegacao dropdown-toggle " aria-controls="dropdown-animated">
+                                    {{itensNavegacao.nome}}<span class="caret"></span>
+                                </a>
+                                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated" >
+                                    <li *ngIf="itensNavegacao.menu[0]"role="menuitem" (click)="irpara(1)" id="li-item-2" class="li-item"><a class="dropdown-item" >Validação de fórmulas</a></li>
+                                    <li *ngIf="itensNavegacao.menu[1]"role="menuitem" (click)="irpara(2)" id="li-item-2" class="li-item"><a class="dropdown-item" >Estudo dos conceitos</a></li>
+                                    <li *ngIf="itensNavegacao.menu[2]"role="menuitem" (click)="irpara(3)" id="li-item-2" class="li-item"><a class="dropdown-item" >Criação livre de fórmulas</a></li>
+                            
+                                </ul>
+                            </div>
+
+                            <div class="btn-group d-block d-sm-none pt-2 pb-1" dropdown>
+                                <a id="button-animated" dropdownToggle class="btn text-roxo dropdown-toggle" aria-controls="dropdown-animated">
+                                    <fa-icon [icon]="mouse"></fa-icon><span class="caret"></span>
+                                </a>
+                                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu cursor-drop"role="menu" aria-labelledby="button-animated">
+                                <li  (click)="irpara(1)" role="menuitem" ><a class="dropdown-item">Validação de fórmulas</a></li>
+                                <li  ((click)="irpara(2)" role="menuitem"><a class="dropdown-item">Estudo dos conceitos</a></li>
+                                <li  (click)="irpara(3)" role="menuitem"><a class="dropdown-item">Criação livre de fórmulas</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="pt-3 pb-1 px-3">
+                            <div class="d-flex justify-content-center"> 
+                                <div *ngFor="let itens of itensNavegacao.itens " class="item-navegacao mx-2   text-center" (click)="navegarPara(itens.id,itens.url)" id={{itens.id}} [ngClass]="{'navegacao-ativa': itens.ativo}">
+                                    <a>{{itens.item}}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class=caixa-barra >
-                    <div class="barra-ativa-interna" id="barra-ativa-interna"></div>
+                    <div *ngIf="!configAberta" class=caixa-barra >
+                        <div class="barra-ativa-interna" id="barra-ativa-interna"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container-central m-md-3" *ngIf="errorMensagen==null">
-            <router-outlet></router-outlet>
-        </div>
+            <div class="container-central m-md-3" *ngIf="errorMensagen==null">
+                <router-outlet></router-outlet>
+            </div>
 
-        <div class="container-mensagem"  *ngIf="errorMensagen!=null">
-            <div class="alert alert-danger pt-1" role="alert">
-                <div class="row d-flex justify-content-end">
-                    <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
+            <div class="container-mensagem"  *ngIf="errorMensagen!=null">
+                <div class="alert alert-danger pt-1" role="alert">
+                    <div class="row d-flex justify-content-end">
+                        <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
+                    </div>
+                    
+                    <h5 class="alert-heading text-center">Error!</h5>
+                    <p class=" text-center">{{errorMensagen}}</p>
+                    <hr class="m-2">
+                    <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
                 </div>
-                
-                <h5 class="alert-heading text-center">Error!</h5>
-                <p class=" text-center">{{errorMensagen}}</p>
-                <hr class="m-2">
-                <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
             </div>
+            
         </div>
-        
     </div>
 </div>
+
 

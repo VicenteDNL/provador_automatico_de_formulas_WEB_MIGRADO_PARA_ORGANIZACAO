@@ -9,6 +9,7 @@ export class VisualizadorArvoreComponent implements OnInit {
 
    @Input() impressaoNo:Array<any>;
    @Input() impressaoAresta:Array<any>;
+   @Input() exibirLinha:boolean;
    @Input() width:number;
    @Input() height:number;
   constructor() { }

@@ -32,8 +32,18 @@ body{
     }
 }
 
+.base-conteudo{
+    display: flex;
+    flex-direction: column;
+}
 
+.flex-conteudo{
+    flex:1;
+}
 
+.dropdown-menu.show {
+    display: table!important;
+}
 
 
 @media screen and (min-width: 576px) {
@@ -78,6 +88,8 @@ body{
 }
 .container-central{
     flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 
@@ -123,7 +135,7 @@ body{
     width:              100%;
 }
 .barra-ativa{
-    height:             10px;
+    height:             7px;
     width:              100px;
     background:       #6E52D2;
     transition:         all 0.5s;

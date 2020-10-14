@@ -23,6 +23,8 @@ import { TabelaGramaticaComponent } from './validacao-formulas/exercicios/cadast
 import { VisualizadorArvoreComponent } from './visualizador-arvore/visualizador-arvore.component';
 import { PersonalizarArvoreComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/personalizar-arvore/personalizar-arvore.component';
 import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
+import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
+import { UsuarioComponent } from './configuracoes/usuario/usuario.component';
 
 
 @NgModule({
@@ -43,6 +45,8 @@ import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
     VisualizadorArvoreComponent,
     PersonalizarArvoreComponent,
     InicioComponent,
+    LogicLiveComponent,
+    UsuarioComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),
