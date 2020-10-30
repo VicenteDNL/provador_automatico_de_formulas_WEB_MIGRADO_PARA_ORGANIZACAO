@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { faArrowAltCircleLeft, faTimes, faQuestionCircle, faEye, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleLeft, faTimes, faQuestionCircle, faEye, faExclamationTriangle, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { Exercicio } from 'src/app/painel-controle/models/exercicio.model';
 import { ExerciciosService } from '../exercicios.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,6 +27,7 @@ export class CadastrarExercicioComponent implements OnInit {
   duvida= faQuestionCircle;
   visual=faEye;
   error=faExclamationTriangle;
+  add=faPlusSquare;
   listaRecompensas=[]
   loadingRecompensa=false
   exercicio:Exercicio
@@ -212,5 +213,10 @@ export class CadastrarExercicioComponent implements OnInit {
 
   voltar(){
     this.router.navigate(['/painel/modulo1/exercicios/'+this.exercicio.id_nivel.id])
+  }
+
+
+  criarRecompensa(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 }

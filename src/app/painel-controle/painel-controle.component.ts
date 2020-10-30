@@ -4,8 +4,7 @@ import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { LoginService } from '../auth/services/login.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
@@ -86,23 +85,23 @@ export class PainelControleComponent implements OnInit {
     switch (lista){
       case 'modulo1': 
         this.itensNavegacao=this.modulos.modulo1;
-        this.router.navigate(['painel/modulo1/inicio']);
+        // this.router.navigate(['painel/modulo1/inicio']);
 
         break    
 
       case 'modulo2':
         this.itensNavegacao=this.modulos.modulo2;  
-        this.router.navigate(['painel/modulo2']);
+        // this.router.navigate(['painel/modulo2']);
         break    
         
       case 'modulo3':
         this.itensNavegacao=this.modulos.modulo3; 
-        this.router.navigate(['painel/modulo3']);
+        // this.router.navigate(['painel/modulo3']);
         break  
       
         case 'configuracao':
         this.itensNavegacao=this.modulos.modulo1; 
-        this.router.navigate(['painel/modulo1/inicio']);
+        // this.router.navigate(['painel/modulo1/inicio']);
         break  
     }
   

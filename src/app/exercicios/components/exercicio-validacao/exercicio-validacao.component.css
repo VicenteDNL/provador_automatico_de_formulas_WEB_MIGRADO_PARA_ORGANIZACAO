@@ -107,7 +107,7 @@
 }
 
 .mensaggem-console{
-    height: 75px;
+    min-height: 50px;
     overflow: auto;
 }
 
@@ -131,37 +131,42 @@
     color: #888888;
 }
 
-.vidas{
-    transform: scale(1.4,1.4); 
-    color:#385FCF;
-    margin-left: 5px;
-    margin-right: 5px;
+
+.icon-painel{
+    display: table;
+    border: 1px solid#88888836;
+    padding:5px;
+    background-color: #e4e4e4;
+    color:white;
+    border-bottom-left-radius: 3px ;
+    border-top-left-radius: 3px ;
+    margin-bottom: 5px;
+
 }
 
-.plus{
-    transform: scale(1.2,1.2); 
-    color:#385FCF;
-    margin-left: 5px;
-    margin-right: 5px;
+.texto-painel{
+    display: table;
+    border-bottom: 1px solid #88888836;
+    border-top: 1px solid #88888836;
+    border-right: 1px solid #88888836;
+    padding:5px;
+    background-color: #fcfcfc;
+    color:#888888;
+    border-bottom-right-radius: 3px ;
+    border-top-right-radius: 3px ;
+    margin-bottom: 5px;  
 }
 
-.adicional{
-    color:#385FCF;
-    transform: scale(1.5,1.5); 
-    font-weight: bold;
+.imagem-sem-vida{
+    height: 250px;;
+    background-image: url("src/assets/img/sem-tentativa.png");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.tempo{
-    font-weight: bold;
-    font-size: 20px;
-    color:#00be33b4;
-}
-
-.tempo-infinito{
-    position: relative;
-    top:+5px;
-    transform: scale(1.4,1.4); 
-    color:#00be33b4;
-    margin-left: 5px;
-    margin-right: 5px;
+.sem-tentativas{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end
 }

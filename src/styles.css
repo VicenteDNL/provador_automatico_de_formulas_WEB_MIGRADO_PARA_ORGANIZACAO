@@ -277,3 +277,18 @@ th{
 }
 
 
+.btn-add-recompensa{
+    background: #efefef;
+    color: #b2b2b2;
+    border-radius: 0 .2rem .2rem 0!important;
+    border-right: 1px solid!important;
+    border-top: 1px solid!important;
+    border-bottom: 1px solid!important;
+}
+
+#id_recompensa{
+    border-right: 0px solid!important;
+    border-top-right-radius:0!important;
+    border-bottom-right-radius:0!important;
+}
+

@@ -3,3 +3,15 @@
     border-radius: 5px;
     padding: 5px;
 }
+
+.escala-icon{
+    transform: scale(1.3,1.3);
+}
+
+.vermelho{
+ color: #dc3545;
+}
+
+.verde{
+    color:  #28a745;
+}

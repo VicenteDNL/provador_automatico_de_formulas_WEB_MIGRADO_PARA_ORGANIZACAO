@@ -1,0 +1,21 @@
+input[type="file"] {
+    display: none;
+}
+#imagem-label {
+    padding: 7px;
+    border-radius:5px;
+    margin-left:10% ;
+    margin-right:10% ;
+    background-color: #6E52D2;
+    color: #FFF;
+    text-align: center;
+    display: block;
+    cursor: pointer;
+}
+
+.nome-imagem{
+    width: 100%;
+    color: rgb(70, 69, 69);
+    font-size: 12px;
+    text-align: center;
+}

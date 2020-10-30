@@ -1,0 +1,79 @@
+<div class="modal-body text-center p-0">
+    <div class=" text-center titulo-modal p-2">
+        <span>Criar Recompensa</span>
+    </div>
+    <div class="text-center d-flex justify-content-center w-100" >
+        <div class="barra-modal"></div>
+    </div>
+    <div class="p-3 w-100">
+      <button type="button" class="btn btn-padrao mx-3" (click)="exibirColapse(1)"
+      [attr.aria-expanded]="!cadastrar_colapse " aria-controls="cadastrar">Criar
+      </button>
+      <button type="button" class="btn btn-padrao mx-3" (click)="exibirColapse(2)"
+      [attr.aria-expanded]="!editar_colapse" aria-controls="editar">Editar
+      </button>
+      <hr>
+
+      <div *ngIf ="!criando">
+        <div id="cadastrar" [collapse]="cadastrar_colapse" [isAnimated]="true">
+          <div class="well well-lg card card-block card-header">
+            <h5 class="text-center">Criar</h5>
+            <form #formRecompensa="ngForm" >
+              <div class="form-row">
+                <div class="form-group col-12 mb-2">
+                  <label class="col-form-label-sm mb-0" for="inputEmail4">Nome da recompensa</label>
+                  <input type="text" class="form-control form-control-sm"  id="nome" name=".nome" [(ngModel)]="recompensa.nome" required>
+                </div>
+    
+                <div class="form-group col-12  mb-4">
+                  <label class="col-form-label-sm mb-0" for="inputPassword4">Pontuação</label>
+                  <input type="number" class="form-control form-control-sm"  id="pontuacao" name="pontuacao" [(ngModel)]="recompensa.pontuacao" required>
+                </div>
+                <div class="form-group col-12 text-right">
+                  <button (click)="cadastrarRecompensa()" class="btn btn-padrao" [disabled]=" !formRecompensa.form.valid?true:false">Salvar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>  
+    
+        <div id="editar" [collapse]="editar_colapse" [isAnimated]="true">
+          <div class="well well-lg card card-block card-header">
+            <h5 class="text-center">Editar</h5>
+            <div>
+              <label class="col-form-label-sm mb-0" for="id_recompensa">Recompensas</label>
+              <select id="recompensa_selecionada" name="recompensa_selecionada" [(ngModel)]="recompensa_selecionada"class="form-control form-control-sm" (change)="preencherForms()" >
+                  <option *ngFor="let recompensa of listaRecompensas ; let i = index" value="{{i}}">{{recompensa.nome}}</option>
+              </select>
+              <hr>
+            </div>
+            
+    
+    
+            <form #formRecompensaEditar="ngForm" *ngIf ="!exibirFormEditar">
+              <div class="form-row">
+                <div class="form-group col-12 mb-2">
+                  <label class="col-form-label-sm mb-0" for="inputEmail4">Nome da recompensa</label>
+                  <input type="text" class="form-control form-control-sm"  id="nome" name=".nome" [(ngModel)]="recompensa.nome" required>
+                </div>
+    
+                <div class="form-group col-12  mb-4">
+                  <label class="col-form-label-sm mb-0" for="inputPassword4">Pontuação</label>
+                  <input type="number" class="form-control form-control-sm"  id="pontuacao" name="pontuacao" [(ngModel)]="recompensa.pontuacao" required>
+                </div>
+                <div class="form-group col-6 text-left">
+                  <button (click)="deletarRecompensa()" class="btn btn-padrao mx-auto" >Excluir</button>
+                </div>
+                <div class="form-group col-6 text-right">
+                  <button (click)="editarRecompensa()" class="btn btn-padrao " [disabled]=" !formRecompensaEditar.form.valid?true:false">Salvar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>     
+      </div> 
+      <div  *ngIf="criando" class="spinner-border spinner-border-sm text-roxo ml-2" role="status">
+          <span class="sr-only">Carregando...</span>
+      </div>
+    </div>
+</div>

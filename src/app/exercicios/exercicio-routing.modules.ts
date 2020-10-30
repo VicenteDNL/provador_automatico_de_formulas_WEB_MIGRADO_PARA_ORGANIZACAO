@@ -2,7 +2,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 import { NgModule } from '@angular/core';
-import { ExercicioValidacaoComponent } from './exercicio-validacao/exercicio-validacao.component';
+import { ExercicioValidacaoComponent } from './components/exercicio-validacao/exercicio-validacao.component';
+
 
 export const routes : Routes = [
 

@@ -25,6 +25,7 @@ import { PersonalizarArvoreComponent } from './validacao-formulas/exercicios/cad
 import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
 import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
 import { UsuarioComponent } from './configuracoes/usuario/usuario.component';
+import { RecompensaComponent } from './recompensa/recompensa.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { UsuarioComponent } from './configuracoes/usuario/usuario.component';
     InicioComponent,
     LogicLiveComponent,
     UsuarioComponent,
+    RecompensaComponent,
   ],
   imports: [
     BsDropdownModule.forRoot(),

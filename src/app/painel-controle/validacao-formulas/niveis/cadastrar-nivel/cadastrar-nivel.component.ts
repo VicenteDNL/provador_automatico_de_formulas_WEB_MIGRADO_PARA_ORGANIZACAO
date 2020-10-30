@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { faArrowAltCircleLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { faArrowAltCircleLeft, faPlusSquare, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Niveis } from 'src/app/painel-controle/models/niveis.model';
 import { NiveisService } from '../niveis.service';
 import { Router } from '@angular/router';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-cadastrar-nivel',
@@ -13,6 +14,7 @@ import { PainelControleComponent } from 'src/app/painel-controle/painel-controle
 export class CadastrarNivelComponent implements OnInit {
   iconVoltar= faArrowAltCircleLeft;
   iconFechar=faTimes;
+  add=faPlusSquare
   listaRecompensas=[]
   loadingRecompensa=false
   nivel:Niveis
@@ -20,10 +22,19 @@ export class CadastrarNivelComponent implements OnInit {
   requisitando=false;
   spineer=false
   erroSalvar=null;
+
+
+    // Config Modal logout
+    modalRef: BsModalRef;
+    message: string;
+    // ---
+
+
   constructor(
               private service: NiveisService,
               private router:Router,
-              private painelCmp:PainelControleComponent
+              private painelCmp:PainelControleComponent,
+              private modalService: BsModalService,
   ) { }
 
 
@@ -93,6 +104,11 @@ export class CadastrarNivelComponent implements OnInit {
   fecharAvisoError(){
     this.erroSalvar=null;
     this.requisitando=false
+  }
+
+
+  criarRecompensa(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
 }

@@ -41,7 +41,7 @@ export class EditarNivelComponent implements OnInit {
   iniciarRequisicoes(){
     this.service.todasRecompensas().subscribe(
       recompensas=> {
-        this.listaRecompensas = recompensas; 
+        this.listaRecompensas = recompensas['data']; 
         this.buscaNivel(); 
       },
       error=>{
