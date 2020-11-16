@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faWindowClose, faCheckSquare, faTrashAlt, faCaretSquareUp, faCaretSquareDown , faHeart, faPlus, faInfinity, faClock} from '@fortawesome/free-solid-svg-icons';
+import { faWindowClose, faCheckSquare, faTrashAlt, faCaretSquareUp, faCaretSquareDown , faHeart, faPlus, faInfinity, faClock, faTrophy} from '@fortawesome/free-solid-svg-icons';
 import { MensagemConsole } from '../../models/mensagemConsole';
 import { Request } from '../../models/request.model';
 import { ValidacaoService } from './validacao.service';
@@ -20,7 +20,8 @@ export class ExercicioValidacaoComponent implements OnInit {
 	heart=faHeart
 	plus=faPlus
 	infinity=faInfinity;
-
+	trophy =faTrophy;
+	
 	// Variaveis do CONSOLE
 	msgConsole= new MensagemConsole();
 	carregamentoConsole=false
@@ -28,7 +29,8 @@ export class ExercicioValidacaoComponent implements OnInit {
 	request:Request = new Request();
 
 	// Variaveis da etapa de INICIALIZACAO
-	argSelecionado;
+	vermelho=null;
+	amarelo=[];
 
 	// Variaveis para controlar a ativação dos botoes
 	ativosBtnFecharRamo=false;
@@ -46,15 +48,37 @@ export class ExercicioValidacaoComponent implements OnInit {
 
 	vida=null;
 	enunciado=null;
-
-
+	pontuacao=null;
+	classTentativa
+	classPontuacao
+	classRiscoTempo
+	semrisco= {'sem-risco': true,'com-atenção': false, 'com-risco':false}
+	comrisco= {'sem-risco':false ,'com-atenção': false, 'com-risco':true}
+	comatencao= {'sem-risco': false,'com-atenção': true, 'com-risco':false}
+	selectContradicao= {'select-contradicao': false}
+	selectTautologia= {'select-tautologia':false}
 	constructor(
 		private service: ValidacaoService,
 		private route: ActivatedRoute,
-	) { }
+	) {
+		this.classPontuacao = {
+			'sem-risco': true, 
+			'com-atenção': false, 
+			'com-risco':false
+		};
 
-  	ngOnInit(): void {
-    
+		this.classRiscoTempo={			
+			'sem-risco': true, 
+			'com-atenção': false, 
+			'com-risco':false};
+		this.classTentativa={			
+			'sem-risco': true, 
+			'com-atenção': false, 
+			'com-risco':false};
+	 }
+
+
+  	ngOnInit(): void {    
 		this.route.queryParams.subscribe(
 			params => {
 			this.request.usu_hash =params['usu_hash'];
@@ -71,7 +95,6 @@ export class ExercicioValidacaoComponent implements OnInit {
 				response=>{
 					if(response['success']){     
 						this.preparaExercicio(response['data'] )
-						this.vida= response['data']['tentativa_restante']
 					}else{
 						// redirecionar pagina de erro
 					}
@@ -83,43 +106,27 @@ export class ExercicioValidacaoComponent implements OnInit {
   	}
 
 	preparaExercicio(data){
-		var exercicio  = data['exercicio'], 
-			formula    = data['formula'], 
-			listapcoes = data['listapcoes'],
-			impresao   = data['impresao']
+		var exercicio  = data['exercicio'],
+			tentativas  = data['tentativas']
     	this.enunciado = exercicio.enunciado;
 
-    	// Cria o controle de tempo restante
-    	this.relogioTempoRestante(exercicio.tempo)
-
+		// Cria o controle de tempo restante
+		this.relogioTempoRestante(tentativas['tempo'])
+		this.vida =  tentativas['erros']
+		this.pontuacao = tentativas['pontuacao']['ponto']
 		// Verificar ticagem e fechamento automatico
-		this.request.ticar.auto=formula.ticar_automaticamente
-		this.request.fechar.auto=formula.fechar_automaticamente
+		this.request = data['arvore']
 		// ------
+		this.exibirNoConsole("Exercício Inicializado",'sucesso');
 
-		// Verifica sê o inicio da fórmula é personalizado
-		if(formula.iniciar_zerada==true && formula.inicio_personalizado==false ){
-			this.request.inicio.opcoes=listapcoes
-			this.exibirNoConsole("Exercício Inicializado",'sucesso');
-		}else{
-      		//verifica se a inicialização esta completa
-      		if(formula.inicializacao_completa==true){   
-        	this.request.inicio.completa=true
-      		}
-			this.request.inicio.lista=formula.lista_passos;
-			this.request.derivacao.lista=formula.lista_derivacoes;
-			this.request.ticar.lista=formula.lista_ticagem;
-			this.request.fechar.lista=formula.lista_fechamento;  
-    	}
+		var repeticao =data['tentativas']['pontuacao']['maximo'],
+			tentativa=data['tentativas']['erros'];
 
-    	this.request.nos=impresao['nos']
-    	this.request.arestas=impresao['arestas']
-
+	
+		this.classTentativa =tentativa==null? this.semrisco :(tentativa>3? this.semrisco :((tentativa<=3 && tentativa>1) ?this.comatencao:this.comrisco));
+	  	this.classPontuacao = this.pontuacao>=repeticao*(0.70)? this.semrisco : (this.pontuacao>=repeticao*(0.50)?this.comatencao:(this.pontuacao>=repeticao*(0.30)? this.comrisco:this.semrisco));
 	  } 
 	  
-
-
-
 	error(error){
 		this.exibirNoConsole(error,'error');
 	}
@@ -133,7 +140,7 @@ export class ExercicioValidacaoComponent implements OnInit {
 					msg = "Fechamento do nó  '"+this.request.fechar.folha['str']+"' realizado com sucesso"
 					break
 				case 'ticar':
-					msg = "Nó '"+this.request.derivacao.no['str']+"' ticado com sucesso!"
+					msg = "Nó '"+this.request.ticar.no['str']+"' ticado com sucesso!"
 					break
 				case 'derivar':
 					msg = "Derivação do nó '"+this.request.derivacao.no['str']+"' realizado com sucesso"
@@ -147,15 +154,34 @@ export class ExercicioValidacaoComponent implements OnInit {
 			 }
 
 			this.exibirNoConsole(msg,'sucesso');	
-			this.argSelecionado=null;
 			this.ativosCheckDerivacao=false
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=false;
 			this.request = response['data']
+			this.vermelho=null;
+			this.amarelo=[];
+			console.log(this.request );
 		}
 		else{
 			this.exibirNoConsole(response['msg'],'error');
-			this.vida=response['data']['tentativa_restante']
+			this.vida=response['data']['erros']
+			this.pontuacao = response['data']['pontuacao']['ponto']
+			var tentativa=response['data']['erros'];
+
+			this.classTentativa =tentativa==null? this.semrisco :(tentativa>3? this.semrisco :((tentativa<=3 && tentativa>1) ?this.comatencao:this.comrisco));
+
+		}
+	}
+
+
+	respostaExercicio(resp){
+		if(resp=='T'){
+			this.selectContradicao= {'select-contradicao': false}
+			this.selectTautologia= {'select-tautologia':true}
+		}
+		else{
+			this.selectContradicao= {'select-contradicao': true}
+			this.selectTautologia= {'select-tautologia':false}
 		}
 	}
 
@@ -209,8 +235,9 @@ export class ExercicioValidacaoComponent implements OnInit {
 	 * Descrição : Adiciona a regra escolhida
 	 */
 	regra(regra){
-		if(this.request.derivacao.no!=null && this.request.derivacao.folhas!=[]){
-			this.request.derivacao.regra=regra
+		this.request.derivacao.regra=regra
+		if(this.msgConsole.msg=="Nenhuma regra selecionada"){
+			this.msgConsole.msg=''
 		}
 	}
 
@@ -219,8 +246,9 @@ export class ExercicioValidacaoComponent implements OnInit {
 	 * Descrição : Tica o nó de interesse
 	 */
 	ticar(){
+		this.request.ticar.no=this.vermelho;
 		this.carregamentoConsole=true
-		this.exibirNoConsole("Requisitando ticagem do nó  '"+this.request.derivacao.no['str']+"'",'info');
+		this.exibirNoConsole("Requisitando ticagem do nó  '"+this.vermelho['str']+"'",'info');
 		this.service.ticarNo(this.request).subscribe(
 			response=>this.sucesso(response, 'ticar'),
 			error=>this.error(error.message)
@@ -232,6 +260,8 @@ export class ExercicioValidacaoComponent implements OnInit {
 	 * Descrição : Fechar o nó de interesse
 	 */
   	fechar(){
+		this.request.fechar.no=this.amarelo[0];
+		this.request.fechar.folha= this.vermelho
 		this.carregamentoConsole=true
 		this.exibirNoConsole("Requisitando fechamento do nó  '"+this.request.fechar.folha['str']+"', contradição na linha:"+this.request.fechar.no['linha']+"",'info');
 		this.service.fecharRamo(this.request).subscribe(
@@ -245,6 +275,13 @@ export class ExercicioValidacaoComponent implements OnInit {
 	 * Descrição : Realiza a derivação da arvore
 	 */
 	derivar(){
+		if (this.request.derivacao.regra==null){
+			this.exibirNoConsole("Nenhuma regra selecionada", "error");	
+			return
+		}
+		this.request.derivacao.no=this.vermelho
+		this.request.derivacao.folhas=this.amarelo
+
 		var listaIds=[],
 			nomes=''
 
@@ -297,62 +334,85 @@ export class ExercicioValidacaoComponent implements OnInit {
   	selecionarNo(index){
 		if(this.request.inicio.completa==true){
 
-			if(this.request.derivacao.folhas.length==0 && this.request.derivacao.no==null  && this.desmarcadonoInsercao==false){
+			// Seleção do no vermelho
+			if(this.amarelo.length==0 && this.vermelho==null  && this.desmarcadonoInsercao==false){
 			this.request.nos[index].strokeColor="#b91d1d"
 			this.request.nos[index].strokeWidth="3"
-			this.request.derivacao.no=this.request.nos[index]
-			
+			this.vermelho=this.request.nos[index];
+			console.log('vermelho:',this.vermelho)
+			console.log('amarelo:',this.amarelo)
+			// this.request.derivacao.no=this.request.nos[index]
+
 			this.ativosCheckDerivacao=false
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=true;
 
 			}
-			else if( this.request.derivacao.folhas.length==0 && this.request.derivacao.no==this.request.nos[index] && this.desmarcadonoInsercao==false ){
+			// Seleção  vermelho e amarelho no mesmo nó
+			else if( this.amarelo.length==0 && this.vermelho==this.request.nos[index] && this.desmarcadonoInsercao==false ){
 			this.request.nos[index].strokeColor='url(#grad3)'
 			this.request.nos[index].strokeWidth="3"
-			this.request.derivacao.folhas.push(this.request.nos[index])
+			this.amarelo.push(this.request.nos[index])
 			
 			this.ativosCheckDerivacao=true
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=false;
+			console.log('vermelho:',this.vermelho)
+			console.log('amarelo:',this.amarelo)
 			}
-			else if(this.request.derivacao.folhas.indexOf(this.request.nos[index])!=-1 && this.request.derivacao.no==this.request.nos[index] && this.desmarcadonoInsercao==false){
+
+			// Desmarcando um nó amarelo selecionado
+			else if(this.amarelo.indexOf(this.request.nos[index])!=-1 && this.vermelho==this.request.nos[index] && this.desmarcadonoInsercao==false){
 			this.request.nos[index].strokeColor="#b91d1d"
 			this.request.nos[index].strokeWidth="3"
-			this.request.derivacao.folhas.splice(this.request.derivacao.folhas.indexOf(this.request.nos[index]),1)
+			this.amarelo.splice(this.amarelo.indexOf(this.request.nos[index]),1)
 			this.desmarcadonoInsercao=true
 			
 			this.ativosCheckDerivacao=false
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=true;
+			console.log('vermelho:',this.vermelho)
+			console.log('amarelo:',this.amarelo)
 			}
-			else if( this.request.derivacao.folhas.length==0 && this.request.derivacao.no==this.request.nos[index] && this.desmarcadonoInsercao==true){
+
+			// Desmarcando um nó vermelho selecionado
+			else if( this.amarelo.length==0 && this.vermelho==this.request.nos[index] && this.desmarcadonoInsercao==true){
 			this.request.nos[index].strokeColor="#C0C0C0"
 			this.request.nos[index].strokeWidth="2"
-			this.request.derivacao.no=null
+			this.vermelho=null
 			this.desmarcadonoInsercao=false
 
 			this.ativosCheckDerivacao=false
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=false;
+			console.log('vermelho:',this.vermelho)
+			console.log('amarelo:',this.amarelo)
 			}
-			else if( this.request.derivacao.no!=this.request.nos[index]  && this.request.derivacao.folhas.indexOf(this.request.nos[index])==-1){
+
+			// Marcando um segundo nó amarelho
+			else if( this.vermelho!=this.request.nos[index]  && this.amarelo.indexOf(this.request.nos[index])==-1){
 			this.request.nos[index].strokeColor="#FFFF00"
 			this.request.nos[index].strokeWidth="3"
-			this.request.derivacao.folhas.push(this.request.nos[index])
+			this.amarelo.push(this.request.nos[index])
 
 			this.ativosCheckDerivacao=true
-			this.ativosBtnFecharRamo= this.request.derivacao.folhas.length==1?true:false 
+			this.ativosBtnFecharRamo= this.amarelo.length==1?true:false 
 			this.ativosBtnTicarNo=false;
+			console.log('vermelho:',this.vermelho)
+			console.log('amarelo:',this.amarelo)
 			}
-			else if(this.request.derivacao.folhas.indexOf(this.request.nos[index])!=-1){
+
+			// Desmarcando um nó amarelo selecionado
+			else if(this.amarelo.indexOf(this.request.nos[index])!=-1){
 			this.request.nos[index].strokeColor="#C0C0C0"
 			this.request.nos[index].strokeWidth="2"
-			this.request.derivacao.no.splice(this.request.derivacao.folhas.indexOf(this.request.nos[index]),1)
+			this.amarelo.splice(this.amarelo.indexOf(this.request.nos[index]),1)
 
-			this.ativosCheckDerivacao=this.request.derivacao.folhas.length>=1?true:false 
-			this.ativosBtnFecharRamo= this.request.derivacao.folhas.length==1?true:false 
-			this.ativosBtnTicarNo=this.request.derivacao.folhas.length==0?true:false;
+			this.ativosCheckDerivacao=this.amarelo.length>=1?true:false 
+			this.ativosBtnFecharRamo= this.amarelo.length==1?true:false 
+			this.ativosBtnTicarNo=this.amarelo.length==0?true:false;
+			console.log('vermelho:',this.vermelho)
+			console.log('amarelo:',this.amarelo)
 			}
 		}
   }
@@ -365,59 +425,72 @@ export class ExercicioValidacaoComponent implements OnInit {
   }
  
   relogioTempoRestante(tempo){
+
     
-    this.minutos_restante = tempo
-    if(this.minutos_restante!=null){
-      this.interval = setInterval(() => {
-        if(this.segundos_restante > 0) {
-          this.segundos_restante--;
-        } else {
-          if(this.minutos_restante<=0){
-            this.acabou_restante=true
-          }else{
-            this.segundos_restante = 60;
-            this.minutos_restante--
-          }
-        }
-      },1000)
+	if(tempo['minutos']==0 &&  tempo['segundos']==0){
+		this.classRiscoTempo={'sem-risco': false,'com-atenção': false,'com-risco':true}
+		this.acabou_restante=true
+		return
+	}
 
-    }
+	this.minutos_restante = tempo['minutos'];
+	this.segundos_restante = tempo['segundos'];
+
+	if(this.minutos_restante!=null){
+		this.interval = setInterval(() => {
+
+			this.classRiscoTempo=this.minutos_restante ==0 ?{'sem-risco': false,'com-atenção': false,'com-risco':true}:(this.minutos_restante<3?{'sem-risco': false,'com-atenção': true,'com-risco':false}:{'sem-risco': true,'com-atenção': false,'com-risco':false});
+			if(this.segundos_restante > 0) {
+			this.segundos_restante--;
+			} 
+			else {
+				if(this.minutos_restante<=0){
+				this.acabou_restante=true
+				}
+				else{
+				this.segundos_restante = 59;
+				this.minutos_restante--
+				}
+			}
+		},1000)
+	
+		}
   }
-
- 
-
-
 
   tentarNovamente(){
     this.carregamentoConsole=true
-    this.service.tentarNovamente(  this.request.exercicio,this.request.usu_hash).subscribe(
-      response=>{this.recomecar()},
+    this.service.tentarNovamente(this.request.exercicio,this.request.usu_hash, this.request.exe_hash).subscribe(
+      response=>{this.recomecar(response)},
       error=>{this.carregamentoConsole=false}
     )
   }
 
+  recomecar(response){
 
-  recomecar(){
-    this.route.params.subscribe(params => {
-		this.request.exercicio=params['id'];
-		this.service.buscarExercicios(this.request.exercicio,this.request.usu_hash)
-		.subscribe(
-			response=>{
-				if(response['success']){     
-					this.preparaExercicio(response['data'] )
-					this.vida= response['data']['tentativa_restante']
-				}else{
-					// redirecionar pagina de erro
-				}
+	if(response['success']){  
+		 var  repeticao =response['data']['tentativas']['pontuacao']['maximo'],
+			  tentativa=response['data']['tentativas']['erros'];
+
+		this.classTentativa =tentativa==null? this.semrisco :(tentativa>3? this.semrisco :((tentativa<=3 && tentativa>1) ?this.comatencao:this.comrisco));
+		this.classPontuacao =	this.classPontuacao = this.pontuacao>=repeticao*(0.70)? this.semrisco : (this.pontuacao>=repeticao*(0.50)?this.comatencao:(this.pontuacao>=repeticao*(0.30)? this.comrisco:this.semrisco));
+		this.segundos_restante=response['data']['tentativas']['tempo']['segundos']
+		this.minutos_restante=response['data']['tentativas']['tempo']['minutos']
+		this.vida =  response['data']['tentativas']['erros']
+		this.pontuacao = response['data']['tentativas']['pontuacao']['ponto']
+		this.request = response['data']['arvore']
+		this.exibirNoConsole('Reiniciado!','sucesso');	
+		this.ativosCheckDerivacao=false
+		this.ativosBtnFecharRamo=false;
+		this.ativosBtnTicarNo=false;
+		this.vermelho=null;
+		this.amarelo=[];
 		
-			},
-			error =>{} // redirecionar pagina de erro
-		)
-          this.carregamentoConsole=false
-          
-        },
-        error =>{this.carregamentoConsole=false} // redirecionar pagina de erro
-      ) 
+	}else{
+		// redirecionar pagina de erro
+	}
+	this.carregamentoConsole=false
+		
+			
   }
 
  

@@ -1,0 +1,56 @@
+<div class="container-controles" >
+    <div class="imagem-sem-vida">
+        <div class="sem-tentativas">
+            <button type="button" class="btn btn-sm btn-inserir btn-block" (click)="tentarNovamente()"> Tentar Novamente</button>
+        </div>
+    </div>
+</div>  
+
+<div *ngIf="(minutos_restante==0 && segundos_restante==0) && vida !=0 ">
+    <div class="imagem-sem-tempo">
+        <div class="sem-tentativas">
+            <button type="button" class="btn btn-sm btn-inserir btn-block" (click)="tentarNovamente()"> Tentar Novamente</button>
+        </div>
+    </div>
+</div>  
+
+<div *ngIf="(minutos_restante==0 && segundos_restante==0) && vida ==0 ">
+    <div class="sem-tentativas-vida">
+        <div class="sem-tentativas">
+            <button type="button" class="btn btn-sm btn-inserir btn-block" (click)="tentarNovamente()"> Tentar Novamente</button>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="vida !=0 && (minutos_restante!=0 || segundos_restante!=0)">
+
+
+
+        <!-- Posicionamento dos Primeiros nós na arvore -->
+        <div *ngIf="!request.inicio.completa " class="grupo-controles p-3 flex-item">
+            <div class="grupo-check flex-um">
+                <div class="form-check mb-2" *ngFor="let arg of request.inicio.opcoes ; let i = index">
+                    <input class=" form-check-input form-control-sm" type="radio" name="radioArgumentos" id={{arg.id}} value={{arg.id}} (click)="selecionado(i)">
+                    <label class="form-check-label col-form-label-sm" for={{arg.id}} (click)="selecionado(i)">
+                        {{arg.str}}
+                    </label>
+                </div>
+        
+            </div>
+            <div>
+                <button type="button" class="btn btn-sm btn-inserir btn-block " (click)="adicionaNo(0)" [disabled]="request.inicio.no==null"> Inserir</button>
+                <button type="button" class="btn btn-sm btn-fechar-ramo btn-block" (click)="adicionaNo(1)"  [disabled]="request.inicio.no==null"> Negar e Inserir</button>
+            </div>
+        </div> 
+        
+        <div *ngIf="request.inicio.completa" >
+            <div *ngIf="!request.fechar.auto || !request.ticar.auto" class="grupo-controles p-3">
+                <button *ngIf="!request.fechar.auto" type="button" class="btn btn-sm btn-fechar-ramo btn-block " [disabled]=" !ativosBtnFecharRamo  ?true:false" (click)="fechar()"> Fechar Ramo</button>
+                <button *ngIf="!request.ticar.auto"  type="button" class="btn btn-sm btn-ticar btn-block"    [disabled]=" !ativosBtnTicarNo ?true:false" (click)="ticar()"> Ticar Nó</button> 
+            </div>                                          
+        </div>   
+    </div>
+
+
+

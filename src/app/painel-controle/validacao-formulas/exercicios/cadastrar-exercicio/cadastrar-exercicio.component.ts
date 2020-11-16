@@ -10,6 +10,7 @@ import { TabelaExerciciosComponent } from '../tabela-exercicios/tabela-exercicio
 import { map, switchMap } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
+import { Request } from 'src/app/painel-controle/models/request.model';
 
 
 
@@ -39,6 +40,9 @@ export class CadastrarExercicioComponent implements OnInit {
   formulaInvalida=false
   visualizararvore=false
   mensagemError;
+
+
+  request = new Request()
   listaImpressaoNo=[]
   listaImpressaoAresta=[]
 
@@ -78,11 +82,12 @@ export class CadastrarExercicioComponent implements OnInit {
 
 
   cadastrarExercicio(){
-    this.exercicio.id_formula.lista_derivacoes=this.listaDerivacoes
-    this.exercicio.id_formula.lista_fechamento=this.listaFechamento
-    this.exercicio.id_formula.lista_ticagem=this.listaTicagem
-    this.exercicio.id_formula.lista_passos=this.listaPassoInicial
-    this.exercicio.id_formula.inicializacao_completa=this.inializacaoCompleta
+    console.log(this.request)
+    this.exercicio.id_formula.lista_derivacoes=this.request.derivacao.lista
+    this.exercicio.id_formula.lista_fechamento=this.request.fechar.lista
+    this.exercicio.id_formula.lista_ticagem=this.request.ticar.lista
+    this.exercicio.id_formula.lista_passos=this.request.inicio.lista
+    this.exercicio.id_formula.inicializacao_completa=this.request.inicio.completa
 
     this.requisitando=true
     this.service.cadastrarExercicio(this.exercicio).subscribe(

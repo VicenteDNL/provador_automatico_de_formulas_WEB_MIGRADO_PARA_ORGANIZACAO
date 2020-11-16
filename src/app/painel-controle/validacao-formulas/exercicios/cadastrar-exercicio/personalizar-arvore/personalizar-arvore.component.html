@@ -16,12 +16,12 @@
                     </div>
                     <div class="svg text-center">
                         <svg width="700" height="660" >
-                            <g *ngFor="let item of listaAresta; let i= index;">
+                            <g *ngFor="let item of request.arestas; let i= index;">
                                 <line [attr.x1]=item.linhaX1 [attr.y1]=item.linhaY1 [attr.x2]=item.linhaX2 [attr.y2]=item.linhaY2 stroke="rgb(175,175,175)" stroke-width=1 stroke-linecap="butt"/>
                             </g>
                     
                             
-                            <g *ngFor="let item of listaNos; let i= index;" (mouseover)="alterarcor(i)" (mouseleave)="voltarcor(i)" (click)="selecionarNo(i)">
+                            <g *ngFor="let item of request.nos; let i= index;" (mouseover)="alterarcor(i)" (mouseleave)="voltarcor(i)" (click)="selecionarNo(i)">
                                 <circle [attr.cx]=item.posX [attr.cy]=item.posY+27 r="3" fill="#AFAFA4"/>
                                 <circle [attr.cx]=item.posX [attr.cy]=item.posY-27 r="3" fill="#AFAFAF"/>
                                 <text font-size="20" font-weight="bold" fill="rgb(175,175,175)" [attr.x]=30 [attr.y]=item.posY+5>Linha {{item.linha}}</text>
@@ -74,9 +74,9 @@
                         </div>
                         
                         <!-- Posicionamento dos Primeiros nós na arvore -->
-                        <div *ngIf="!inializacaoCompleta" class="grupo-controles p-3 flex-item">
+                        <div *ngIf="!request.inicio.completa" class="grupo-controles p-3 flex-item">
                             <div class="grupo-check flex-um">
-                                <div class="form-check mb-2" *ngFor="let arg of listaPremissaConclusao ; let i = index">
+                                <div class="form-check mb-2" *ngFor="let arg of request.inicio.opcoes ; let i = index">
                                     <input class=" form-check-input form-control-sm" type="radio" name="radioArgumentos" id={{arg.id}} value={{arg.id}} (click)="selecionado(i)">
                                     <label class="form-check-label col-form-label-sm" for={{arg.id}} (click)="selecionado(i)">
                                         {{arg.str}}
@@ -85,80 +85,80 @@
                           
                             </div>
                             <div>
-                                <button type="button" class="btn btn-sm btn-inserir btn-block " (click)="adicionarPremCon()" [disabled]="argSelecionado==null"> Inserir</button>
-                                <button type="button" class="btn btn-sm btn-negar btn-block" (click)="adicionarPremConNeg()"  [disabled]="argSelecionado==null"> Negar e Inserir</button>
+                                <button type="button" class="btn btn-sm btn-inserir btn-block " (click)="adicionaNo(0)" [disabled]="request.inicio.no==null"> Inserir</button>
+                                <button type="button" class="btn btn-sm btn-negar btn-block" (click)="adicionaNo(1)"  [disabled]="request.inicio.no==null"> Negar e Inserir</button>
                             </div>
                         </div>
 
                         <!-- Derivação dos elementos da árvore -->
-                        <div *ngIf="inializacaoCompleta" class="grupo-controles p-3 mb-3">
+                        <div *ngIf="request.inicio.completa" class="grupo-controles p-3 mb-3">
                             <div class="form-check">
-                                <input class=" form-check-input form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(1)"  id="regra1" value="opcao1"[disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra1" (click)="selecionarRegra(1)">
+                                <input class=" form-check-input form-control-sm" type="radio" name="exampleRadios" (click)="regra(1)"  id="regra1" value="opcao1"[disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra1" (click)="regra(1)">
                                     Dupla Negação
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(2)" id="regra2" value="opcao2" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra2" (click)="selecionarRegra(2)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(2)" id="regra2" value="opcao2" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra2" (click)="regra(2)">
                                     Conjunção 
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(5)" id="regra5" value="option3" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra5" (click)="selecionarRegra(5)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(5)" id="regra5" value="option3" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra5" (click)="regra(5)">
                                     Disjunção
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(6)" id="regra6" value="option4" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra6" (click)="selecionarRegra(6)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(6)" id="regra6" value="option4" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra6" (click)="regra(6)">
                                     Condicional
             
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(7)" id="regra7" value="option5" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra7" (click)="selecionarRegra(7)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(7)" id="regra7" value="option5" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra7" (click)="regra(7)">
                                     Bicondicional
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(8)" id="regra8" value="option6" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra8" (click)="selecionarRegra(8)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(8)" id="regra8" value="option6" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra8" (click)="regra(8)">
                                     Negação da Conjunção
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(3)" id="regra3" value="option7" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra3" (click)="selecionarRegra(3)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(3)" id="regra3" value="option7" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra3" (click)="regra(3)">
                                     Negação da Disjunção
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(4)" id="regra4" value="option8" [disabled]=" !ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra4" (click)="selecionarRegra(4)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(4)" id="regra4" value="option8" [disabled]=" !ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra4" (click)="regra(4)">
                                     Negação do Condicional
             
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="selecionarRegra(9)" id="regra9" value="option9" [disabled]="!ativosCheckDerivacao">
-                                <label class="form-check-label col-form-label-sm" for="regra9" (click)="selecionarRegra(9)">
+                                <input class=" form-check-input  form-control-sm" type="radio" name="exampleRadios" (click)="regra(9)" id="regra9" value="option9" [disabled]="!ativosCheckDerivacao">
+                                <label class="form-check-label col-form-label-sm" for="regra9" (click)="regra(9)">
                                     Negação do Bicondicional
                                 </label>
                             </div>
                             <div class="btn-acoes">
-                                <button type="button" class="btn btn-sm btn-inserir btn-block" (click)="derivarNo()" [disabled]="regra==null">Derivar</button>
+                                <button type="button" class="btn btn-sm btn-inserir btn-block" (click)="derivar()" [disabled]="regra==null">Derivar</button>
                             </div>
                         </div>
-                        <div *ngIf="inializacaoCompleta" class="grupo-controles p-3">
-                            <button type="button" class="btn btn-sm btn-inserir btn-block " [disabled]=" !ativosBtnFecharRamo  ?true:false" (click)="fecharRamo()"> Fechar Ramo</button>
-                            <button type="button" class="btn btn-sm btn-negar btn-block"    [disabled]=" !ativosBtnTicarNo ?true:false" (click)="marcarComoUtilizada()"> Ticar Nó</button> 
+                        <div *ngIf="request.inicio.completa" class="grupo-controles p-3">
+                            <button type="button" class="btn btn-sm btn-inserir btn-block " [disabled]=" !ativosBtnFecharRamo  ?true:false" (click)="fechar()"> Fechar Ramo</button>
+                            <button type="button" class="btn btn-sm btn-negar btn-block"    [disabled]=" !ativosBtnTicarNo ?true:false" (click)="ticar()"> Ticar Nó</button> 
                         </div>
                         <div class="p-3 text-center">
                             <button type="submit" class="btn btn-sm botao-primario mx-2 " (click)=fechar() >Cancelar</button>
-                            <button type="submit" class="btn btn-sm botao-primario mx-2 "  (click)="salvar()" [disabled]="listaNos.length==0">Salvar</button>
+                            <button type="submit" class="btn btn-sm botao-primario mx-2 "  (click)="salvar()" [disabled]="request.inicio.lista.length==0">Salvar</button>
                         </div>
                     
                     </div>

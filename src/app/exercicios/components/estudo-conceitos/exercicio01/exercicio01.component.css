@@ -1,0 +1,63 @@
+.body{
+    background-color: white!important;
+    height: 100%!important;
+}
+
+code{
+    font-size: 87.5%;
+    color: #e83e8c;
+    word-break: break-word;
+}
+
+.table-regras{
+    display: inline-table;
+}
+
+.espaco-tabela{
+    padding:  0 100px;
+}
+
+.regra-negacao{
+    background-color: white;
+    padding: 8px 5px;
+    color: #1a213b;
+    font-weight: bold;
+    border-radius: 4px;
+    border-left: 4px solid #4e73df ;
+}
+
+.regra-conjuncao{
+    background-color:white ;
+    padding: 8px 5px;
+    color:#22474d;
+    font-weight: bold;
+    border-radius: 4px;
+    border-left: 4px solid #36b9cc ;
+}
+
+.regra-disjuncao{
+    background-color: white;
+    padding: 8px 5px;
+    color:#295344;
+    font-weight: bold;
+    border-radius: 4px;
+    border-left: 4px solid #1cc88a ;
+}
+
+.regra-condicional{
+    background-color:white;
+    padding: 8px 5px;;
+    color: #533330;
+    font-weight: bold;
+    border-radius: 4px;
+    border-left: 4px solid  #e74a3b ;
+}
+
+.regra-bicondicional{
+    background-color: white ;
+    padding: 8px 5px;
+    color: #5e5339;
+    font-weight: bold;
+    border-radius: 4px;
+    border-left: 4px solid #f6c23e ;
+}

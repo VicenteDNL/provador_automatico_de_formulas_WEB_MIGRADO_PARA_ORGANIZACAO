@@ -1,0 +1,201 @@
+<div class="body">
+    <div class="container-fluid py-2">
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">Árvores de Refutação vs Tabela Verdade</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            As <code>tabelas-verdade</code> fornecem um teste rigoroso e completo para a validade ou 
+                            invalidade de formas de argumento da lógica proposicional, bem como para a 
+                            verificação da tautologia, contingência funcional-veritativa e inconsistência de wffs.
+                            Na verdade, elas constituem um algoritmo, o tipo de teste específico que pode ser 
+                            executado por um computador e que sempre dá uma resposta após um
+                            número finito de operações. Quando existe um algoritmo que determina se as formas de um
+                            argumento expressáveis num sistema formal são válidas ou não, esse sistema diz-se decidível. 
+                        </p>
+                        <p>
+                            Assim, as tabelas-verdade garantem a decidibilidade da lógica proposicional. Mas, elas são
+                            <code>enfadonhas e ineficazes</code>, especialmente em problemas que envolvem muitas
+                            <code>letras sentenciais</code>. As árvores de refutação fornecem um algoritmo mais eficaz para executar as mesmas tarefas. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">Árvores de Refutação</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Dada uma lista de wffs, uma <code>árvore de refutação</code> é uma busca exaustiva de caminhos nos quais
+                            todas as wffs da lista podem ser verdadeiras. Para testar a validade de uma forma de argumento
+                            utilizando uma árvore de refutação, constrói-se uma lista consistindo em suas <code>premissas</code> e na
+                            negação de sua <code>conclusão</code>. A busca é executada <code>desmembrando</code> as wffs da lista em letras sentenciais
+                            e suas negações.
+                        </p>
+                        <p>
+                            As condições para que um enunciado possa ser verdadeiro dependem dos operadores lógicos que
+                            ele contém, as fórmulas que contêm diferentes operadores lógicos são desmembrados
+                            diferentemente. Todas as fórmulas que contêm <code>operadores lógicos</code> pertencem a uma das dez
+                            categorias seguintes: 
+                        </p>
+
+                        <div class="row">
+                            <div class="col-md-6 text-center">
+                                <table class="table-regras"  cellpadding="5" >
+                                    <tr>
+                                        <td><div class="regra-negacao shadow-sm">Negação</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-conjuncao shadow-sm">Conjunção </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-disjuncao shadow-sm">Disjunção</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-condicional shadow-sm">Condicional</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-bicondicional shadow-sm">Bicondicional</div></td>
+                                    </tr>
+                                </table> 
+                            </div>
+
+
+                            <div class="col-md-6 text-center">
+                                <table class="table-regras" cellpadding="5" >
+                                    <tr>
+                                        <td><div class="regra-negacao shadow-sm">Negação Negada</div></td>  
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-conjuncao shadow-sm">Conjunção Negada </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-disjuncao shadow-sm">Disjunção Negada</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-condicional shadow-sm">Condicional Negado</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="regra-bicondicional shadow-sm">Bicondicional Negado</div></td>
+                                    </tr>
+                                </table> 
+                            </div>
+                        </div>
+                        <p class="mt-3">
+                            Para cada categoria temos uma regra correspondente que expande as árvores de refutação. Um ramo
+                            aberto é aquele que não termina com ‘X’, caso contrário chama-se ramo fechado. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="m-0 font-weight-bold text-primary">Regras da Árvores de Refutação</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Conforme estudado, as condições de desmembramento (<code>Derivações</code>) baseiam-se nos diferentes conectivos ou operadores lógicos. 
+                            Ou seja, uma fórmula bem estruturada que contém argumentos conectados por <code>operadores lógicos</code>
+                            irá pertencer a uma das dez regras no método de árvore de refutação. <code>Nove</code> dessas regras determinam como expandir a árvore. 
+                             A outra regra determina quando <code>fechar um ramo</code>. Um ramo fechado indica falha na tentativa de 
+                            construção do ramo. E diz o seguinte:
+                        </p>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <table class="table-regras"  cellpadding="5" >
+                                    <tr>
+                                        <td><div class="regra-negacao shadow-sm">Um ramo aberto só pode ser fechado quando conter uma sentença e sua negação</div></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="mt-3">Exemplo:</p>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                    <img src="assets/svg/negacao.svg" alt="negacapo">
+                            </div>
+                        </div>
+                        <p class="mt-3">
+                            Ou seja, se a contradição da sentença de um nó <code>folha</code> for encontrada em seus nós 
+                            ascendentes, diz-se que a refutação pode ser realizada e esse ramo é fechado, 
+                            <code>não podendo mais ser desmembrado</code>. As regras seguintes apresentam as nove regras de desmembramento ou derivação das sentenças.
+                        </p>
+
+                        <ul class="mt-5">
+                            <li>
+                                <p >Regra da Negação Negada (¬¬)</p>
+                                <div class="col-12 text-center">
+                                    <table class="table-regras"  cellpadding="5" >
+                                        <tr>
+                                            <td><div class="regra-negacao shadow-sm">Se um ramo aberto contém uma sentença negada duplamente “¬¬”, gera um nó da sentença sem a dupla negação</div></td>
+                                        </tr>
+                                    </table>
+                                    <div class="mt-2"><img src="assets/svg/negacao-negada.svg" alt="negacao-negada"></div>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <p>Regra da Conjunção (^)</p>
+                                <div class="col-12 text-center">
+                                    <table class="table-regras"  cellpadding="5" >
+                                        <tr>
+                                            <td><div class="regra-conjuncao shadow-sm">Se um ramo aberto contém a sentença “P∧Q”,  gera dois nós sequenciais “P” e “Q”</div></td>
+                                        </tr>
+                                    </table>
+                                    <div><img src="assets/svg/conjuncao.svg" alt="conjuncao"></div>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <p>Regra da Disjunção (∨)</p>
+                                <div class="col-12 text-center">
+                                    <table class="table-regras"  cellpadding="5" >
+                                        <tr>
+                                            <td><div class="regra-disjuncao shadow-sm">Se um ramo aberto contém a sentença “P ∨ Q”,  gera dois nós bifurcados, com nó esquerdo “P” e nó direito “Q”.</div></td>
+                                        </tr>
+                                    </table>
+                                    <div><img src="assets/svg/disjuncao.svg" alt="disjuncao"></div>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <p>Regra do Condicional (→)</p>
+                                <div class="col-12 text-center">
+                                    <table class="table-regras"  cellpadding="5" >
+                                        <tr>
+                                            <td><div class="regra-condicional shadow-sm">Se um ramo aberto contém a sentença “P→Q”, gera dois nós bifurcados, com nó esquerdo “~P” e nó direito “Q”.</div></td>
+                                        </tr>
+                                    </table>
+                                    <div><img src="assets/svg/condicional.svg" alt="condicional"></div>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                        <li>
+                            <p>Regra do Bicondicional (↔)</p>
+                            <div class="col-12 text-center">
+                                <table class="table-regras"  cellpadding="5" >
+                                    <tr>
+                                        <td><div class="regra-bicondicional shadow-sm">se um ramo aberto contém a sentença “P↔Q”, bifurca-se cada ramo aberto que contém a sentença “P↔Q”, na qual no final do primeiro ramo escreve-se o “P” e “Q” e no final do segundo ramo escreve-se “~P” e “~Q</div></td>
+                                    </tr>
+                                </table>
+                                <div><img src="assets/svg/bicondicional.svg" alt="bicondicional"></div>
+                            </div>
+                        </li>
+    
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

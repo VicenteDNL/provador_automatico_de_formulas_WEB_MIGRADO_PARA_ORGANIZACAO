@@ -44,8 +44,8 @@ export class ValidacaoService {
   }
 
 
-  tentarNovamente(id,hash){
-    return this.http.post(`${this.API}exercicio/tentarnovamente/${id}`,{'usu_hash': hash['usu_hash'],'exe_hash':hash['exe_hash']}).pipe(take(1));
+  tentarNovamente(id,usu_hash,exe_hash){
+    return this.http.post(`${this.API}exercicio/tentarnovamente/${id}`,{'usu_hash':usu_hash,'exe_hash':exe_hash}).pipe(take(1));
   }
 
 

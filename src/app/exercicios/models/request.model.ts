@@ -5,14 +5,17 @@ export class Request {
         public xml=null,
         public nos=[],
         public arestas=[],
-       
+        public finalizada=false,
         public usu_hash= '',
         public exe_hash= '', 
+       
 
         public derivacao= new Derivacao(),
         public inicio= new Inicializacao(),  
         public ticar= new Ticagem(), 
         public fechar= new Fechamento(), 
+        public regras=[], 
+        public strformula='buscando...'
      
         ) {}
 }

@@ -1,7 +1,12 @@
 .body{
-    background-color: white;
+    background-color: #f8f9fc;
 }
 
+.custom-card-header{
+    background-color: #f8f9fc!important;
+    padding: 0.75rem 1.25rem!important;
+    color: #4e73df !important;
+}
 .controle-flex{
     height: 100%;
     display: flex;
@@ -9,6 +14,27 @@
     
 }
 
+.formula-str{
+    color: rgb(114, 114, 114);
+}
+.container-str-formula{
+    padding: 12px;
+    background-color: #4e73df0a;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.enunciado{
+    color: rgb(114, 114, 114);
+}
+
+.imagem-back{
+    background-color: white;
+    background-image: url("/assets/img/back-padrao.png");
+    background-repeat: no-repeat;
+    background-position: bottom right;
+
+}
 .controle-titulo{
     color: white;
     background: #4E73DF;
@@ -36,29 +62,30 @@
 
 .botoes-fim{
     display: flex;
-    flex: 1;
     align-items: center;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    justify-content: center;
+    flex:1;
     
 }
 
 
 .btn-ticar{
     color: #fff;
-    background-color: #1cc88a;
-    border-color: #1cc88a;
+    background-color:#36b9cc;
+    border-color: #36b9cc;
  }
  
  .btn-ticar:hover{
-    background-color: #16885e;
+    background-color:#227683;
   }
 
 
 
   .btn-inserir{
     color: #fff;
-    background-color: #3085d6;
-    border-color: #3085d6;
+    background-color: #4e73df;
+    border-color:#4e73df;
  }
  
  .btn-inserir:hover{
@@ -70,35 +97,36 @@
 
 .btn-fechar-ramo{
     color: #fff;
-    background-color: #e74a3b;
-    border-color: #e74a3b;
+    background-color:#dc3582;
+    border-color:#dc3582;
 }
 
 .btn-fechar-ramo:hover{
-    background-color: #963128;
+    background-color: #912859;
 
 }
 
 .grupo-controles{
-    border: 1px solid #88888836;
+    /* border: 1px solid #88888836; */
     border-radius: .25rem;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 
 .btn-func{
     color: #fff;
-    background-color:#3371ac;;
+    background-color:#1cc88a;
 }
 
 
 .btn-func:hover{
-    background-color: #275580;
+    background-color: #2ca377;
 
 }
 
 
 .btn-icon{
     color: #fff;
-    background-color:#275580;
+    background-color:#1ca573;
 }
 
 .btn-icon:hover{
@@ -109,6 +137,22 @@
 .mensaggem-console{
     min-height: 50px;
     overflow: auto;
+    background-color: #f8f9fc;
+    flex:1;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.icon-loading{
+    width: 50px;
+    height:50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dee2e6;
+    color:#4e73df;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 .btn-icon-console{
@@ -123,12 +167,38 @@
 
 .error-msg{
     color: #aa3434;
+    font-weight: bold;
 }
 .sucesso-msg{
     color: #48aa34; 
+    font-weight: bold;
 }
 .info-msg{
     color: #888888;
+    font-weight: bold;
+}
+
+
+
+.sem-risco{
+    background-color: #1cc88a!important;
+}
+
+@keyframes neon {
+    from{
+        filter: drop-shadow( 0 0 0 #ea5547);
+    }
+    to{
+        filter: drop-shadow( 0 0  5px  #ea5547 );
+    }
+}
+
+.com-atenção{
+    background-color: #ffc107;
+}
+.com-risco{
+    background-color: #ea5547;
+    animation: neon 1s alternate infinite ease-in-out;
 }
 
 
@@ -136,11 +206,10 @@
     display: table;
     border: 1px solid#88888836;
     padding:5px;
-    background-color: #e4e4e4;
     color:white;
+ 
     border-bottom-left-radius: 3px ;
     border-top-left-radius: 3px ;
-    margin-bottom: 5px;
 
 }
 
@@ -150,23 +219,98 @@
     border-top: 1px solid #88888836;
     border-right: 1px solid #88888836;
     padding:5px;
-    background-color: #fcfcfc;
-    color:#888888;
+    color:white;
+    /* font-weight: bold; */
     border-bottom-right-radius: 3px ;
     border-top-right-radius: 3px ;
-    margin-bottom: 5px;  
+    background-color: #6c757d;
+  
 }
 
 .imagem-sem-vida{
-    height: 250px;;
     background-image: url("src/assets/img/sem-tentativa.png");
     background-repeat: no-repeat;
     background-position: center;
+    flex:1;
+    min-height: 200px;
 }
 
-.sem-tentativas{
-    height: 100%;
+.imagem-sem-tempo{
+    background-image: url("src/assets/img/sem-tempo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    flex:1;
+    min-height: 200px;
+}
+
+.sem-tentativas-vida{
+    background-image: url("src/assets/img/sem-tempo-tentativas.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    flex:1;
+    min-height: 200px;
+
+}
+
+
+
+
+.container-controles{
     display: flex;
     flex-direction: column;
-    justify-content: flex-end
+    height: 100%;
+}
+.container-erros{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+}
+
+.resposta-final{
+    display: flex; 
+}
+.tautologia{
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.contradicao{
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-select-tautologia{
+    border: 1px solid #6c757d;
+    width:20px ;
+    height:20px ;
+    border-radius: 3px;
+    margin-right: 5px;
+
+}
+
+.icon-select-contradicao{
+    border: 1px solid #6c757d;
+    width:20px ;
+    height:20px ;
+    border-radius: 3px;
+    margin-right: 5px;
+    
+}
+
+.select-tautologia{
+    background-image: url("/assets/svg/check-azul.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover
+}
+
+.select-contradicao{
+    background-image: url("/assets/svg/check-vermelho.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover
 }

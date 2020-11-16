@@ -56,12 +56,9 @@ export class ExerciciosService {
   // return this.http.post(`${this.API}arvore/inicializada/`,{'xml':xml, 'lista':lista}).pipe(take(1));
   }
 
-  adicionarNo(xml,lista,id){
-    return this.http.post(`${this.API}arvore/inicializacao/adiciona-no/`,{'xml':xml,'lista':lista,'idNo':id, 'negacao':false}).pipe(take(1));
-  }
-
-  adicionarNoNegando(xml,lista,id){
-    return this.http.post(`${this.API}arvore/inicializacao/adiciona-no/`,{'xml':xml,'lista':lista,'idNo':id, 'negacao':true}).pipe(take(1));
+  adicionarNo(dado){
+    console.log(dado)
+    return this.http.post(`${this.API}arvore/inicializacao/adiciona-no/`,dado).pipe(take(1));
   }
 
   derivar(derivar){
