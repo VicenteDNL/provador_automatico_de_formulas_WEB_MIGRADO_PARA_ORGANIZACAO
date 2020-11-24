@@ -1,0 +1,48 @@
+
+
+
+
+
+ .cor-fundo1{
+    background-color: 	#F6F6F6;
+}
+
+
+.cor-fundo2{
+    background-color:#36b9cc;  
+    color: #F0F8FF!important;
+}
+
+
+@media screen and (max-width: 768px) {
+    .resposividade-nav-pills {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    color: 	#c5c5c5;
+    cursor:pointer;
+}
+
+.nav-link:hover {
+    color:            #4e72dfab;
+
+}
+
+.nav-link.active {
+    color:            #4e73df;
+    font-weight: bold;
+    border-bottom: 5px solid #4e73df ;
+    /* border-radius: 0% !important; */
+    padding-bottom: 0px!important;
+    background-color: transparent!important;
+}

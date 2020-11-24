@@ -82,7 +82,6 @@ export class AuthGuardAdmin implements CanActivate, CanActivateChild, CanLoad {
     class Retorno {constructor(public resultado?: Object,public paciente?: Object,) {}}
     return this.http.get(`${this.API}auth/me`,httpOptions).pipe( 
       map(res=> {
-        console.log(res)
         if (!res['success']) {
           throw new Error('Value expected!');
         }

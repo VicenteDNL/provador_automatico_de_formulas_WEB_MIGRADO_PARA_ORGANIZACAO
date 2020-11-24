@@ -1,0 +1,154 @@
+<ng-template #modalVizualizarArvore>
+    <!-- <div class="modal-body text-center p-0">
+        <div class=" text-center titulo-modal p-2">
+            <span>Árvore Exércicio</span>
+        </div>
+        <div class="text-center d-flex justify-content-center w-100" >
+            <div class="barra-modal"></div>
+        </div>
+        <div class="p-3 w-100">
+          <app-visualizador-arvore [impressaoNo]="listaImpressaoNo" [impressaoAresta]="listaImpressaoAresta" [exibirLinha]="true" [width]="700" [height]="660"></app-visualizador-arvore>
+        </div>
+        <div class="pb-3 w-100 text-center">
+            <button type="button" class="btn btn-padrao mx-2" (click)="fechar()" >Fechar</button>
+        </div>
+    </div> -->
+</ng-template>
+  
+<div class="conteudo-cadastro">
+    <div class="header-cadastro">
+        <div class="col-md-10 pt-3">
+            <div class="row">
+                <div class="col d-flex align-items-center">
+                    <h6 class="text-roxo">Editar Exercício</h6>
+                </div>
+                <div class="col-auto">
+                    
+                    <button type="button" class="btn btn-voltar font-18" (click)=voltar()>
+                        <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
+                        voltar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-cadastro">
+        <div class="col-md-8">
+            <form #formNivel="ngForm" *ngIf ="!requisitando">
+                <div class="form-row">
+                <div class="form-group col-12 mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputEmail4">Nome do exercício</label>
+                    <input type="text" class="form-control form-control-sm"  id="nome" name="nome" [(ngModel)]="exercicio.nome" required>
+                </div>
+        
+                <div class="form-group col-12  mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputPassword4">Descrição</label>
+                    <input type="text" class="form-control form-control-sm"  id="descricao" name="descricao" [(ngModel)]="exercicio.descricao" required>
+                </div>
+
+                <div class="form-group col-12  mb-2">
+                    <label class="col-form-label-sm mb-0"  for="exampleFormControlTextarea1">Enunciado</label>
+                    <textarea class="form-control  form-control-sm" id="enunciado" name="enunciado" [(ngModel)]="exercicio.enunciado" required rows="2"></textarea>
+                </div>
+
+                
+                <div class="form-group col-12  mb-2">
+                    <label class="col-form-label-sm mb-0" for="inputPassword4">Fórmula</label>
+                    <div class="d-flex">
+                    <input type="text" class="form-control form-control-sm"  id="formula" name="formula" [(ngModel)]="exercicio.id_formula.formula"  disabled>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-inf-formula-2 btn-sm" (click)="abrirArvore(modalVizualizarArvore)" >
+                        <fa-icon class="mx-1" [icon]="visual" ></fa-icon>
+                        </button>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                    <input class="form-check-input form-control-sm" type="checkbox"id="iniciar_zerada" name="iniciar_zerada" [(ngModel)]="exercicio.id_formula.iniciar_zerada" disabled >
+                    <label class="form-check-label col-form-label-sm" for="iniciar_zerada">
+                        Iniciar Zerada
+                    </label>
+                    </div>
+                </div>
+
+                <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                    <input class="form-check-input form-control-sm" type="checkbox"id="inicio_personalizado" name="inicio_personalizado"  [(ngModel)]="exercicio.id_formula.inicio_personalizado" disabled>
+                    <label class="form-check-label col-form-label-sm" for="inicio_personalizado">
+                        Personalizar Inicio
+                    </label>
+                    </div>
+                </div>
+
+                <div class="form-group col-12  mb-2">
+                    <label for="quantidade_regras">Quantidade de Regras</label>
+                    <div class="d-flex">
+                    <input type="range" class="form-control-range" id="quantidade_regras" name="quantidade_regras"  [(ngModel)]="exercicio.id_formula.quantidade_regras" min="1" max="9" disabled>
+                        <span class="ml-1 qntd-regras">{{exercicio.id_formula.quantidade_regras}}</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                    <input class="form-check-input form-control-sm" type="checkbox"id="fechar_automaticamente" name="fechar_automaticamente" [(ngModel)]="exercicio.id_formula.fechar_automaticamente" disabled>
+                    <label class="form-check-label col-form-label-sm" for="fechar_automaticamente">
+                        Fechamento Automático 
+                    </label>
+                    </div>
+                </div>
+
+                <div class="form-group col-6  mb-2">
+                    <div class="form-check">
+                    <input class="form-check-input form-control-sm" type="checkbox"id="ticar_automaticamente" name="ticar_automaticamente" [(ngModel)]="exercicio.id_formula.ticar_automaticamente" disabled>
+                    <label class="form-check-label col-form-label-sm" for="ticar_automaticamente">
+                        Ticagem Automática
+                    </label>
+                    </div>
+                </div>
+        
+                <div class="form-group col-3  mb-2">
+                    <label for="tempo">Tempo</label>
+                    <input type="number" class="form-control form-control-sm"  id="tempo" name="tempo" [(ngModel)]="exercicio.tempo" disabled>
+                </div>
+                <div class="form-group col-3  mb-2">
+                    <label for="qndt_erros">Limite erros</label>
+                    <input type="number" class="form-control form-control-sm"  id="qndt_erros" name="qndt_erros" [(ngModel)]="exercicio.qndt_erros" disabled >
+                </div>
+                <div class="form-group col-6  mb-2">
+                    <label class="col-form-label-sm mb-0" for="id_recompensa">Recompensa</label>
+                    <div class="d-flex">
+                        <select id="id_recompensas" name="id_recompensas" [(ngModel)]="exercicio.id_recompensa.id"class="form-control form-control-sm" disabled>
+                            <option value="{{exercicio.id_recompensa.id}}">{{exercicio.id_recompensa.nome}}</option>
+                        </select>
+                    </div>
+                </div>
+
+        
+                <div class="form-group col-12  mb-2">
+                    <div class="form-check">
+                    <input class="form-check-input form-control-sm" type="checkbox"id="ativo" name="ativo" [(ngModel)]="exercicio.ativo">
+                    <label class="form-check-label col-form-label-sm" for="ativo">
+                        Ativo
+                    </label>
+                    </div>
+                </div>
+        
+                <div class="form-group col-12 text-right">
+                    <button (click)="editarExercicio()" class="btn btn-padrao" [disabled]=" !formNivel.form.valid?true:false">Salvar</button>
+                </div>
+                </div>
+            </form>
+            <div class="d-flex justify-content-center" *ngIf ="requisitando">
+                <div class="spinner-border text-roxo" role="status">
+                <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  

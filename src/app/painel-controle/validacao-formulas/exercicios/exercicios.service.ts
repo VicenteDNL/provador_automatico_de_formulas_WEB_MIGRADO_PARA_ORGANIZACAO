@@ -20,13 +20,22 @@ export class ExerciciosService {
     return this.http.get<Niveis[]>(`${this.API}mvflp/niveis/listarTodos`)
   }
 
-
   buscarExerciciosPorNivel(id,pg){
     return this.http.get<Niveis[]>(`${this.API}mvflp/exercicio/nivel/${id}?page=${pg}`).pipe(take(1));
   }
 
   deletar(id){
     return this.http.delete(`${this.API}mvflp/exercicio/${id}/`);
+  }
+
+  buscarPorId(id){
+    return this.http.get(`${this.API}mvflp/exercicio/${id}/`).pipe(take(1));
+
+  }
+
+  editar(id,dado){
+    return this.http.put(`${this.API}mvflp/exercicio/${id}/`,dado);
+
   }
 
   todasRecompensas(){
@@ -57,7 +66,6 @@ export class ExerciciosService {
   }
 
   adicionarNo(dado){
-    console.log(dado)
     return this.http.post(`${this.API}arvore/inicializacao/adiciona-no/`,dado).pipe(take(1));
   }
 
@@ -73,6 +81,8 @@ export class ExerciciosService {
   fecharRamo(fecharNo){
     return this.http.post(`${this.API}arvore/derivacao/fechar-no/`,fecharNo).pipe(take(1));
   }
+
+
   
 
 }

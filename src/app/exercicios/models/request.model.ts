@@ -2,14 +2,14 @@ export class Request {
 
 	constructor(
         public exercicio=null,
-        public xml=null,
+        public xml:string=null,
         public nos=[],
         public arestas=[],
         public finalizada=false,
         public usu_hash= '',
         public exe_hash= '', 
        
-
+        public resposta=null,
         public derivacao= new Derivacao(),
         public inicio= new Inicializacao(),  
         public ticar= new Ticagem(), 

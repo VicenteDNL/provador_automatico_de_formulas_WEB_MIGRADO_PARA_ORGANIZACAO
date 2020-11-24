@@ -118,7 +118,6 @@ export class NiveisComponent implements OnInit {
   }
 
   abrirEdicao(id){
-    console.log(id)
     this.router.navigate(['/painel/modulo1/niveis/editar', id])
   }
 

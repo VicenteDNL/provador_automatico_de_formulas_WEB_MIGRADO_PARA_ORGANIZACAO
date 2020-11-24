@@ -123,8 +123,7 @@ export class TabelaExerciciosComponent implements OnInit {
   }
 
   abrirEdicao(id){
-    console.log(id)
-   
+    this.router.navigate(['/painel/modulo1/exercicios/'+this.idNivel+'/editar/'+id])   
   }
 
   abrirCadastro(){
@@ -185,7 +184,7 @@ export class TabelaExerciciosComponent implements OnInit {
 
 
   // buscarExercicios(){
-  //   console.log('dsfdsfdf')
+  //   
 
   // }
 

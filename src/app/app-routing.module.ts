@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuardAdmin } from './painel-controle/guard/admin-auth.guard';
 
 
@@ -22,11 +23,14 @@ const routes: Routes = [
   ,{
     path: 'exercicio',
      loadChildren: () => import('./exercicios/exercicios.module').then(m => m.ExerciciosModule),
-  },
-    
+  }
+  ,{
+    path: '404',
+    component: NotFoundComponent 
+  },  
   {
     path:'**',
-    redirectTo: 'painel/modulo1/inicio',
+    redirectTo: '404',
     pathMatch: 'full'
   },
 ];

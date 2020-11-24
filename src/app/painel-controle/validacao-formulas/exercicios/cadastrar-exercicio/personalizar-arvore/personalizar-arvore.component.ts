@@ -263,8 +263,6 @@ export class PersonalizarArvoreComponent implements OnInit {
 			this.request.nos[index].strokeColor="#b91d1d"
 			this.request.nos[index].strokeWidth="3"
 			this.vermelho=this.request.nos[index];
-			console.log('vermelho:',this.vermelho)
-			console.log('amarelo:',this.amarelo)
 			// this.request.derivacao.no=this.request.nos[index]
 
 			this.ativosCheckDerivacao=false
@@ -281,8 +279,6 @@ export class PersonalizarArvoreComponent implements OnInit {
 			this.ativosCheckDerivacao=true
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=false;
-			console.log('vermelho:',this.vermelho)
-			console.log('amarelo:',this.amarelo)
 			}
 
 			// Desmarcando um nó amarelo selecionado
@@ -295,8 +291,6 @@ export class PersonalizarArvoreComponent implements OnInit {
 			this.ativosCheckDerivacao=false
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=true;
-			console.log('vermelho:',this.vermelho)
-			console.log('amarelo:',this.amarelo)
 			}
 
 			// Desmarcando um nó vermelho selecionado
@@ -309,8 +303,6 @@ export class PersonalizarArvoreComponent implements OnInit {
 			this.ativosCheckDerivacao=false
 			this.ativosBtnFecharRamo=false;
 			this.ativosBtnTicarNo=false;
-			console.log('vermelho:',this.vermelho)
-			console.log('amarelo:',this.amarelo)
 			}
 
 			// Marcando um segundo nó amarelho
@@ -322,8 +314,6 @@ export class PersonalizarArvoreComponent implements OnInit {
 			this.ativosCheckDerivacao=true
 			this.ativosBtnFecharRamo= this.amarelo.length==1?true:false 
 			this.ativosBtnTicarNo=false;
-			console.log('vermelho:',this.vermelho)
-			console.log('amarelo:',this.amarelo)
 			}
 
 			// Desmarcando um nó amarelo selecionado
@@ -335,8 +325,6 @@ export class PersonalizarArvoreComponent implements OnInit {
 			this.ativosCheckDerivacao=this.amarelo.length>=1?true:false 
 			this.ativosBtnFecharRamo= this.amarelo.length==1?true:false 
 			this.ativosBtnTicarNo=this.amarelo.length==0?true:false;
-			console.log('vermelho:',this.vermelho)
-			console.log('amarelo:',this.amarelo)
 			}
 		}
   }

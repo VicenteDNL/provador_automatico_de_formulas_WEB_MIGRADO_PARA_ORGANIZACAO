@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { faCog, faUser, faTimes, faArrowAltCircleLeft, faMousePointer} from  '@fortawesome/free-solid-svg-icons' ;
+import { faCog, faUser, faTimes, faArrowAltCircleLeft, faHome} from  '@fortawesome/free-solid-svg-icons' ;
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -18,7 +18,7 @@ export class PainelControleComponent implements OnInit {
   user = faUser;
   iconFechar=faTimes;
   iconVoltar= faArrowAltCircleLeft;
-  mouse=faMousePointer
+  home=faHome
 
   errorMensagen=null
 
@@ -31,24 +31,6 @@ export class PainelControleComponent implements OnInit {
                'menu':[false,true,true],
                'nome':'Validação de fórmulas',
                'id':1
-    }
-    
-    ,
-    'modulo2':{'itens':[
-                      {'item':'Níveis','url':'painel/modulo2/niveis','id':'item-nav1','ativo':true},
-                      {'item':'Exercícios','url':'painel/modulo2/exercicios','id':'item-nav2','ativo':false},
-                      {'item':'Perguntas','url':'painel/modulo2/perguntas','id':'item-nav3','ativo':false},
-                      {'item':'Respostas','url':'painel/modulo2/respostas','id':'item-nav4','ativo':false}
-                      ], 
-               'menu':[true,false,true],
-               'nome':'Estudo dos conceitos',
-               'id':2
-
-    },
-    'modulo3':{'itens':[],
-                'menu':[true,true,false],
-                'nome':'Criação livre de fórmulas',
-                'id':3
     }
   };
 
@@ -85,23 +67,12 @@ export class PainelControleComponent implements OnInit {
     switch (lista){
       case 'modulo1': 
         this.itensNavegacao=this.modulos.modulo1;
-        // this.router.navigate(['painel/modulo1/inicio']);
+        this.router.navigate(['painel/modulo1/inicio']);
 
-        break    
-
-      case 'modulo2':
-        this.itensNavegacao=this.modulos.modulo2;  
-        // this.router.navigate(['painel/modulo2']);
-        break    
-        
-      case 'modulo3':
-        this.itensNavegacao=this.modulos.modulo3; 
-        // this.router.navigate(['painel/modulo3']);
-        break  
-      
+        break          
         case 'configuracao':
         this.itensNavegacao=this.modulos.modulo1; 
-        // this.router.navigate(['painel/modulo1/inicio']);
+        this.router.navigate(['painel/modulo1/inicio']);
         break  
     }
   
@@ -154,7 +125,7 @@ export class PainelControleComponent implements OnInit {
   }
 
 
-  navegarPara(id, url){
+  navegarPara(id){
     // Calculo para movimentação da barra do menu de navegação
     var cordeNav =  document.getElementById('barra-navegacao').getBoundingClientRect().left, 
         item =document.getElementById(id),
@@ -163,26 +134,6 @@ export class PainelControleComponent implements OnInit {
         centralizar = ((tamanhoItem - cordeNav) + (item.getBoundingClientRect().width/2)) - (barra.getBoundingClientRect().width/2);
     document.getElementById('barra-ativa-interna').style.transform = "translateX("+centralizar+"px)";
     // -----------------------------------
-
-    //Remoção da Classe "navegacao-ativa" de todos os itens da navegação
-    var lista = document.getElementsByClassName("item-navegacao")
-    for (var i = 0; i < lista.length; i++){     
-       var arr = lista[i].className.split(" ");
-      if (arr.indexOf("navegacao-ativa") != -1) {
-        arr.splice(arr.indexOf("navegacao-ativa"), 1);
-        var classes ='';
-        for (var e = 0; e < arr.length; e++){   
-            classes = classes+" "+arr[e]
-        }
-        lista[i].className=classes
-      }
-    }
-    // -----------------------------------
-
-    // Adição da Classe "navegacao-ativa" no item de navegação clicado
-    item.classList.add("navegacao-ativa")
-     // -----------------------------------
-     this.router.navigate([url]);
   }
 
 
@@ -194,45 +145,8 @@ export class PainelControleComponent implements OnInit {
   }
 
 
-  irpara(item){
-
-    var itens =document.getElementsByClassName("li-item")
-    for (var i = 0; i < itens.length; i++){  
-      var arr = itens[i].className.split(" ");
-      if (arr.indexOf("d-none") != -1) {
-        arr.splice(arr.indexOf("d-none"), 1);
-        var classes ='';
-        for (var e = 0; e < arr.length; e++){   
-            classes = classes+" "+arr[e]
-        }
-        itens[i].className=classes
-      }
-    }
-
-    switch (item) {
-      case 1:
-        this.router.navigate(['painel/modulo1/inicio']);
-        this.itensNavegacao=this.modulos.modulo1;
-        document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
-        
-        break;
-      case 2:
-        this.router.navigate(['painel/modulo2']);
-        this.itensNavegacao=this.modulos.modulo2;
-        document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
-        break;
-      case 3:
-        this.router.navigate(['painel/modulo3']);
-        this.itensNavegacao=this.modulos.modulo3;
-        document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
-        break;
-
-      default:
-        this.router.navigate(['painel/modulo1']);
-        this.itensNavegacao=this.modulos.modulo1;
-
-    
-    }
+  irpara(){
+    document.getElementById('barra-ativa-interna').style.transform = "translateX(0px)";
 
   }
 
@@ -251,12 +165,6 @@ export class PainelControleComponent implements OnInit {
     switch ( this.itensNavegacao.id){
       case 1:
         this.router.navigate(['painel/modulo1/inicio']);
-        break
-      case 2:
-        this.router.navigate(['painel/modulo2']);
-        break
-      case 3:
-        this.router.navigate(['painel/modulo3']);
         break
       default:
         this.router.navigate(['painel/modulo1/inicio']);

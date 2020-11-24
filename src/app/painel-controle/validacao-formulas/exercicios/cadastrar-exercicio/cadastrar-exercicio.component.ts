@@ -82,7 +82,6 @@ export class CadastrarExercicioComponent implements OnInit {
 
 
   cadastrarExercicio(){
-    console.log(this.request)
     this.exercicio.id_formula.lista_derivacoes=this.request.derivacao.lista
     this.exercicio.id_formula.lista_fechamento=this.request.fechar.lista
     this.exercicio.id_formula.lista_ticagem=this.request.ticar.lista
@@ -155,8 +154,6 @@ export class CadastrarExercicioComponent implements OnInit {
     }
     else{
       var validacao = gramLogic.validar(this.exercicio.id_formula.formula,false)
-
-      console.log(validacao)
       if(validacao['sucesso']==true){
       this.formulaInvalida=false
       this.visualizararvore=true
@@ -182,7 +179,6 @@ export class CadastrarExercicioComponent implements OnInit {
             this.modalRef = this.modalService.show(template,Object.assign({}, { class: 'modal-lg', }))
           },
           error=>{
-            console.log(error)
           }
         );
 

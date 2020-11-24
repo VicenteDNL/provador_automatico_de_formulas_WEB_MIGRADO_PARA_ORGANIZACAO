@@ -41,12 +41,11 @@ export class RecompensaComponent implements OnInit {
           this.referenciaModal.hide();
         }
         else{
-          console.log('error');
+          ;
         }
       },
       error=>{
         this.criando=false;
-        console.log('error');
       }
     );
     
@@ -63,12 +62,11 @@ export class RecompensaComponent implements OnInit {
           this.referenciaModal.hide();
         }
         else{
-          console.log('error');
+          ;
         }
       },
       error=>{
-        this.criando=false;
-        console.log('error');
+        this.criando=false;;
       }
     );
   }
@@ -84,12 +82,10 @@ export class RecompensaComponent implements OnInit {
           this.referenciaModal.hide();
         }
         else{
-          console.log('error');
         }
       },
       error=>{
         this.criando=false;
-        console.log('error');
       }
     );
   }

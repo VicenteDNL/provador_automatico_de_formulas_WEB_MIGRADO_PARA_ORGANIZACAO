@@ -1,0 +1,7 @@
+.curso-svg{
+    cursor: pointer;
+}
+
+.curso-svg:hover{
+    text-decoration:none!important;
+}

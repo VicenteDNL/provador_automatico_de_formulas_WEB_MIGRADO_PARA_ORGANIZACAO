@@ -81,7 +81,6 @@ export class CadastrarNivelComponent implements OnInit {
   carregacomboRecompensas(recompensas){
     this.loadingRecompensa =false;
     if(recompensas['success']==true){
-      console.log(recompensas['data']);
       this.listaRecompensas = recompensas['data']
     
     }

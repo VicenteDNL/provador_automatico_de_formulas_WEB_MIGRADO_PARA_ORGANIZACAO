@@ -48,11 +48,11 @@
                         <td>{{exercicio.ativo}}</td>
                         <td>
                             <div class="btn-group my-1">
-                                <button class="btn btn-sm btn-tabela" >
-                                    <fa-icon class="mx-1" [icon]="iconEditar" (click)="abrirEdicao(exercicio.id)"></fa-icon>
+                                <button class="btn btn-sm btn-tabela" (click)="abrirEdicao(exercicio.id)" >
+                                    <fa-icon class="mx-1" [icon]="iconEditar" ></fa-icon>
                                 </button>
-                                <button type="button" class="btn btn-tabela btn-sm">
-                                <fa-icon class="mx-1" [icon]="iconDeletar" (click)="deletar(DeletarModal, exercicio.id)"></fa-icon>
+                                <button type="button" class="btn btn-tabela btn-sm" (click)="deletar(DeletarModal, exercicio.id)">
+                                <fa-icon class="mx-1" [icon]="iconDeletar" ></fa-icon>
                                 </button>
                             </div>
                         </td>
