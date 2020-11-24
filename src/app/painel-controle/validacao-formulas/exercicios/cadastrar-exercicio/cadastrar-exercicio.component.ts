@@ -11,6 +11,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
 import { Request } from 'src/app/painel-controle/models/request.model';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -22,7 +23,7 @@ declare var gramLogic: any;
   styleUrls: ['./cadastrar-exercicio.component.css']
 })
 export class CadastrarExercicioComponent implements OnInit {
-
+  private readonly production =  `${environment.production}`;
   iconVoltar= faArrowAltCircleLeft;
   iconFechar=faTimes;
   duvida= faQuestionCircle;
@@ -153,7 +154,7 @@ export class CadastrarExercicioComponent implements OnInit {
       this.visualizararvore=true
     }
     else{
-      var validacao = gramLogic.validar(this.exercicio.id_formula.formula,false)
+      var validacao = gramLogic.validar(this.exercicio.id_formula.formula,this.production)
       if(validacao['sucesso']==true){
       this.formulaInvalida=false
       this.visualizararvore=true

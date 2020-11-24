@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExerciciosService } from '../exercicios/exercicios.service';
 import { PainelControleComponent } from '../../painel-controle.component';
+import { environment } from 'src/environments/environment';
 
 
 declare var gramLogic: any;
@@ -12,6 +13,7 @@ declare var gramLogic: any;
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
+  private readonly production =  `${environment.production}`;
   xml
   listaImpressaoNo
   listaImpressaoAresta
@@ -22,7 +24,7 @@ export class InicioComponent implements OnInit {
 
   ngOnInit(): void {
 
-    var validacao = gramLogic.validar('P|-(P^P)',false)
+    var validacao = gramLogic.validar('P|-(P^P)',this.production)
 
     if(validacao['sucesso']==true){
       

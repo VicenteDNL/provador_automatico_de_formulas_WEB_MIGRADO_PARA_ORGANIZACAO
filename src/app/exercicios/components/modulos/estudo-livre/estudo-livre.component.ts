@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { faExclamationTriangle, faEye, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { environment } from 'src/environments/environment';
 import { MensagemConsole } from '../../../models/mensagemConsole';
 import { Request } from '../../../models/request.model';
 import { AlunoAuthService } from '../../../service/aluno-auth.service';
@@ -14,7 +15,7 @@ declare var gramLogic: any;
   styleUrls: ['./estudo-livre.component.css']
 })
 export class EstudoLivreComponent implements OnInit {
-
+private readonly production =  `${environment.production}`;
   duvida= faQuestionCircle;
   visual=faEye;
   erro=faExclamationTriangle;
@@ -111,7 +112,7 @@ export class EstudoLivreComponent implements OnInit {
       this.visualizararvore=true
     }
     else{
-      var validacao = gramLogic.validar(this.formula,false)
+      var validacao = gramLogic.validar(this.formula,this.production)
 	  if(validacao['sucesso']==true){
       this.formulaInvalida=false
 	  this.visualizararvore=true
