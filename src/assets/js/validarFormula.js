@@ -1,8 +1,8 @@
 var gramLogic = (function() {
-    var ambiente ='dev'
-    var hostdev='http://localhost:4200';
+    // var ambiente ='dev'
+    var host='http://localhost:4200/';
     return {
-      validar: function(formula,prod=false) {
+      validar: function(formula,prod='false') {
 
         if (formula.length == '') {
           return {
@@ -11,6 +11,11 @@ var gramLogic = (function() {
               xml: null
           }
       }
+         if(prod=='true'){
+            // host='https://arvore-refutacao.thelogiclive.com/';
+            host='http://127.0.0.1:5500/'
+         }
+
 
 
       var antlr4 = require('assets/js/antlr4/index');
@@ -110,24 +115,8 @@ var gramLogic = (function() {
     }
       
       },
-      getAmbiente: function() {
-        return  ambiente;
-      }
-      ,
-      setAmbiente: function(amb) {
-
-        if(amb=='prod' || amb=='dev' ){
-            ambiente = amb;
-            return true
-        }
-        else{
-            return false 
-        }
-            
-      }
-      ,
       gethost: function() {
-        return  hostdev;
+        return  host;
       }
       
     }
