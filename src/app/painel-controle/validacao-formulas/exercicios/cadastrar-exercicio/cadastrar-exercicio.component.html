@@ -79,26 +79,16 @@
 </ng-template>
 
 
-<div class="conteudo-cadastro">
-
-    <div class="header-cadastro">
-        <div class="col-md-10 pt-3">
-            <div class="row">
-                <div class="col d-flex align-items-center">
-                    <h6 class="text-roxo">Cadastrar Exercício</h6>
-                </div>
-                <div class="col-auto">
-                    
-                    <button type="button" class="btn btn-voltar font-18" (click)=voltar()>
-                        <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
-                        voltar
-                    </button>
-                </div>
-            </div>
-        </div>
+<div class="container conteudo-cadastro">
+    <div class="d-flex align-items-center justify-content-between mb-5 mt-3">
+      <h5 class="text-roxo m-0">Criar Exercício</h5>
+      <button type="button" class="btn btn-voltar font-18" (click)=voltar()>
+        <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
+        voltar
+    </button>       
     </div>
-    <div class="form-cadastro">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-12">
             <form #formNivel="ngForm" *ngIf ="!requisitando">
                 <div class="form-row">
                   <div class="form-group col-12 mb-2">

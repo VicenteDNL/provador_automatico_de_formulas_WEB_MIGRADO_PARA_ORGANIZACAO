@@ -60,8 +60,8 @@ export class RespostasComponent implements OnInit {
           this.prevPage = prev ==null? 0 : prev.substr(prev.indexOf('=')+1,prev.length)
 
           this.total=response['data']['total'];
-          this.from=response['data']['from'];
-          this.to=response['data']['to']
+          this.from=response['data']['from']!=null ?response['data']['from']:0;;
+          this.to=response['data']['to']!=null ?response['data']['to']:0;
           // ----------------------------------------------------
 
 

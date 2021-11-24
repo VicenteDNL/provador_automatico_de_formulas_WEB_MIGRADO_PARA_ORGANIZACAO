@@ -22,3 +22,22 @@
     align-items: center;
 }
 
+.header-table{
+    /* background: rgb(85,217,202); */
+    background-color: rgb(85,217,202)!important;
+    
+
+}
+
+
+
+.nivel-ativo{
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.nivel-inativo{
+    color: #dc3545;
+    font-weight: bold;
+}
+

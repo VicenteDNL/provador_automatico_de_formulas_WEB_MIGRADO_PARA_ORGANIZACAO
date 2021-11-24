@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   senha;
   logando =false;
   errorLogin
+  sucessoLogin=false
   constructor(
               private login$: LoginService,
               private router: Router,
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
     this.logando =true;
     this.login$.login(this.email, this.senha).subscribe(
       data => {
+        this.sucessoLogin=true
         this.auth$.set(data);
         this.logando =false;
         this.email='';
