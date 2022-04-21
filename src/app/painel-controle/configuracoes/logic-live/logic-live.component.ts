@@ -12,29 +12,39 @@ export class LogicLiveComponent implements OnInit {
 
   check=faCheck;
   times=faTimes
-  cadastrados=false;
+  msgErro='';
+  msgSucesso='...';
+  buscando =true;
+  sincronizados = false
   constructor( private service: ConfiguracaoService ) { }
 
   ngOnInit(): void {
     this.service.configuracoes().subscribe(
       response=>{
+        this.buscando=false
         if(response['success']){
-          this.cadastrados=response['data']['cadastrados'];
-
+          this.msgSucesso = response['msg'];
+          this.sincronizados = response['data']['sincronizados'];
         }
         else{
-          // error
+          this.msgErro = response['data']['msg'];
         }
+      },
+      error  =>{
+        this.buscando=false
+        this.msgErro = error.error.msg
       }
     )
   }
 
   criarGameEndModulos(){
+    this.buscando=true
     this.service.criarModuloEndGame().subscribe(
       response=>{
+        this.buscando=false
         if(response['success']){
-          this.cadastrados=response['data']['cadastrados'];
-
+          this.sincronizados = true
+          this.msgSucesso =response['msg']
         }
         else{
           // error
@@ -43,4 +53,19 @@ export class LogicLiveComponent implements OnInit {
     )
   }
 
+  limparGameEndModulos(){
+    this.buscando=true
+    this.service.limparModuloEndGame().subscribe(
+      response=>{
+        this.buscando=false
+        if(response['success']){
+          this.msgSucesso =response['msg']
+          this.msgErro='';
+        }
+        else{
+          // error
+        }
+      }
+    )
+  }
 }

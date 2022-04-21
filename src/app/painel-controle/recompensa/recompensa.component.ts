@@ -13,6 +13,7 @@ export class RecompensaComponent implements OnInit {
   recompensa_selecionada
   listaRecompensas;
   criando=false;
+  title="Criar Recompensa";
 
   exibirFormEditar=true;
   constructor( private service: RecompensaService) { }
@@ -94,11 +95,13 @@ export class RecompensaComponent implements OnInit {
   exibirColapse(val){
 
     if(val==1  &&  this.cadastrar_colapse){
+      this.title="Criar Recompensa";
       this.cadastrar_colapse =  !this.cadastrar_colapse
       this.editar_colapse =  !this.editar_colapse
 
     }
     else if(val==2  &&  this.editar_colapse){
+      this.title="Editar Recompensa";
       this.cadastrar_colapse =  !this.cadastrar_colapse
       this.editar_colapse =  !this.editar_colapse
     }

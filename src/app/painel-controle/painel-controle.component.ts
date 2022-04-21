@@ -172,4 +172,8 @@ export class PainelControleComponent implements OnInit {
     
     this.configAberta=false;
   }
+
+  criarRecompensa(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
 }

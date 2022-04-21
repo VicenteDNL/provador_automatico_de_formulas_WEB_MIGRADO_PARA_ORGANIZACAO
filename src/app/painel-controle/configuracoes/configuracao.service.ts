@@ -20,4 +20,8 @@ export class ConfiguracaoService {
   criarModuloEndGame(){
     return this.http.post(`${this.API}config/logiclive/criar`,{})
   }
+
+  limparModuloEndGame(){
+    return this.http.post(`${this.API}config/logiclive/limpar`,{})
+  }
 }

@@ -39,8 +39,6 @@ export const routes : Routes = [
           { path: 'niveis', component: NiveisComponent },
           { path: 'niveis/cadastrar', component: CadastrarNivelComponent },
           { path: 'niveis/editar/:id', component: EditarNivelComponent },
-
-
           { path: 'exercicios', component: ExerciciosComponent,
           children: [
             { path: '', component: PesquisarExercicioComponent },

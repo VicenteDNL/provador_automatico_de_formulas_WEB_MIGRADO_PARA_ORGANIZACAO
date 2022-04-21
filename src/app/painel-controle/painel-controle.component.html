@@ -1,4 +1,8 @@
 <!-- Modal Logout -->
+<ng-template #Ngrecompensa>
+    <app-recompensa [referenciaModal]="modalRef"></app-recompensa>
+</ng-template>
+
 <ng-template #Logout>
     <div class="modal-body text-center p-0">
         <div class=" text-center titulo-modal p-2">
@@ -83,6 +87,9 @@
                                 </div>
                                 <div [routerLink]="['/painel/modulo1/respostas']" routerLinkActive="navegacao-ativa" class="item-navegacao mx-2   text-center"  id="item-nav3" (click)="navegarPara('item-nav3')">
                                     <a >Resposta</a>
+                                </div>
+                                <div  class="item-navegacao mx-2   text-center"  id="item-nav4" (click)="criarRecompensa(Ngrecompensa)">
+                                    <a >Recompensa</a>
                                 </div>
                             </div>
                         </div>

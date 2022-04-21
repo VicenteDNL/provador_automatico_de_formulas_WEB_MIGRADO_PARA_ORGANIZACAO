@@ -61,7 +61,7 @@ HtmlGramLogicListener.prototype.exitForm = function (ctx) {
 }; 
 
 HtmlGramLogicListener.prototype.enterArg = function (ctx) {
-    try {
+    try {        
         var str = ctx.getText();
         if((str.length>=2 &&  str.indexOf("^")==-1 && str.indexOf("v")==-1 &&  str.indexOf("->")==-1 &&  str.indexOf("<->")==-1) ||str.length==1){        
             var count=0;   
@@ -72,8 +72,9 @@ HtmlGramLogicListener.prototype.enterArg = function (ctx) {
             }
 
             lpred = this.xmlDoc.responseXML.createElement("LPRED");
-            newElement = this.xmlDoc.responseXML.createElement("PREDICATIVO");
-            newText = this.xmlDoc.responseXML.createTextNode(str[str.length-1]);
+            newElement = this.xmlDoc.responseXML.createElement("PREDICATIVO");;
+            var clearStr =str.replace('(','').replace(')','')
+            newText = this.xmlDoc.responseXML.createTextNode(clearStr[clearStr.length-1]);
             newElement.appendChild(newText);
             lpred.appendChild(newElement);
             var neg="";
@@ -89,7 +90,7 @@ HtmlGramLogicListener.prototype.enterArg = function (ctx) {
         }
     }
     catch (e) {
-
+console.log(e);
     }
 
 }; 

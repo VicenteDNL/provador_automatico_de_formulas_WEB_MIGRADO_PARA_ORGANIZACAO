@@ -42,8 +42,10 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let nivel of lista_niveis" >
-                        <td>{{nivel.nome}}</td>
-                        <td  class="text-center " [ngClass]="nivel.ativo == 'Ativo' ? 'nivel-ativo' : 'nivel-inativo'" >{{nivel.ativo}}</td>
+                        <td style="vertical-align: inherit">
+                            {{nivel.nome}}
+                            </td>
+                        <td  class="text-center " [ngClass]="nivel.ativo == 'Ativo' ? 'nivel-ativo' : 'nivel-inativo'" style="vertical-align: inherit">{{nivel.ativo}}</td>
                         <td class="text-center">
                             <div class="btn-group my-1">
                                 <button class="btn btn-sm btn-tabela" (click)="abrirEdicao(nivel.id)" >

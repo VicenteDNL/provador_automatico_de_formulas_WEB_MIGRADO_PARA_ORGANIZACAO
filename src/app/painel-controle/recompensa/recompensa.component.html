@@ -1,19 +1,12 @@
 <div class="modal-body text-center p-0">
     <div class=" text-center titulo-modal p-2">
-        <span>Criar Recompensa</span>
+        <span>{{title}}</span>
     </div>
     <div class="text-center d-flex justify-content-center w-100" >
         <div class="barra-modal"></div>
     </div>
     <div class="p-3 w-100">
-      <button type="button" class="btn btn-padrao mx-3" (click)="exibirColapse(1)"
-      [attr.aria-expanded]="!cadastrar_colapse " aria-controls="cadastrar">Criar
-      </button>
-      <button type="button" class="btn btn-padrao mx-3" (click)="exibirColapse(2)"
-      [attr.aria-expanded]="!editar_colapse" aria-controls="editar">Editar
-      </button>
-      <hr>
-
+     
       <div *ngIf ="!criando">
         <div id="cadastrar" [collapse]="cadastrar_colapse" [isAnimated]="true">
           <div class="well well-lg card card-block card-header">
@@ -70,7 +63,15 @@
               </div>
             </form>
           </div>
-        </div>     
+        </div> 
+        <hr>    
+        <button *ngIf ="cadastrar_colapse" type="button" class="btn  mx-3" (click)="exibirColapse(1)"
+        [attr.aria-expanded]="!cadastrar_colapse " aria-controls="cadastrar" style="color:#DCDCDC;font-size: small;">voltar para criação
+        </button>
+        <button   *ngIf ="editar_colapse" type="button" class="btn  mx-3" (click)="exibirColapse(2)"
+        [attr.aria-expanded]="!editar_colapse" aria-controls="editar" style="color:#DCDCDC;font-size: small;">Deseja editar uma recompensa existente?
+        </button>
+        
       </div> 
       <div  *ngIf="criando" class="spinner-border spinner-border-sm text-roxo ml-2" role="status">
           <span class="sr-only">Carregando...</span>
