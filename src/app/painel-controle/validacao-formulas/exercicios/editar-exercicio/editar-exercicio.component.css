@@ -1,22 +1,20 @@
-.conteudo-cadastro{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.conteudo-cadastro {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.form-cadastro{
-    display: flex;
-    justify-content: center;
-    flex:1 
+.form-cadastro {
+  display: flex;
+  justify-content: center;
+  flex: 1;
 }
 
-
-.btn-inf-formula-2{
-    background: #efefef;
-    color: #b2b2b2;
-    border-radius: 0 .2rem .2rem  0!important;
-    border-top: 1px solid!important;
-    border-bottom: 1px solid!important;
-    border-right: 1px solid!important;
-    
+.btn-inf-formula-2 {
+  background: #efefef;
+  color: #b2b2b2;
+  border-radius: 0 0.2rem 0.2rem 0 !important;
+  border-top: 1px solid !important;
+  border-bottom: 1px solid !important;
+  border-right: 1px solid !important;
 }

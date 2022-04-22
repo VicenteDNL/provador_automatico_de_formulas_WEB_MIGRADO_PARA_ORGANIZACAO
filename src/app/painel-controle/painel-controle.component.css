@@ -1,17 +1,13 @@
-.config-usuario{
- 
-    color: white;
-    font-weight: bold;
+.config-usuario {
+  color: white;
+  font-weight: bold;
 }
 
-
-.btn-email{
-    color: white;
-    font-weight: bold;
+.btn-email {
+  color: white;
+  font-weight: bold;
 }
 
-.cursor-drop{
-    cursor: pointer;
+.cursor-drop {
+  cursor: pointer;
 }
-
-

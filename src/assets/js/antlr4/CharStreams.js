@@ -7,8 +7,9 @@
 
 var InputStream = require('./InputStream').InputStream;
 
-var isNodeJs = typeof window === 'undefined' && typeof importScripts === 'undefined';
-var fs = isNodeJs ? require("fs") : null;
+var isNodeJs =
+  typeof window === 'undefined' && typeof importScripts === 'undefined';
+var fs = isNodeJs ? require('fs') : null;
 
 // Utility functions to create InputStreams from various sources.
 //
@@ -17,7 +18,7 @@ var fs = isNodeJs ? require("fs") : null;
 // code points up to U+FFFF).
 var CharStreams = {
   // Creates an InputStream from a string.
-  fromString: function(str) {
+  fromString: function (str) {
     return new InputStream(str, true);
   },
 
@@ -27,9 +28,9 @@ var CharStreams = {
   //
   // Invokes onLoad(result) on success, onError(error) on
   // failure.
-  fromBlob: function(blob, encoding, onLoad, onError) {
+  fromBlob: function (blob, encoding, onLoad, onError) {
     var reader = FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       var is = new InputStream(e.target.result, true);
       onLoad(is);
     };
@@ -40,7 +41,7 @@ var CharStreams = {
   // Creates an InputStream from a Buffer given the
   // encoding of the bytes in that buffer (defaults to 'utf8' if
   // encoding is null).
-  fromBuffer: function(buffer, encoding) {
+  fromBuffer: function (buffer, encoding) {
     return new InputStream(buffer.toString(encoding), true);
   },
 
@@ -49,8 +50,8 @@ var CharStreams = {
   // encoding is null).
   //
   // Invokes callback(error, result) on completion.
-  fromPath: function(path, encoding, callback) {
-    fs.readFile(path, encoding, function(err, data) {
+  fromPath: function (path, encoding, callback) {
+    fs.readFile(path, encoding, function (err, data) {
       var is = null;
       if (data !== null) {
         is = new InputStream(data, true);
@@ -62,10 +63,10 @@ var CharStreams = {
   // Synchronously creates an InputStream given a path to a file
   // on disk and the encoding of the bytes in that file (defaults to
   // 'utf8' if encoding is null).
-  fromPathSync: function(path, encoding) {
+  fromPathSync: function (path, encoding) {
     var data = fs.readFileSync(path, encoding);
     return new InputStream(data, true);
-  }
+  },
 };
 
 exports.CharStreams = CharStreams;

@@ -1,17 +1,20 @@
-
-
-<div *ngIf="errorMensagen==null" class="container conteudo-exercicio" >
-    <router-outlet></router-outlet>
+<div *ngIf="errorMensagen == null" class="container conteudo-exercicio">
+  <router-outlet></router-outlet>
 </div>
-<div class="container-mensagem"  *ngIf="errorMensagen!=null">
-    <div class="alert alert-danger pt-1" role="alert">
-        <div class="row d-flex justify-content-end">
-            <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
-        </div>
-        
-        <h5 class="alert-heading text-center">Error!</h5>
-        <p class=" text-center">{{errorMensagen}}</p>
-        <hr class="m-2">
-        <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
+<div class="container-mensagem" *ngIf="errorMensagen != null">
+  <div class="alert alert-danger pt-1" role="alert">
+    <div class="row d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-sm btn-fecharAviso"
+        (click)="fecharAvisoError()">
+        <fa-icon [icon]="iconFechar"></fa-icon>
+      </button>
     </div>
+
+    <h5 class="alert-heading text-center">Error!</h5>
+    <p class="text-center">{{ errorMensagen }}</p>
+    <hr class="m-2" />
+    <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
+  </div>
 </div>

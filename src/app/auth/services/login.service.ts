@@ -5,27 +5,19 @@ import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { delay } from 'rxjs/operators';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
   /** A URL da API */
-  ;
-  private readonly API_ROOT =  `${environment.API}`;
+  private readonly api = `${environment.api}`;
 
   /**
-   * O construtor injeta o `HttpClient`
+   * O construtor injeta o `HttpClient`api
    *
    * @param http Serviço de requisições HTTP
    */
-  constructor(
-              private http: HttpClient,
-              private auth$: AuthService,
-              
-              ) {
-  }
+  constructor(private http: HttpClient, private auth$: AuthService) {}
 
   /**
    * Este método recebe as credenciais do usuário (nome de usuário e senha)
@@ -36,8 +28,8 @@ export class LoginService {
    * @param password Senha do usuário
    */
   login(email, password) {
-    const data = { email, password};
-    return this.http.post(this.API_ROOT.concat('auth/login/'), data);
+    const data = { email, password };
+    return this.http.post(this.api.concat('auth/login/'), data);
   }
 
   /**
@@ -45,16 +37,16 @@ export class LoginService {
    * descartar o token.
    */
   logout() {
-    let authData = this.auth$.get();
+    const authData = this.auth$.get();
     try {
-      const httpOptions = {headers: new HttpHeaders({'Authorization': "Bearer " + authData['access_token']})};
-      return this.http.post(`${this.API_ROOT}auth/logout/`, {},httpOptions);
-    }
-    catch (e) {
-      return false
+      const httpOptions = {
+        headers: new HttpHeaders({
+          authorization: 'Bearer ' + authData.accessToken,
+        }),
+      };
+      return this.http.post(`${this.api}auth/logout/`, {}, httpOptions);
+    } catch (e) {
+      return false;
     }
   }
-
-    
-  
 }

@@ -68,17 +68,17 @@
 var INITIAL_NUM_TRANSITIONS = 4;
 
 function ATNState() {
-    // Which ATN are we in?
-    this.atn = null;
-    this.stateNumber = ATNState.INVALID_STATE_NUMBER;
-    this.stateType = null;
-    this.ruleIndex = 0; // at runtime, we don't have Rule objects
-    this.epsilonOnlyTransitions = false;
-    // Track the transitions emanating from this ATN state.
-    this.transitions = [];
-    // Used to cache lookahead during parsing, not used during construction
-    this.nextTokenWithinRule = null;
-    return this;
+  // Which ATN are we in?
+  this.atn = null;
+  this.stateNumber = ATNState.INVALID_STATE_NUMBER;
+  this.stateType = null;
+  this.ruleIndex = 0; // at runtime, we don't have Rule objects
+  this.epsilonOnlyTransitions = false;
+  // Track the transitions emanating from this ATN state.
+  this.transitions = [];
+  // Used to cache lookahead during parsing, not used during construction
+  this.nextTokenWithinRule = null;
+  return this;
 }
 
 // constants for serialization
@@ -97,108 +97,103 @@ ATNState.PLUS_LOOP_BACK = 11;
 ATNState.LOOP_END = 12;
 
 ATNState.serializationNames = [
-            "INVALID",
-            "BASIC",
-            "RULE_START",
-            "BLOCK_START",
-            "PLUS_BLOCK_START",
-            "STAR_BLOCK_START",
-            "TOKEN_START",
-            "RULE_STOP",
-            "BLOCK_END",
-            "STAR_LOOP_BACK",
-            "STAR_LOOP_ENTRY",
-            "PLUS_LOOP_BACK",
-            "LOOP_END" ];
+  'INVALID',
+  'BASIC',
+  'RULE_START',
+  'BLOCK_START',
+  'PLUS_BLOCK_START',
+  'STAR_BLOCK_START',
+  'TOKEN_START',
+  'RULE_STOP',
+  'BLOCK_END',
+  'STAR_LOOP_BACK',
+  'STAR_LOOP_ENTRY',
+  'PLUS_LOOP_BACK',
+  'LOOP_END',
+];
 
 ATNState.INVALID_STATE_NUMBER = -1;
 
-ATNState.prototype.toString = function() {
-	return this.stateNumber;
+ATNState.prototype.toString = function () {
+  return this.stateNumber;
 };
 
-ATNState.prototype.equals = function(other) {
-    if (other instanceof ATNState) {
-        return this.stateNumber===other.stateNumber;
-    } else {
-        return false;
-    }
-};
-
-ATNState.prototype.isNonGreedyExitState = function() {
+ATNState.prototype.equals = function (other) {
+  if (other instanceof ATNState) {
+    return this.stateNumber === other.stateNumber;
+  } else {
     return false;
+  }
 };
 
+ATNState.prototype.isNonGreedyExitState = function () {
+  return false;
+};
 
-ATNState.prototype.addTransition = function(trans, index) {
-	if(index===undefined) {
-		index = -1;
-	}
-    if (this.transitions.length===0) {
-        this.epsilonOnlyTransitions = trans.isEpsilon;
-    } else if(this.epsilonOnlyTransitions !== trans.isEpsilon) {
-        this.epsilonOnlyTransitions = false;
-    }
-    if (index===-1) {
-        this.transitions.push(trans);
-    } else {
-        this.transitions.splice(index, 1, trans);
-    }
+ATNState.prototype.addTransition = function (trans, index) {
+  if (index === undefined) {
+    index = -1;
+  }
+  if (this.transitions.length === 0) {
+    this.epsilonOnlyTransitions = trans.isEpsilon;
+  } else if (this.epsilonOnlyTransitions !== trans.isEpsilon) {
+    this.epsilonOnlyTransitions = false;
+  }
+  if (index === -1) {
+    this.transitions.push(trans);
+  } else {
+    this.transitions.splice(index, 1, trans);
+  }
 };
 
 function BasicState() {
-	ATNState.call(this);
-    this.stateType = ATNState.BASIC;
-    return this;
+  ATNState.call(this);
+  this.stateType = ATNState.BASIC;
+  return this;
 }
 
 BasicState.prototype = Object.create(ATNState.prototype);
 BasicState.prototype.constructor = BasicState;
 
-
 function DecisionState() {
-	ATNState.call(this);
-    this.decision = -1;
-    this.nonGreedy = false;
-    return this;
+  ATNState.call(this);
+  this.decision = -1;
+  this.nonGreedy = false;
+  return this;
 }
 
 DecisionState.prototype = Object.create(ATNState.prototype);
 DecisionState.prototype.constructor = DecisionState;
 
-
 //  The start of a regular {@code (...)} block.
 function BlockStartState() {
-	DecisionState.call(this);
-	this.endState = null;
-	return this;
+  DecisionState.call(this);
+  this.endState = null;
+  return this;
 }
 
 BlockStartState.prototype = Object.create(DecisionState.prototype);
 BlockStartState.prototype.constructor = BlockStartState;
 
-
 function BasicBlockStartState() {
-	BlockStartState.call(this);
-	this.stateType = ATNState.BLOCK_START;
-	return this;
+  BlockStartState.call(this);
+  this.stateType = ATNState.BLOCK_START;
+  return this;
 }
 
 BasicBlockStartState.prototype = Object.create(BlockStartState.prototype);
 BasicBlockStartState.prototype.constructor = BasicBlockStartState;
 
-
 // Terminal node of a simple {@code (a|b|c)} block.
 function BlockEndState() {
-	ATNState.call(this);
-	this.stateType = ATNState.BLOCK_END;
-    this.startState = null;
-    return this;
+  ATNState.call(this);
+  this.stateType = ATNState.BLOCK_END;
+  this.startState = null;
+  return this;
 }
 
 BlockEndState.prototype = Object.create(ATNState.prototype);
 BlockEndState.prototype.constructor = BlockEndState;
-
 
 // The last node in the ATN for a rule, unless that rule is the start symbol.
 //  In that case, there is one transition to EOF. Later, we might encode
@@ -206,20 +201,20 @@ BlockEndState.prototype.constructor = BlockEndState;
 //  error handling.
 //
 function RuleStopState() {
-	ATNState.call(this);
-    this.stateType = ATNState.RULE_STOP;
-    return this;
+  ATNState.call(this);
+  this.stateType = ATNState.RULE_STOP;
+  return this;
 }
 
 RuleStopState.prototype = Object.create(ATNState.prototype);
 RuleStopState.prototype.constructor = RuleStopState;
 
 function RuleStartState() {
-	ATNState.call(this);
-	this.stateType = ATNState.RULE_START;
-	this.stopState = null;
-	this.isPrecedenceRule = false;
-	return this;
+  ATNState.call(this);
+  this.stateType = ATNState.RULE_START;
+  this.stopState = null;
+  this.isPrecedenceRule = false;
+  return this;
 }
 
 RuleStartState.prototype = Object.create(ATNState.prototype);
@@ -229,14 +224,13 @@ RuleStartState.prototype.constructor = RuleStartState;
 //  one to the loop back to start of the block and one to exit.
 //
 function PlusLoopbackState() {
-	DecisionState.call(this);
-	this.stateType = ATNState.PLUS_LOOP_BACK;
-	return this;
+  DecisionState.call(this);
+  this.stateType = ATNState.PLUS_LOOP_BACK;
+  return this;
 }
 
 PlusLoopbackState.prototype = Object.create(DecisionState.prototype);
 PlusLoopbackState.prototype.constructor = PlusLoopbackState;
-
 
 // Start of {@code (A|B|...)+} loop. Technically a decision state, but
 //  we don't use for code generation; somebody might need it, so I'm defining
@@ -244,10 +238,10 @@ PlusLoopbackState.prototype.constructor = PlusLoopbackState;
 //  real decision-making note for {@code A+}.
 //
 function PlusBlockStartState() {
-	BlockStartState.call(this);
-	this.stateType = ATNState.PLUS_BLOCK_START;
-    this.loopBackState = null;
-    return this;
+  BlockStartState.call(this);
+  this.stateType = ATNState.PLUS_BLOCK_START;
+  this.loopBackState = null;
+  return this;
 }
 
 PlusBlockStartState.prototype = Object.create(BlockStartState.prototype);
@@ -255,55 +249,51 @@ PlusBlockStartState.prototype.constructor = PlusBlockStartState;
 
 // The block that begins a closure loop.
 function StarBlockStartState() {
-	BlockStartState.call(this);
-	this.stateType = ATNState.STAR_BLOCK_START;
-	return this;
+  BlockStartState.call(this);
+  this.stateType = ATNState.STAR_BLOCK_START;
+  return this;
 }
 
 StarBlockStartState.prototype = Object.create(BlockStartState.prototype);
 StarBlockStartState.prototype.constructor = StarBlockStartState;
 
-
 function StarLoopbackState() {
-	ATNState.call(this);
-	this.stateType = ATNState.STAR_LOOP_BACK;
-	return this;
+  ATNState.call(this);
+  this.stateType = ATNState.STAR_LOOP_BACK;
+  return this;
 }
 
 StarLoopbackState.prototype = Object.create(ATNState.prototype);
 StarLoopbackState.prototype.constructor = StarLoopbackState;
 
-
 function StarLoopEntryState() {
-	DecisionState.call(this);
-	this.stateType = ATNState.STAR_LOOP_ENTRY;
-    this.loopBackState = null;
-    // Indicates whether this state can benefit from a precedence DFA during SLL decision making.
-    this.isPrecedenceDecision = null;
-    return this;
+  DecisionState.call(this);
+  this.stateType = ATNState.STAR_LOOP_ENTRY;
+  this.loopBackState = null;
+  // Indicates whether this state can benefit from a precedence DFA during SLL decision making.
+  this.isPrecedenceDecision = null;
+  return this;
 }
 
 StarLoopEntryState.prototype = Object.create(DecisionState.prototype);
 StarLoopEntryState.prototype.constructor = StarLoopEntryState;
 
-
 // Mark the end of a * or + loop.
 function LoopEndState() {
-	ATNState.call(this);
-	this.stateType = ATNState.LOOP_END;
-	this.loopBackState = null;
-	return this;
+  ATNState.call(this);
+  this.stateType = ATNState.LOOP_END;
+  this.loopBackState = null;
+  return this;
 }
 
 LoopEndState.prototype = Object.create(ATNState.prototype);
 LoopEndState.prototype.constructor = LoopEndState;
 
-
 // The Tokens rule start state linking to each lexer rule start state */
 function TokensStartState() {
-	DecisionState.call(this);
-	this.stateType = ATNState.TOKEN_START;
-	return this;
+  DecisionState.call(this);
+  this.stateType = ATNState.TOKEN_START;
+  return this;
 }
 
 TokensStartState.prototype = Object.create(DecisionState.prototype);

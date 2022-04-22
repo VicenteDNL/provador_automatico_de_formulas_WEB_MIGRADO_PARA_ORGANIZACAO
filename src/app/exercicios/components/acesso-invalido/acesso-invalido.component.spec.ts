@@ -8,9 +8,8 @@ describe('AcessoInvalidoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AcessoInvalidoComponent ]
-    })
-    .compileComponents();
+      declarations: [AcessoInvalidoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

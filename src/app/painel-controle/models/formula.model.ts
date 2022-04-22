@@ -1,22 +1,22 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Recompensa } from './recompensa.model';
 
-export class Formula {
+export type Formula = {
 
-	constructor(
-    public id?: string,
-        public formula?: string,
-        public xml?: string,
-        public quantidade_regras=9,
-        public ticar_automaticamente: boolean = false,
-        public fechar_automaticamente: boolean = false,
-        public iniciar_zerada: boolean = true,
-        public inicio_personalizado: boolean= false,
-        public inicializacao_completa: boolean= false,
-        public lista_passos?: any[],
-        public lista_derivacoes?: any[],
-        public lista_ticagem?: any[],
-        public lista_fechamento?: any[],
-        public created_at?: Date,
-        public updated_at?: Date,
-        ) {}
-}
+     id?: string;
+     formula?: string;
+     xml?: string;
+     quantidade_regras: number;
+     ticar_automaticamente: boolean;
+     fechar_automaticamente: boolean;
+     iniciar_zerada: boolean;
+     inicio_personalizado: boolean;
+     inicializacao_completa: boolean;
+     lista_passos?: any[];
+     lista_derivacoes?: any[];
+     lista_ticagem?: any[];
+     lista_fechamento?: any[];
+     created_at?: Date;
+     updated_at?: Date;
+
+};

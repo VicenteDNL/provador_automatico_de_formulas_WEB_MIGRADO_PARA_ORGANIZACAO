@@ -8,9 +8,8 @@ describe('NiveisComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NiveisComponent ]
-    })
-    .compileComponents();
+      declarations: [NiveisComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

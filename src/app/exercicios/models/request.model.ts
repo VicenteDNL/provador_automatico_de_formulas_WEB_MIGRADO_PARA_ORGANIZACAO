@@ -1,63 +1,64 @@
-export class Request {
+export  type Request ={
 
-	constructor(
-        public exercicio=null,
-        public xml:string=null,
-        public nos=[],
-        public arestas=[],
-        public finalizada=false,
-        public usu_hash= '',
-        public exe_hash= '', 
-       
-        public resposta=null,
-        public derivacao= new Derivacao(),
-        public inicio= new Inicializacao(),  
-        public ticar= new Ticagem(), 
-        public fechar= new Fechamento(), 
-        public regras=[], 
-        public strformula='buscando...'
-     
-        ) {}
-}
+     exercicio: number;
+     xml: string;
+     nos: any[];
+     arestas: any[];
+     finalizada: boolean;
+     // eslint-disable-next-line @typescript-eslint/naming-convention
+     usu_hash: string;
+     // eslint-disable-next-line @typescript-eslint/naming-convention
+     exe_hash: string;
 
+     resposta?: string;
+     derivacao: Derivacao;
+     inicio: Inicializacao;
+     ticar: Ticagem;
+     fechar: Fechamento;
+     regras: any[];
+     strformula: string;
 
+};
 
-class Derivacao{
-    constructor(
-        public lista=[],
-        public folhas=[], // lista de identificadores dos nós que receberao a nova derivação
-        public no=null, // id do nó a ser derivado
-        public regra=null, // identificador da regra a ser aplicada
-    ){}
+export type Derivacao ={
 
-}
+     lista: any[];
+     folhas: any[]; // lista de identificadores dos nós que receberao a nova derivação
+     no: {
+      str: string;
+     }; // id do nó a ser derivado
+     regra: string; // identificador da regra a ser aplicada
 
+};
 
-class Inicializacao{
-    constructor(
-        public lista=[],  //lista para armazenar a ordem de posicionamento dos nós iniciais
-        public opcoes=[],   //lista para armazenar as opçoes de inserção ainda disponiveis
-        public completa=false, //informa sê a inialização está completa  ou não
-        public no=null,
-        public negacao=null, 
-        ){}
-}
+export type Inicializacao ={
 
+     lista: any[]; //lista para armazenar a ordem de posicionamento dos nós iniciais
+     opcoes: any[]; //lista para armazenar as opçoes de inserção ainda disponiveis
+     completa: boolean; //informa sê a inialização está completa  ou não
+     no: {
+       str: string;
 
-class Ticagem{
-    constructor(
-        public lista=[],
-        public no=null,
-        public auto=false,
-        ){}
-}
+     };
+     negacao: boolean;
 
+};
 
-class Fechamento{
-    constructor(
-        public lista=[],
-        public no=null,
-        public folha=null,
-        public auto=false,
-        ){}
-}
+export type Ticagem ={
+   lista: any[];  no: {
+     str: string;
+   };  auto: number;
+};
+
+export type Fechamento ={
+
+     lista: any[];
+     no: {
+      linha: number;
+     };
+     folha: {
+      str: string;
+     };
+     auto: number;
+
+};

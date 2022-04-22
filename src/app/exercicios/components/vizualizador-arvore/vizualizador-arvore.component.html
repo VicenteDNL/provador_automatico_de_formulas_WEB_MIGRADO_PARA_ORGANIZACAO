@@ -1,38 +1,112 @@
+<svg [attr.width]="width" [attr.height]="height">
+  <g *ngFor="let item of impressaoAresta; let i = index">
+    <line
+      [attr.x1]="item.linhaX1"
+      [attr.y1]="item.linhaY1"
+      [attr.x2]="item.linhaX2"
+      [attr.y2]="item.linhaY2"
+      stroke="rgb(175,175,175)"
+      stroke-width="1"
+      stroke-linecap="butt" />
+  </g>
 
-<svg [attr.width]="width" [attr.height]="height" >
-    <g *ngFor="let item of impressaoAresta; let i= index;">
-        <line [attr.x1]=item.linhaX1 [attr.y1]=item.linhaY1 [attr.x2]=item.linhaX2 [attr.y2]=item.linhaY2 stroke="rgb(175,175,175)" stroke-width=1 stroke-linecap="butt"/>
+  <g
+    *ngFor="let item of impressaoNo; let i = index"
+    (mouseover)="alterarcor(i)"
+    (mouseleave)="voltarcor(i)">
+    <circle
+      [attr.cx]="item.posX"
+      [attr.cy]="item.posY + 27"
+      r="3"
+      fill="#AFAFA4" />
+    <circle
+      [attr.cx]="item.posX"
+      [attr.cy]="item.posY - 27"
+      r="3"
+      fill="#AFAFAF" />
+    <text
+      *ngIf="exibirLinha"
+      font-size="20"
+      font-weight="bold"
+      fill="rgb(175,175,175)"
+      [attr.x]="30"
+      [attr.y]="item.posY + 5">
+      Linha {{ item.linha }}
+    </text>
+    <defs>
+      <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
+        <stop offset="0%" style="stop-color: #4e73df; stop-opacity: 1" />
+        <stop offset="100%" style="stop-color: #3f5bad; stop-opacity: 1" />
+      </linearGradient>
+      <linearGradient id="grad2" x1="30%" y1="0%" x2="90%" y2="50%">
+        <stop offset="0%" style="stop-color: #354c8f; stop-opacity: 1" />
+        <stop offset="100%" style="stop-color: #273d7e; stop-opacity: 1" />
+      </linearGradient>
+    </defs>
+    <a class="curso-svg">
+      <rect
+        [attr.x]="item.posXno"
+        [attr.y]="item.posY - 20"
+        rx="20"
+        ry="20"
+        [attr.width]="item.tmh"
+        height="40"
+        [attr.fill]="item.fill"
+        stroke="#C0C0C0"
+        stroke-width="2"
+        id="no01" />
+      <text
+        text-anchor="middle"
+        font-size="15"
+        font-weight="bold"
+        fill="white"
+        font-family="Helvetica, sans-serif, Arial"
+        [attr.x]="item.posX"
+        [attr.y]="item.posY + 5">
+        {{ item.str }}
+      </text>
+      <text
+        font-size="15"
+        font-weight="bold"
+        fill="rgb(175,175,175)"
+        [attr.x]="item.posXlinhaDerivacao"
+        [attr.y]="item.posY + 25">
+        {{ item.linhaDerivacao }}
+      </text>
+    </a>
+    <g *ngIf="item.utilizado == true">
+      <svg
+        [attr.x]="item.posXlinhaDerivacao + 12"
+        [attr.y]="item.posY - 10"
+        fill="#61CE61">
+        <path
+          d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+      </svg>
     </g>
-
-    
-    <g *ngFor="let item of impressaoNo; let i= index;" (mouseover)="alterarcor(i)" (mouseleave)="voltarcor(i)">
-        <circle [attr.cx]=item.posX [attr.cy]=item.posY+27 r="3" fill="#AFAFA4"/>
-        <circle [attr.cx]=item.posX [attr.cy]=item.posY-27 r="3" fill="#AFAFAF"/>
-        <text *ngIf="exibirLinha" font-size="20" font-weight="bold" fill="rgb(175,175,175)" [attr.x]=30 [attr.y]=item.posY+5>Linha {{item.linha}}</text>
-        <defs>
-            <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
-                <stop offset="0%" style="stop-color:#4E73DF;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#3f5bad;stop-opacity:1" />
-            </linearGradient>
-            <linearGradient id="grad2" x1="30%" y1="0%" x2="90%" y2="50%">
-                <stop offset="0%" style="stop-color:#354c8f;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#273d7e;stop-opacity:1" />
-            </linearGradient>
-        </defs>
-        <a class="curso-svg">
-            <rect [attr.x]=item.posXno [attr.y]=item.posY-20 rx=20 ry=20 [attr.width]=item.tmh height="40" [attr.fill]="item.fill"  stroke=#C0C0C0 stroke-width=2 id="no01"  />
-            <text text-anchor="middle" font-size="15" font-weight="bold" fill="white"  font-family="Helvetica, sans-serif, Arial" [attr.x]=item.posX [attr.y]=item.posY+5>{{item.str}}</text>
-            <text font-size="15" font-weight="bold" fill="rgb(175,175,175)" [attr.x]=item.posXlinhaDerivacao [attr.y]=item.posY+25>{{item.linhaDerivacao}}</text>
-        </a>
-        <g *ngIf="item.utilizado==true;">
-            <svg [attr.x]=item.posXlinhaDerivacao+12 [attr.y]=item.posY-10 fill=#61CE61>
-                <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/>
-            </svg>
-        </g>
-        <g *ngIf="item.fechado==true;">
-            <line [attr.x1]=item.posX-15 [attr.y1]=item.posY+15 [attr.x2]=item.posX+15 [attr.y2]=item.posY+40 stroke="#DC0F4B" stroke-width=4 stroke-dasharray="1"/>
-            <line [attr.x1]=item.posX+15 [attr.y1]=item.posY+15 [attr.x2]=item.posX-15 [attr.y2]=item.posY+40 stroke="#DC0F4B" stroke-width=4 stroke-dasharray="1"/>
-            <text font-size="17" fill="#DC0F4B"  [attr.x]=item.posX-5  [attr.y]=item.posY+70>{{item.linhaContradicao}}</text>        
-        </g>
+    <g *ngIf="item.fechado == true">
+      <line
+        [attr.x1]="item.posX - 15"
+        [attr.y1]="item.posY + 15"
+        [attr.x2]="item.posX + 15"
+        [attr.y2]="item.posY + 40"
+        stroke="#DC0F4B"
+        stroke-width="4"
+        stroke-dasharray="1" />
+      <line
+        [attr.x1]="item.posX + 15"
+        [attr.y1]="item.posY + 15"
+        [attr.x2]="item.posX - 15"
+        [attr.y2]="item.posY + 40"
+        stroke="#DC0F4B"
+        stroke-width="4"
+        stroke-dasharray="1" />
+      <text
+        font-size="17"
+        fill="#DC0F4B"
+        [attr.x]="item.posX - 5"
+        [attr.y]="item.posY + 70">
+        {{ item.linhaContradicao }}
+      </text>
     </g>
+  </g>
 </svg>

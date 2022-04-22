@@ -1,126 +1,183 @@
 <!-- Modal Logout -->
 <ng-template #Ngrecompensa>
-    <app-recompensa [referenciaModal]="modalRef"></app-recompensa>
+  <app-recompensa [referenciaModal]="modalRef"></app-recompensa>
 </ng-template>
 
 <ng-template #Logout>
-    <div class="modal-body text-center p-0">
-        <div class=" text-center titulo-modal p-2">
-            <span>Encerrar Sessão</span>
-        </div>
-        <div class="text-center d-flex justify-content-center w-100" >
-            <div class="barra-modal"></div>
-        </div>
-        <div class="p-3 w-100 text-center ">
-            <p>Realmente deseja sair?</p>
-        </div>
-        <div class="pb-3 w-100 text-center" *ngIf="!saindo">
-            <button type="button" class="btn btn-padrao mx-2" (click)="confirmar()" >Sim</button>
-            <button type="button" class="btn btn-padrao mx-2" (click)="cancelar()" >Não</button>
-        </div>
-        <div class="pb-3 w-100 text-center" *ngIf="saindo">
-            <div class="spinner-border text-roxo" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-
-
+  <div class="modal-body text-center p-0">
+    <div class="text-center titulo-modal p-2">
+      <span>Encerrar Sessão</span>
     </div>
-  </ng-template>
-
-<div style="height: 100%;" class=" body base-conteudo conteudo">
-    <nav class="container-fluid nav-bar py-2 px-4 ">
-        <div class="row">
-            <div class="col mr-auto p-0">
-                <div class="config-usuario">
-                    <div class="btn-group" dropdown>
-                        <a id="button-animated" dropdownToggle class="btn btn-email dropdown-toggle" aria-controls="dropdown-animated">
-                            <fa-icon [icon]="config"></fa-icon> Configurar<span class="caret"></span>
-                        </a>
-                        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu cursor-drop"role="menu" aria-labelledby="button-animated">
-                            <li  (click)="abriConfigLogicLive()" role="menuitem"><a class="dropdown-item">Módulos LogicLive</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-auto p-0">
-                <div class="btn-group" dropdown>
-                    <a id="button-animated" dropdownToggle class="btn btn-email dropdown-toggle" aria-controls="dropdown-animated">
-                        <fa-icon [icon]="user"></fa-icon> {{emailUser}}<span class="caret"></span>
-                    </a>
-                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu cursor-drop"
-                        role="menu" aria-labelledby="button-animated">
-                    <li  (click)="logout(Logout)" role="menuitem"><a class="dropdown-item">Sair</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="d-flex justify-content-center align-items-center flex-conteudo ">
-        <div class="tamanho-conteudo  conteudo-interno">
-            <div>  
-                <div class="barra-navegacao shadow-sm" id="barra-navegacao">    
-                    <div *ngIf="configAberta">
-                        <button type="button" class="btn btn-voltar my-2 mx-3" (click)=voltar()>
-                            <fa-icon class="mx-1 " [icon]="iconVoltar"></fa-icon> 
-                            voltar
-                        </button>
-                    </div> 
-                    <div *ngIf="!configAberta" class="d-flex" >
-                        <div class=" mr-auto pt-3 pl-2">
-                                <div  [routerLink]="['/painel/modulo1/inicio']" routerLinkActive="navegacao-ativa" class=" item-navegacao d-block d-sm-none" (click)="irpara()" >
-                                    <fa-icon [icon]="home"></fa-icon><span class="caret"></span>
-                                </div>
-                                <div class="d-sm-block d-none">
-                                    <h5 [routerLink]="['/painel/modulo1/inicio']" routerLinkActive="navegacao-ativa" class="mb-0  item-navegacao font-weight-bold cursor-drop " (click)="irpara()">Validação de fórmulas</h5>
-                                </div> 
-                        </div>
-                        <div class="pt-3 pb-1 px-3">
-                            <div class="d-flex justify-content-center"> 
-                                <div [routerLink]="['/painel/modulo1/niveis']" routerLinkActive="navegacao-ativa"  class="item-navegacao mx-2   text-center"  id="item-nav1" (click)="navegarPara('item-nav1')">
-                                    <a >Níveis</a>
-                                </div>
-                                <div [routerLink]="['/painel/modulo1/exercicios']" routerLinkActive="navegacao-ativa" class="item-navegacao mx-2   text-center"  id="item-nav2" (click)="navegarPara('item-nav2')">
-                                    <a >Exércicios</a>
-                                </div>
-                                <div [routerLink]="['/painel/modulo1/respostas']" routerLinkActive="navegacao-ativa" class="item-navegacao mx-2   text-center"  id="item-nav3" (click)="navegarPara('item-nav3')">
-                                    <a >Resposta</a>
-                                </div>
-                                <div  class="item-navegacao mx-2   text-center"  id="item-nav4" (click)="criarRecompensa(Ngrecompensa)">
-                                    <a >Recompensa</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="!configAberta" class=caixa-barra >
-                        <div class="barra-ativa-interna" id="barra-ativa-interna"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-central m-md-3" *ngIf="errorMensagen==null">
-                <router-outlet></router-outlet>
-            </div>
-
-            <div class="container-mensagem"  *ngIf="errorMensagen!=null">
-                <div class="alert alert-danger pt-1" role="alert">
-                    <div class="row d-flex justify-content-end">
-                        <button type="button" class="btn btn-sm btn-fecharAviso" (click)=fecharAvisoError()><fa-icon [icon]="iconFechar"></fa-icon></button>
-                    </div>
-                    
-                    <h5 class="alert-heading text-center">Error!</h5>
-                    <p class=" text-center">{{errorMensagen}}</p>
-                    <hr class="m-2">
-                    <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
-                </div>
-            </div>
-            
-        </div>
+    <div class="text-center d-flex justify-content-center w-100">
+      <div class="barra-modal"></div>
     </div>
-    <div class="text-center footer-painel ">
-        <span>Sistema Gestor do Módulo - Àrvore de Refutação</span> 
+    <div class="p-3 w-100 text-center">
+      <p>Realmente deseja sair?</p>
     </div>
+    <div class="pb-3 w-100 text-center" *ngIf="!saindo">
+      <button type="button" class="btn btn-padrao mx-2" (click)="confirmar()">
+        Sim
+      </button>
+      <button type="button" class="btn btn-padrao mx-2" (click)="cancelar()">
+        Não
+      </button>
+    </div>
+    <div class="pb-3 w-100 text-center" *ngIf="saindo">
+      <div class="spinner-border text-roxo" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div style="height: 100%" class="body base-conteudo conteudo">
+  <nav class="container-fluid nav-bar py-2 px-4">
+    <div class="row">
+      <div class="col mr-auto p-0">
+        <div class="config-usuario">
+          <div class="btn-group" dropdown>
+            <a
+              id="button-animated"
+              dropdownToggle
+              class="btn btn-email dropdown-toggle"
+              aria-controls="dropdown-animated">
+              <fa-icon [icon]="config"></fa-icon> Configurar<span
+                class="caret"></span>
+            </a>
+            <ul
+              id="dropdown-animated"
+              *dropdownMenu
+              class="dropdown-menu cursor-drop"
+              role="menu"
+              aria-labelledby="button-animated">
+              <li (click)="abriConfigLogicLive()" role="menuitem">
+                <a class="dropdown-item">Módulos LogicLive</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto p-0">
+        <div class="btn-group" dropdown>
+          <a
+            id="button-animated"
+            dropdownToggle
+            class="btn btn-email dropdown-toggle"
+            aria-controls="dropdown-animated">
+            <fa-icon [icon]="user"></fa-icon> {{ emailUser
+            }}<span class="caret"></span>
+          </a>
+          <ul
+            id="dropdown-animated"
+            *dropdownMenu
+            class="dropdown-menu cursor-drop"
+            role="menu"
+            aria-labelledby="button-animated">
+            <li (click)="logout(Logout)" role="menuitem">
+              <a class="dropdown-item">Sair</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="d-flex justify-content-center align-items-center flex-conteudo">
+    <div class="tamanho-conteudo conteudo-interno">
+      <div>
+        <div class="barra-navegacao shadow-sm" id="barra-navegacao">
+          <div *ngIf="configAberta">
+            <button
+              type="button"
+              class="btn btn-voltar my-2 mx-3"
+              (click)="voltar()">
+              <fa-icon class="mx-1" [icon]="iconVoltar"></fa-icon>
+              voltar
+            </button>
+          </div>
+          <div *ngIf="!configAberta" class="d-flex">
+            <div class="mr-auto pt-3 pl-2">
+              <div
+                [routerLink]="['/painel/modulo1/inicio']"
+                routerLinkActive="navegacao-ativa"
+                class="item-navegacao d-block d-sm-none"
+                (click)="irpara()">
+                <fa-icon [icon]="home"></fa-icon><span class="caret"></span>
+              </div>
+              <div class="d-sm-block d-none">
+                <h5
+                  [routerLink]="['/painel/modulo1/inicio']"
+                  routerLinkActive="navegacao-ativa"
+                  class="mb-0 item-navegacao font-weight-bold cursor-drop"
+                  (click)="irpara()">
+                  Validação de fórmulas
+                </h5>
+              </div>
+            </div>
+            <div class="pt-3 pb-1 px-3">
+              <div class="d-flex justify-content-center">
+                <div
+                  [routerLink]="['/painel/modulo1/niveis']"
+                  routerLinkActive="navegacao-ativa"
+                  class="item-navegacao mx-2 text-center"
+                  id="item-nav1"
+                  (click)="navegarPara('item-nav1')">
+                  <a>Níveis</a>
+                </div>
+                <div
+                  [routerLink]="['/painel/modulo1/exercicios']"
+                  routerLinkActive="navegacao-ativa"
+                  class="item-navegacao mx-2 text-center"
+                  id="item-nav2"
+                  (click)="navegarPara('item-nav2')">
+                  <a>Exércicios</a>
+                </div>
+                <div
+                  [routerLink]="['/painel/modulo1/respostas']"
+                  routerLinkActive="navegacao-ativa"
+                  class="item-navegacao mx-2 text-center"
+                  id="item-nav3"
+                  (click)="navegarPara('item-nav3')">
+                  <a>Resposta</a>
+                </div>
+                <div
+                  class="item-navegacao mx-2 text-center"
+                  id="item-nav4"
+                  (click)="criarRecompensa(Ngrecompensa)">
+                  <a>Recompensa</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!configAberta" class="caixa-barra">
+            <div class="barra-ativa-interna" id="barra-ativa-interna"></div>
+          </div>
+        </div>
+      </div>
+      <div class="container-central m-md-3" *ngIf="errorMensagen == null">
+        <router-outlet></router-outlet>
+      </div>
+
+      <div class="container-mensagem" *ngIf="errorMensagen != null">
+        <div class="alert alert-danger pt-1" role="alert">
+          <div class="row d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-sm btn-fecharAviso"
+              (click)="fecharAvisoError()">
+              <fa-icon [icon]="iconFechar"></fa-icon>
+            </button>
+          </div>
+
+          <h5 class="alert-heading text-center">Error!</h5>
+          <p class="text-center">{{ errorMensagen }}</p>
+          <hr class="m-2" />
+          <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center footer-painel">
+    <span>Sistema Gestor do Módulo - Àrvore de Refutação</span>
+  </div>
 </div>
-
-

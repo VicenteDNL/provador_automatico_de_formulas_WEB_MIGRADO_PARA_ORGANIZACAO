@@ -5,19 +5,16 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-exercicios',
   templateUrl: './exercicios.component.html',
-  styleUrls: ['./exercicios.component.css']
+  styleUrls: ['./exercicios.component.css'],
 })
 export class ExerciciosComponent implements OnInit {
-  errorMensagen=null
-  iconFechar=faTimes;
-  constructor() { }
+  errorMensagen = null;
+  iconFechar = faTimes;
+  constructor() {}
 
-  ngOnInit(): void {
-   
+  ngOnInit(): void {}
+
+  fecharAvisoError() {
+    this.errorMensagen = null;
   }
-
-  fecharAvisoError(){
-    this.errorMensagen=null
-  }
-
 }

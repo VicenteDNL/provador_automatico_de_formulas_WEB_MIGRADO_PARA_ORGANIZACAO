@@ -1,19 +1,19 @@
-.conteudo-cadastro{
-    display: flex;
-    flex-direction: column;
-     /*justify-content: center;
+.conteudo-cadastro {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;
     align-items: center; */
-    height: 100%;
+  height: 100%;
 }
 
-.form-cadastro{
-    display: flex;
-    justify-content: center;
-    flex:1 
+.form-cadastro {
+  display: flex;
+  justify-content: center;
+  flex: 1;
 }
 
-.header-cadastro{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; 
+.header-cadastro {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }

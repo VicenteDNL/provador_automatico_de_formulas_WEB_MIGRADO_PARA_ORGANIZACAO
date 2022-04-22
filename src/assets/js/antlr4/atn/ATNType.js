@@ -6,12 +6,9 @@
 
 // Represents the type of recognizer an ATN applies to.
 
-function ATNType() {
-
-}
+function ATNType() {}
 
 ATNType.LEXER = 0;
 ATNType.PARSER = 1;
 
 exports.ATNType = ATNType;
-

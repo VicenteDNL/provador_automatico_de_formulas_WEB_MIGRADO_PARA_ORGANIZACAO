@@ -8,9 +8,8 @@ describe('PersonalizarArvoreComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonalizarArvoreComponent ]
-    })
-    .compileComponents();
+      declarations: [PersonalizarArvoreComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

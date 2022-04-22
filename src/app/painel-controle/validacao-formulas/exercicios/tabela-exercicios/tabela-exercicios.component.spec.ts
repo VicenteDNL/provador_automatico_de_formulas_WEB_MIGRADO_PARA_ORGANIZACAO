@@ -8,9 +8,8 @@ describe('TabelaExerciciosComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabelaExerciciosComponent ]
-    })
-    .compileComponents();
+      declarations: [TabelaExerciciosComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

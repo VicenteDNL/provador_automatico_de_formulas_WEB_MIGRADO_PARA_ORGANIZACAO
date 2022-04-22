@@ -8,9 +8,8 @@ describe('CadastrarNivelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CadastrarNivelComponent ]
-    })
-    .compileComponents();
+      declarations: [CadastrarNivelComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -3,25 +3,22 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfiguracaoService {
-  private readonly API =  `${environment.API}`;
+  private readonly api = `${environment.api}`;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-
-
-
-  configuracoes(){
-    return this.http.get(`${this.API}config/logiclive/`)
+  configuracoes() {
+    return this.http.get<{success: boolean; msg: string;data: {sincronizados: boolean;msg: string}}>(`${this.api}config/logiclive/`);
   }
 
-  criarModuloEndGame(){
-    return this.http.post(`${this.API}config/logiclive/criar`,{})
+  criarModuloEndGame() {
+    return this.http.post<{success: boolean; msg: string}>(`${this.api}config/logiclive/criar`, {});
   }
 
-  limparModuloEndGame(){
-    return this.http.post(`${this.API}config/logiclive/limpar`,{})
+  limparModuloEndGame() {
+    return this.http.post<{success: boolean; msg: string}>(`${this.api}config/logiclive/limpar`, {});
   }
 }

@@ -1,133 +1,184 @@
 <div class="container-fluid py-2">
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-5">
-                <div class="card-header custom-card-header py-3">
-                    <h6 class="m-0 font-weight-bold ">Regras da Árvores de Refutação : Fechamento</h6>
-                </div>
-                <div class="card-body">
-                    <p>
-                        Conforme estudado, as condições de desmembramento (<code>Derivações</code>) baseiam-se nos diferentes conectivos ou operadores lógicos. 
-                        Ou seja, uma fórmula bem estruturada que contém argumentos conectados por <code>operadores lógicos</code>
-                        irá pertencer a uma das dez regras no método de árvore de refutação. <code>Nove</code> dessas regras determinam como expandir a árvore. 
-                         A outra regra determina quando <code>fechar um ramo</code>. Um ramo fechado indica falha na tentativa de 
-                        construção do ramo. E diz o seguinte:
-                    </p>
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <table class="table-regras"  cellpadding="5" >
-                                <tr>
-                                    <td><div class="regra-negacao shadow-sm">Um ramo aberto só pode ser fechado quando conter uma sentença e sua negação</div></td>
-                                </tr>
-                            </table>
-                        </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-5">
+        <div class="card-header custom-card-header py-3">
+          <h6 class="m-0 font-weight-bold">
+            Regras da Árvores de Refutação : Fechamento
+          </h6>
+        </div>
+        <div class="card-body">
+          <p>
+            Conforme estudado, as condições de desmembramento
+            (<code>Derivações</code>) baseiam-se nos diferentes conectivos ou
+            operadores lógicos. Ou seja, uma fórmula bem estruturada que contém
+            argumentos conectados por <code>operadores lógicos</code> irá
+            pertencer a uma das dez regras no método de árvore de refutação.
+            <code>Nove</code> dessas regras determinam como expandir a árvore. A
+            outra regra determina quando <code>fechar um ramo</code>. Um ramo
+            fechado indica falha na tentativa de construção do ramo. E diz o
+            seguinte:
+          </p>
+          <div class="row">
+            <div class="col-12 text-center">
+              <table class="table-regras" cellpadding="5">
+                <tr>
+                  <td>
+                    <div class="regra-negacao shadow-sm">
+                      Um ramo aberto só pode ser fechado quando conter uma
+                      sentença e sua negação
                     </div>
-                    <p class="mt-3">Exemplo:</p>
-                    <div class="row">
-                        <div class="col-12 text-center">
-                                <img src="assets/img/fechamento.png" alt="negacao">
-                        </div>
-                    </div>
-                    <p class="mt-5">
-                        Ou seja, se a contradição da sentença de um nó <code>folha</code> for encontrada em seus nós 
-                        ascendentes, diz-se que a refutação pode ser realizada e esse ramo é fechado, 
-                        <code>não podendo mais ser desmembrado</code>.
-                    </p>
-                  
-                </div>
+                  </td>
+                </tr>
+              </table>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="card mb-5">
-                <div class="card-header custom-card-header py-3">
-                    <h6 class="m-0 font-weight-bold ">Regras da Árvores de Refutação : Argumentos não negados</h6>
-                </div>
-                <div class="card-body">
-                    <p>
-                        <span class="font-weight-bold">Conjunção:</span> será representada pelo caractere (∧). Desse modo se um ramo aberto 
-                        contém a sentença <code>P∧Q</code>, gera dois nós sequenciais <code>P</code> e <code>Q</code> em cada ramo 
-                        aberto que contém a sentença <code>P∧Q</code>.
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/conjuncao.png" alt="conjuncao"></div>
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Disjunção:</span> será representada pelo caractere (∨). Desse modo, se um ramo aberto contém a sentença 
-                        <code>P∨Q</code>, bifurca-se cada ramo aberto que contém a sentença <code>P∨Q</code>, na qual no final do primeiro ramo 
-                        escreve-se o <code>P</code> e no final do segundo ramo escreve-se <code>Q</code>.
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/disjuncao.png" alt="disjuncao"></div>
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Condicional:</span> será representada pelo caractere (→). Desse modo, se um ramo aberto contém a sentença 
-                        <code>P→Q</code>, bifurca-se cada ramo aberto que contém a sentença <code>P→Q</code>, na qual no final do primeiro 
-                        ramo escreve-se o <code>¬P</code> e no final do segundo ramo escreve-se <code>Q</code>
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/condicional.png" alt="disjuncao"></div>
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Bicondicional:</span> será representada pelo caractere (↔). Desse modo, se um ramo aberto contém a 
-                        sentença <code>P↔Q</code>, bifurca-se cada ramo aberto que contém a sentença <code>P↔Q</code>, na qual no final do 
-                        primeiro ramo escreve-se o <code>P</code> e <code>Q</code> e no final do segundo ramo escreve-se <code>¬P</code> e <code>¬Q</code>
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/bicondicional.png" alt="disjuncao"></div>
-                </div>
+          </div>
+          <p class="mt-3">Exemplo:</p>
+          <div class="row">
+            <div class="col-12 text-center">
+              <img src="assets/img/fechamento.png" alt="negacao" />
             </div>
+          </div>
+          <p class="mt-5">
+            Ou seja, se a contradição da sentença de um nó
+            <code>folha</code> for encontrada em seus nós ascendentes, diz-se
+            que a refutação pode ser realizada e esse ramo é fechado,
+            <code>não podendo mais ser desmembrado</code>.
+          </p>
         </div>
-
-
-        <div class="col-12">
-            <div class="card mb-5">
-                <div class="card-header custom-card-header py-3">
-                    <h6 class="m-0 font-weight-bold ">Regras da Árvores de Refutação : Argumentos negados</h6>
-                </div>
-                <div class="card-body">
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Negação Negada:</span> será representada pelo caractere (¬). Um ramo aberto só pode ser fechado quando 
-                        conter uma sentença e sua negação, ou seja, se a contradição da sentença de um nó folha for encontrada 
-                        em seus nós ascendentes, diz-se que a refutação pode ser realizada e esse ramo é fechado, não podendo 
-                        mais ser desmembrado
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/negacao-neg.png" alt="negacao-negada"></div>
-
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Conjunção Negada:</span> será  representada na forma “¬ ( &alpha; ∧ &beta; )”. Desse modo, se um ramo aberto contém a sentença <code>¬(P ∧ Q)</code>, 
-                        bifurca-se cada ramo aberto que contém a sentença <code>¬(P ∧ Q)</code>, na qual no final do primeiro 
-                        ramo escreve-se o <code>¬P</code> e no final do segundo ramo escreve-se <code>¬Q</code>.
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/conjuncao-neg.png" alt="conjuncao-neg"></div>
-
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Disjunção Negada:</span> será  representada na forma “¬ ( &alpha; ∨ &beta; )”. Desse modo, se um ramo aberto contém a sentença <code>¬ (P ∨ Q)</code>, 
-                        gera dois nós sequenciais <code>¬P</code> e <code>¬Q</code> em cada ramo aberto que contém a sentença
-                            <code>¬ (P ∨ Q)</code>.
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/disjuncao-neg.png" alt="disjuncao-neg"></div>
-
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Condicional Negado:</span> será  representada na forma “¬ ( &alpha; →  &beta; )”. Desse modo, se um ramo aberto contém a sentença 
-                        <code>¬ (P → Q)</code>, gera dois nós sequenciais <code>P</code> e <code>¬Q</code> em cada ramo aberto que contém 
-                        a sentença <code>¬ (P → Q)</code>.
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/condicional-neg.png" alt="condicional-neg"></div>
-
-                    <p class="mt-5">
-                        <span class="font-weight-bold">Bicondicional Negado:</span> será  representada na forma  “¬( &alpha; ↔ &beta; )”.  Desse modo, se um ramo aberto contém a sentença <code>¬(P ↔ Q)</code> ,  
-                        bifurca-se cada ramo aberto que contém a sentença <code>¬(P ↔ Q)</code> , na qual no final do primeiro 
-                        ramo escreve-se o <code>¬P</code> e <code>Q</code>  e no final do segundo ramo escreve-se <code>P</code> e <code>¬Q</code>
-                    </p>
-                    <div class="text-center my-3"><img src="assets/img/bicondicional-neg.png" alt="bicondicional-neg"></div>
-                
-                </div>
-            </div>
-        </div>
-        <div class="col-12 text-right mb-3">
-            <div  class="btn-group mx-2 mt-3 ">
-                <button class="btn btn btn-icon">
-                    <fa-icon [icon]="check"></fa-icon>
-                </button>
-                <button class="btn btn btn-func" (click)="concluir()">
-                    Concluir
-                </button>
-                
-            </div>
-        </div>
-       
+      </div>
     </div>
+    <div class="col-12">
+      <div class="card mb-5">
+        <div class="card-header custom-card-header py-3">
+          <h6 class="m-0 font-weight-bold">
+            Regras da Árvores de Refutação : Argumentos não negados
+          </h6>
+        </div>
+        <div class="card-body">
+          <p>
+            <span class="font-weight-bold">Conjunção:</span> será representada
+            pelo caractere (∧). Desse modo se um ramo aberto contém a sentença
+            <code>P∧Q</code>, gera dois nós sequenciais <code>P</code> e
+            <code>Q</code> em cada ramo aberto que contém a sentença
+            <code>P∧Q</code>.
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/conjuncao.png" alt="conjuncao" />
+          </div>
+          <p class="mt-5">
+            <span class="font-weight-bold">Disjunção:</span> será representada
+            pelo caractere (∨). Desse modo, se um ramo aberto contém a sentença
+            <code>P∨Q</code>, bifurca-se cada ramo aberto que contém a sentença
+            <code>P∨Q</code>, na qual no final do primeiro ramo escreve-se o
+            <code>P</code> e no final do segundo ramo escreve-se <code>Q</code>.
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/disjuncao.png" alt="disjuncao" />
+          </div>
+          <p class="mt-5">
+            <span class="font-weight-bold">Condicional:</span> será representada
+            pelo caractere (→). Desse modo, se um ramo aberto contém a sentença
+            <code>P→Q</code>, bifurca-se cada ramo aberto que contém a sentença
+            <code>P→Q</code>, na qual no final do primeiro ramo escreve-se o
+            <code>¬P</code> e no final do segundo ramo escreve-se <code>Q</code>
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/condicional.png" alt="disjuncao" />
+          </div>
+          <p class="mt-5">
+            <span class="font-weight-bold">Bicondicional:</span> será
+            representada pelo caractere (↔). Desse modo, se um ramo aberto
+            contém a sentença <code>P↔Q</code>, bifurca-se cada ramo aberto que
+            contém a sentença <code>P↔Q</code>, na qual no final do primeiro
+            ramo escreve-se o <code>P</code> e <code>Q</code> e no final do
+            segundo ramo escreve-se <code>¬P</code> e <code>¬Q</code>
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/bicondicional.png" alt="disjuncao" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card mb-5">
+        <div class="card-header custom-card-header py-3">
+          <h6 class="m-0 font-weight-bold">
+            Regras da Árvores de Refutação : Argumentos negados
+          </h6>
+        </div>
+        <div class="card-body">
+          <p class="mt-5">
+            <span class="font-weight-bold">Negação Negada:</span> será
+            representada pelo caractere (¬). Um ramo aberto só pode ser fechado
+            quando conter uma sentença e sua negação, ou seja, se a contradição
+            da sentença de um nó folha for encontrada em seus nós ascendentes,
+            diz-se que a refutação pode ser realizada e esse ramo é fechado, não
+            podendo mais ser desmembrado
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/negacao-neg.png" alt="negacao-negada" />
+          </div>
+
+          <p class="mt-5">
+            <span class="font-weight-bold">Conjunção Negada:</span> será
+            representada na forma “¬ ( &alpha; ∧ &beta; )”. Desse modo, se um
+            ramo aberto contém a sentença <code>¬(P ∧ Q)</code>, bifurca-se cada
+            ramo aberto que contém a sentença <code>¬(P ∧ Q)</code>, na qual no
+            final do primeiro ramo escreve-se o <code>¬P</code> e no final do
+            segundo ramo escreve-se <code>¬Q</code>.
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/conjuncao-neg.png" alt="conjuncao-neg" />
+          </div>
+
+          <p class="mt-5">
+            <span class="font-weight-bold">Disjunção Negada:</span> será
+            representada na forma “¬ ( &alpha; ∨ &beta; )”. Desse modo, se um
+            ramo aberto contém a sentença <code>¬ (P ∨ Q)</code>, gera dois nós
+            sequenciais <code>¬P</code> e <code>¬Q</code> em cada ramo aberto
+            que contém a sentença <code>¬ (P ∨ Q)</code>.
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/disjuncao-neg.png" alt="disjuncao-neg" />
+          </div>
+
+          <p class="mt-5">
+            <span class="font-weight-bold">Condicional Negado:</span> será
+            representada na forma “¬ ( &alpha; → &beta; )”. Desse modo, se um
+            ramo aberto contém a sentença <code>¬ (P → Q)</code>, gera dois nós
+            sequenciais <code>P</code> e <code>¬Q</code> em cada ramo aberto que
+            contém a sentença <code>¬ (P → Q)</code>.
+          </p>
+          <div class="text-center my-3">
+            <img src="assets/img/condicional-neg.png" alt="condicional-neg" />
+          </div>
+
+          <p class="mt-5">
+            <span class="font-weight-bold">Bicondicional Negado:</span> será
+            representada na forma “¬( &alpha; ↔ &beta; )”. Desse modo, se um
+            ramo aberto contém a sentença <code>¬(P ↔ Q)</code> , bifurca-se
+            cada ramo aberto que contém a sentença <code>¬(P ↔ Q)</code> , na
+            qual no final do primeiro ramo escreve-se o <code>¬P</code> e
+            <code>Q</code> e no final do segundo ramo escreve-se
+            <code>P</code> e <code>¬Q</code>
+          </p>
+          <div class="text-center my-3">
+            <img
+              src="assets/img/bicondicional-neg.png"
+              alt="bicondicional-neg" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-right mb-3">
+      <div class="btn-group mx-2 mt-3">
+        <button class="btn btn btn-icon">
+          <fa-icon [icon]="check"></fa-icon>
+        </button>
+        <button class="btn btn btn-func" (click)="concluir()">Concluir</button>
+      </div>
+    </div>
+  </div>
 </div>

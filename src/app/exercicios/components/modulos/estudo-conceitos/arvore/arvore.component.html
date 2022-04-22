@@ -1,148 +1,193 @@
 <div class="container-fluid py-2">
-    <div class="row">
-        <div class="col-12">
-            <div class="card  mb-5">
-                <div class="card-header custom-card-header py-3">
-                    <h6 class="m-0 font-weight-bold">Árvores de Refutação vs Tabela Verdade</h6>
-                </div>
-                <div class="card-body">
-                    <p>
-                        As <code>tabelas-verdade</code> fornecem um teste rigoroso e completo para a validade ou 
-                        invalidade de formas de argumento da lógica proposicional, bem como para a 
-                        verificação da tautologia, contingência funcional-veritativa e inconsistência de wffs.
-                        Na verdade, elas constituem um algoritmo, o tipo de teste específico que pode ser 
-                        executado por um computador e que sempre dá uma resposta após um
-                        número finito de operações. Quando existe um algoritmo que determina se as formas de um
-                        argumento expressáveis num sistema formal são válidas ou não, esse sistema diz-se decidível. 
-                    </p>
-                    <p>
-                        Assim, as tabelas-verdade garantem a decidibilidade da lógica proposicional. Mas, elas são
-                        <code>enfadonhas e ineficazes</code>, especialmente em problemas que envolvem muitas
-                        <code>letras sentenciais</code>. As árvores de refutação fornecem um algoritmo mais eficaz para executar as mesmas tarefas. 
-                    </p>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-5">
+        <div class="card-header custom-card-header py-3">
+          <h6 class="m-0 font-weight-bold">
+            Árvores de Refutação vs Tabela Verdade
+          </h6>
         </div>
-
-
-        <div class="col-12">
-            <div class="card mb-5">
-                <div class="card-header custom-card-header py-3">
-                    <h6 class="m-0 font-weight-bold ">Árvores de Refutação</h6>
-                </div>
-                <div class="card-body">
-                    <p>
-                        Dada uma lista de wffs, uma <code>árvore de refutação</code> é uma busca exaustiva de caminhos nos quais
-                        todas as wffs da lista podem ser verdadeiras. Para testar a validade de uma forma de argumento
-                        utilizando uma árvore de refutação, constrói-se uma lista consistindo em suas <code>premissas</code> e na
-                        negação de sua <code>conclusão</code>. A busca é executada <code>desmembrando</code> as wffs da lista em letras sentenciais
-                        e suas negações.
-                    </p>
-                    <p>
-                        As condições para que um enunciado possa ser verdadeiro dependem dos operadores lógicos que
-                        ele contém, as fórmulas que contêm diferentes operadores lógicos são desmembrados
-                        diferentemente. Todas as fórmulas que contêm <code>operadores lógicos</code> pertencem a uma das dez
-                        categorias seguintes: 
-                    </p>
-
-                    <div class="row">
-                        <div class="col-md-6 text-center">
-                            <table class="table-regras"  cellpadding="5" >
-                                <tr>
-                                    <td><div class="regra-negacao shadow-sm">Negação</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-conjuncao shadow-sm">Conjunção </div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-disjuncao shadow-sm">Disjunção</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-condicional shadow-sm">Condicional</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-bicondicional shadow-sm">Bicondicional</div></td>
-                                </tr>
-                            </table> 
-                        </div>
-
-
-                        <div class="col-md-6 text-center">
-                            <table class="table-regras" cellpadding="5" >
-                                <tr>
-                                    <td><div class="regra-negacao shadow-sm">Negação Negada</div></td>  
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-conjuncao shadow-sm">Conjunção Negada </div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-disjuncao shadow-sm">Disjunção Negada</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-condicional shadow-sm">Condicional Negado</div></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="regra-bicondicional shadow-sm">Bicondicional Negado</div></td>
-                                </tr>
-                            </table> 
-                        </div>
-                    </div>
-                    <p class="mt-3">
-                        Para cada categoria temos uma regra correspondente que expande as árvores de refutação. Um ramo
-                        aberto é aquele que não termina com ‘X’, caso contrário chama-se ramo fechado. 
-                    </p>
-                </div>
-            </div>
+        <div class="card-body">
+          <p>
+            As <code>tabelas-verdade</code> fornecem um teste rigoroso e
+            completo para a validade ou invalidade de formas de argumento da
+            lógica proposicional, bem como para a verificação da tautologia,
+            contingência funcional-veritativa e inconsistência de wffs. Na
+            verdade, elas constituem um algoritmo, o tipo de teste específico
+            que pode ser executado por um computador e que sempre dá uma
+            resposta após um número finito de operações. Quando existe um
+            algoritmo que determina se as formas de um argumento expressáveis
+            num sistema formal são válidas ou não, esse sistema diz-se
+            decidível.
+          </p>
+          <p>
+            Assim, as tabelas-verdade garantem a decidibilidade da lógica
+            proposicional. Mas, elas são
+            <code>enfadonhas e ineficazes</code>, especialmente em problemas que
+            envolvem muitas <code>letras sentenciais</code>. As árvores de
+            refutação fornecem um algoritmo mais eficaz para executar as mesmas
+            tarefas.
+          </p>
         </div>
-
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header custom-card-header py-3">
-                    <h6 class="m-0 font-weight-bold ">Estrutura da Árvores de Refutação</h6>
-                </div>
-                <div class="card-body">
-                    <p>
-                        A derivação do método de árvore de refutação é iniciada com a criação de um nó para de cada
-                        uma das <code>premissas</code> e um nó para a negação do argumento de <code>conclusão</code>.
-                        Considerando a fórmula <code>( P → Q), ~ Q, |- ~ P </code>. Teriamos inicialmente na árvore de refutação as 
-                        premissas <code>P → Q</code> e  <code> ~Q</code>, e a conclusão <code>~~P</code> após a aplicação da negação de seu valor lógico .
-                    </p>
-                    <div class="text-center mt-3 p-3" style="overflow-x: auto">
-                        <img src="assets/img/arvore-inicial.png"  alt="arvore-inicial" >
-                    </div>
-                    
-                    <p  class="mt-3">
-                        Logo após é iniciado o processo de expansão, aplicando as regras correspondentes para os nós da árvore. Tais nós 
-                        podem receber a aplicação uma unica vez. Desse modo, os nós que sofreram a aplicação de uma regra recebem a marcação 
-                        do simbolo “✓”, não podendo mais ser utilizado. 
-                    </p>
-                    <div class="text-center mt-3 p-3" style="overflow-x: auto">
-                        <img src="assets/img/arvore-ticado.png"  alt="arvore-ticado" >
-                    </div>
-                    <p  class="mt-3">
-                        O ponto de parada ocorre quando a regra de fechamento é satisfeita. Tal
-                        regra é aplicada quando encontrado em seus nós ascendentes um elemento que o 
-                        contradiz (por exemplo, considerando que um nó folha possua o valor predicativo <code>P</code>, 
-                        seu elemento contraditório seria <code>~P</code>). Os nós  fechados são marcados com um simbolo “X” e
-                        um ramo fechado não gera subárvores, e somente é dada como válida a fórmula que satisfez a regra 
-                        de fechamento para todos os ramos da árvore.
-                    </p>
-                    <div class="text-center mt-3 p-3" style="overflow-x: auto">
-                        <img src="assets/img/arvore-fechada.png"  alt="arvore-ticado" >
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 text-right mb-3">
-            <div  class="btn-group mx-2 mt-3 ">
-                <button class="btn btn btn-icon">
-                    <fa-icon [icon]="check"></fa-icon>
-                </button>
-                <button class="btn btn btn-func" (click)="concluir()">
-                    Concluir
-                </button>
-                
-            </div>
-        </div>
+      </div>
     </div>
+
+    <div class="col-12">
+      <div class="card mb-5">
+        <div class="card-header custom-card-header py-3">
+          <h6 class="m-0 font-weight-bold">Árvores de Refutação</h6>
+        </div>
+        <div class="card-body">
+          <p>
+            Dada uma lista de wffs, uma <code>árvore de refutação</code> é uma
+            busca exaustiva de caminhos nos quais todas as wffs da lista podem
+            ser verdadeiras. Para testar a validade de uma forma de argumento
+            utilizando uma árvore de refutação, constrói-se uma lista
+            consistindo em suas <code>premissas</code> e na negação de sua
+            <code>conclusão</code>. A busca é executada
+            <code>desmembrando</code> as wffs da lista em letras sentenciais e
+            suas negações.
+          </p>
+          <p>
+            As condições para que um enunciado possa ser verdadeiro dependem dos
+            operadores lógicos que ele contém, as fórmulas que contêm diferentes
+            operadores lógicos são desmembrados diferentemente. Todas as
+            fórmulas que contêm <code>operadores lógicos</code> pertencem a uma
+            das dez categorias seguintes:
+          </p>
+
+          <div class="row">
+            <div class="col-md-6 text-center">
+              <table class="table-regras" cellpadding="5">
+                <tr>
+                  <td><div class="regra-negacao shadow-sm">Negação</div></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-conjuncao shadow-sm">Conjunção</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-disjuncao shadow-sm">Disjunção</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-condicional shadow-sm">Condicional</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-bicondicional shadow-sm">
+                      Bicondicional
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="col-md-6 text-center">
+              <table class="table-regras" cellpadding="5">
+                <tr>
+                  <td>
+                    <div class="regra-negacao shadow-sm">Negação Negada</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-conjuncao shadow-sm">
+                      Conjunção Negada
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-disjuncao shadow-sm">
+                      Disjunção Negada
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-condicional shadow-sm">
+                      Condicional Negado
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="regra-bicondicional shadow-sm">
+                      Bicondicional Negado
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <p class="mt-3">
+            Para cada categoria temos uma regra correspondente que expande as
+            árvores de refutação. Um ramo aberto é aquele que não termina com
+            ‘X’, caso contrário chama-se ramo fechado.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header custom-card-header py-3">
+          <h6 class="m-0 font-weight-bold">
+            Estrutura da Árvores de Refutação
+          </h6>
+        </div>
+        <div class="card-body">
+          <p>
+            A derivação do método de árvore de refutação é iniciada com a
+            criação de um nó para de cada uma das <code>premissas</code> e um nó
+            para a negação do argumento de <code>conclusão</code>. Considerando
+            a fórmula <code>( P → Q), ~ Q, |- ~ P </code>. Teriamos inicialmente
+            na árvore de refutação as premissas <code>P → Q</code> e
+            <code> ~Q</code>, e a conclusão <code>~~P</code> após a aplicação da
+            negação de seu valor lógico .
+          </p>
+          <div class="text-center mt-3 p-3" style="overflow-x: auto">
+            <img src="assets/img/arvore-inicial.png" alt="arvore-inicial" />
+          </div>
+
+          <p class="mt-3">
+            Logo após é iniciado o processo de expansão, aplicando as regras
+            correspondentes para os nós da árvore. Tais nós podem receber a
+            aplicação uma unica vez. Desse modo, os nós que sofreram a aplicação
+            de uma regra recebem a marcação do simbolo “✓”, não podendo mais ser
+            utilizado.
+          </p>
+          <div class="text-center mt-3 p-3" style="overflow-x: auto">
+            <img src="assets/img/arvore-ticado.png" alt="arvore-ticado" />
+          </div>
+          <p class="mt-3">
+            O ponto de parada ocorre quando a regra de fechamento é satisfeita.
+            Tal regra é aplicada quando encontrado em seus nós ascendentes um
+            elemento que o contradiz (por exemplo, considerando que um nó folha
+            possua o valor predicativo <code>P</code>, seu elemento
+            contraditório seria <code>~P</code>). Os nós fechados são marcados
+            com um simbolo “X” e um ramo fechado não gera subárvores, e somente
+            é dada como válida a fórmula que satisfez a regra de fechamento para
+            todos os ramos da árvore.
+          </p>
+          <div class="text-center mt-3 p-3" style="overflow-x: auto">
+            <img src="assets/img/arvore-fechada.png" alt="arvore-ticado" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-right mb-3">
+      <div class="btn-group mx-2 mt-3">
+        <button class="btn btn btn-icon">
+          <fa-icon [icon]="check"></fa-icon>
+        </button>
+        <button class="btn btn btn-func" (click)="concluir()">Concluir</button>
+      </div>
+    </div>
+  </div>
 </div>

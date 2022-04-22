@@ -1,6 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
 
-
 import { NgModule } from '@angular/core';
 
 import { EstudoLivreComponent } from './components/modulos/estudo-livre/estudo-livre.component';
@@ -10,44 +9,38 @@ import { ArvoreComponent } from './components/modulos/estudo-conceitos/arvore/ar
 import { RegrasComponent } from './components/modulos/estudo-conceitos/regras/regras.component';
 import { AcessoInvalidoComponent } from './components/acesso-invalido/acesso-invalido.component';
 
-
-export const routes : Routes = [
-
-
+export const routes: Routes = [
   {
     path: 'validacao/:id',
-    component:ExercicioValidacaoComponent,
+    component: ExercicioValidacaoComponent,
     canActivate: [AlunoAuthGuard],
   },
   {
     path: 'conceitos/01',
-    component:ArvoreComponent,
+    component: ArvoreComponent,
     canActivate: [AlunoAuthGuard],
   },
 
   {
     path: 'conceitos/02',
-    component:RegrasComponent,
+    component: RegrasComponent,
     canActivate: [AlunoAuthGuard],
   },
 
   {
     path: 'livre/01',
-    component:EstudoLivreComponent,
+    component: EstudoLivreComponent,
     canActivate: [AlunoAuthGuard],
   },
- 
 
   {
     path: 'error/token',
-    component:AcessoInvalidoComponent,
-
+    component: AcessoInvalidoComponent,
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ExercicioRoutingModule { }
+export class ExercicioRoutingModule {}

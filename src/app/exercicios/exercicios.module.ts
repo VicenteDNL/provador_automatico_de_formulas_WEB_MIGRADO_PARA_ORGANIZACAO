@@ -14,19 +14,23 @@ import { RegrasComponent } from './components/modulos/estudo-conceitos/regras/re
 import { ArvoreComponent } from './components/modulos/estudo-conceitos/arvore/arvore.component';
 import { AcessoInvalidoComponent } from './components/acesso-invalido/acesso-invalido.component';
 
-
-
-
-
 @NgModule({
-  declarations: [ExercicioValidacaoComponent, EstudoLivreComponent, AcessoInvalidoComponent, RegrasGramlogicComponent, VizualizadorArvoreComponent, RegrasComponent, ArvoreComponent],
+  declarations: [
+    ExercicioValidacaoComponent,
+    EstudoLivreComponent,
+    AcessoInvalidoComponent,
+    RegrasGramlogicComponent,
+    VizualizadorArvoreComponent,
+    RegrasComponent,
+    ArvoreComponent,
+  ],
   imports: [
     CommonModule,
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
     ExercicioRoutingModule,
     FontAwesomeModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class ExerciciosModule { }
+export class ExerciciosModule {}

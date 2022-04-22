@@ -8,9 +8,8 @@ describe('TabelaGramaticaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TabelaGramaticaComponent ]
-    })
-    .compileComponents();
+      declarations: [TabelaGramaticaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

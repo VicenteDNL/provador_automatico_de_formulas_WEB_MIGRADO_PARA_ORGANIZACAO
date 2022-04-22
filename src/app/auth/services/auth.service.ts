@@ -8,15 +8,23 @@ import { Injectable } from '@angular/core';
  *
  * Os dados são armazenados na chave `auth-data`.
  */
+
+type LocalStorageValue ={
+    accessToken: string;
+  email: string;
+  success: boolean;
+  tokenType: string;
+};
+
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   keyname = 'auth-data';
   redirectUrl: string;
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Armazena as informações de autenticação no `LocalStorage`, convertendo o
@@ -32,21 +40,22 @@ export class AuthService {
    * Retorna as informações de autenticação (se disponíveis).
    */
   get() {
-    let data = localStorage.getItem(this.keyname);
-    if (data) {
-      data = JSON.parse(data);
-     
+    const dataJson = localStorage.getItem(this.keyname);
+    if (dataJson) {
+      const data = JSON.parse(dataJson) as LocalStorageValue;
+      return data;
     }
-    return data;
+    return null;
+
   }
 
   /**
    * Retorna o identificador do usuário, se disponível.
    */
   getUserId() {
-    let data = this.get();
+    const data = this.get();
     if (data) {
-      return data['user']['id'];
+      return data.email;
     } else {
       return null;
     }

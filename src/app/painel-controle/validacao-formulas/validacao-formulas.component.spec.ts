@@ -8,9 +8,8 @@ describe('ValidacaoFormulasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ValidacaoFormulasComponent ]
-    })
-    .compileComponents();
+      declarations: [ValidacaoFormulasComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('EditarNivelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditarNivelComponent ]
-    })
-    .compileComponents();
+      declarations: [EditarNivelComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

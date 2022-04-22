@@ -1,58 +1,79 @@
-<div style="height: 100%;" class=" body d-flex justify-content-center align-items-center conteudo">
-    <div class="card area-login" style="width: 24rem;">
-        <div class="card-body">
-            <div>
-                <img src="assets/img/logo.png" alt="logo" class="" style="height:50px">
-            </div>
-            <div class="px-md-4 px-md-2">
-                <form #login="ngForm" (submit)="onLogin()">
-                    <div class="d-flex align-items-center mt-3">
-                        <h4 class="text-white font-weight-bold">Login</h4>
-                        <div class="barra-login ml-1"></div>
-                    </div>
-                    <div class="form-group mt-4" >
-                        <input type="email" class="form-control" [(ngModel)]="email" name="email" id="email" aria-describedby="emailHelp" placeholder="Seu email">
-                    </div>
-                    <div class="form-group mt-4">
-                        <input type="password" class="form-control" [(ngModel)]="senha" name="senha" id="senha" placeholder="Sua senha">
-                    </div>
-                    <div class="form-group mt-4">
-                        <a><small class="esqueci-senha">Esqueci a senha</small></a>
-                    </div>
-                    <div class="form-group mt-4 text-right">
-                        <button type="submit" class="btn botao-primario ">Entrar</button>
-                    </div>
-                    
-                    
-                </form>
-            </div>
-        </div>
+<div
+  style="height: 100%"
+  class="body d-flex justify-content-center align-items-center conteudo">
+  <div class="card area-login" style="width: 24rem">
+    <div class="card-body">
+      <div>
+        <img
+          src="assets/img/logo.png"
+          alt="logo"
+          class=""
+          style="height: 50px" />
+      </div>
+      <div class="px-md-4 px-md-2">
+        <form #login="ngForm" (submit)="onLogin()">
+          <div class="d-flex align-items-center mt-3">
+            <h4 class="text-white font-weight-bold">Login</h4>
+            <div class="barra-login ml-1"></div>
+          </div>
+          <div class="form-group mt-4">
+            <input
+              type="email"
+              class="form-control"
+              [(ngModel)]="email"
+              name="email"
+              id="email"
+              aria-describedby="emailHelp"
+              placeholder="Seu email" />
+          </div>
+          <div class="form-group mt-4">
+            <input
+              type="password"
+              class="form-control"
+              [(ngModel)]="senha"
+              name="senha"
+              id="senha"
+              placeholder="Sua senha" />
+          </div>
+          <div class="form-group mt-4">
+            <a><small class="esqueci-senha">Esqueci a senha</small></a>
+          </div>
+          <div class="form-group mt-4 text-right">
+            <button type="submit" class="btn botao-primario">Entrar</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div style="height: 50px;">
-        <div class="row d-flex justify-content-center mt-2">
-            <div *ngIf="logando" class="spinner-border spinner-border-sm text-roxo" role="status">
-              <span class="sr-only">Carregando...</span>
-            </div>
-        </div>
-        <div *ngIf="logando" class="row d-flex justify-content-center mt-2">
-              <small class="text-roxo">Carregando...</small>
-        </div>
-        <small *ngIf="errorLogin != null" class="text-danger">
-            Ops! {{errorLogin}}
-        </small>
-        <div class="row d-flex justify-content-center mt-2">
-            <div *ngIf="sucessoLogin" class="spinner-border spinner-border-sm text-success" role="status">
-              <span class="sr-only">Carregando...</span>
-            </div>
-        </div>
-        <small *ngIf="sucessoLogin" class="text-success">
-            Carregando ambiente de gerenciamento
-        </small>
+  </div>
+  <div style="height: 50px">
+    <div class="row d-flex justify-content-center mt-2">
+      <div
+        *ngIf="logando"
+        class="spinner-border spinner-border-sm text-roxo"
+        role="status">
+        <span class="sr-only">Carregando...</span>
+      </div>
     </div>
-   
+    <div *ngIf="logando" class="row d-flex justify-content-center mt-2">
+      <small class="text-roxo">Carregando...</small>
+    </div>
+    <small *ngIf="errorLogin != null" class="text-danger">
+      Ops! {{ errorLogin }}
+    </small>
+    <div class="row d-flex justify-content-center mt-2">
+      <div
+        *ngIf="sucessoLogin"
+        class="spinner-border spinner-border-sm text-success"
+        role="status">
+        <span class="sr-only">Carregando...</span>
+      </div>
+    </div>
+    <small *ngIf="sucessoLogin" class="text-success">
+      Carregando ambiente de gerenciamento
+    </small>
+  </div>
 
-       
-        <!-- <div class="container-fluid" style="height: 100%;">
+  <!-- <div class="container-fluid" style="height: 100%;">
             <div class="row response-linha">
                 <div class="col-sm-5 col-md-4  col-12  py-3 area-login">
                     <div class="display-flex" style="height: 100%;" >                    
@@ -95,8 +116,4 @@
                 </div>
             </div>
         </div> -->
-
-
-    
 </div>
-

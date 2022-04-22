@@ -12,30 +12,30 @@
 var PredicateTransition = require('./../atn/Transition').PredicateTransition;
 
 function RecognitionException(params) {
-	Error.call(this);
-	if (!!Error.captureStackTrace) {
-        Error.captureStackTrace(this, RecognitionException);
-	} else {
-		var stack = new Error().stack;
-	}
-	this.message = params.message;
-    this.recognizer = params.recognizer;
-    this.input = params.input;
-    this.ctx = params.ctx;
-    // The current {@link Token} when an error occurred. Since not all streams
-    // support accessing symbols by index, we have to track the {@link Token}
-    // instance itself.
-    this.offendingToken = null;
-    // Get the ATN state number the parser was in at the time the error
-    // occurred. For {@link NoViableAltException} and
-    // {@link LexerNoViableAltException} exceptions, this is the
-    // {@link DecisionState} number. For others, it is the state whose outgoing
-    // edge we couldn't match.
-    this.offendingState = -1;
-    if (this.recognizer!==null) {
-        this.offendingState = this.recognizer.state;
-    }
-    return this;
+  Error.call(this);
+  if (!!Error.captureStackTrace) {
+    Error.captureStackTrace(this, RecognitionException);
+  } else {
+    var stack = new Error().stack;
+  }
+  this.message = params.message;
+  this.recognizer = params.recognizer;
+  this.input = params.input;
+  this.ctx = params.ctx;
+  // The current {@link Token} when an error occurred. Since not all streams
+  // support accessing symbols by index, we have to track the {@link Token}
+  // instance itself.
+  this.offendingToken = null;
+  // Get the ATN state number the parser was in at the time the error
+  // occurred. For {@link NoViableAltException} and
+  // {@link LexerNoViableAltException} exceptions, this is the
+  // {@link DecisionState} number. For others, it is the state whose outgoing
+  // edge we couldn't match.
+  this.offendingState = -1;
+  if (this.recognizer !== null) {
+    this.offendingState = this.recognizer.state;
+  }
+  return this;
 }
 
 RecognitionException.prototype = Object.create(Error.prototype);
@@ -53,34 +53,41 @@ RecognitionException.prototype.constructor = RecognitionException;
 // @return The set of token types that could potentially follow the current
 // state in the ATN, or {@code null} if the information is not available.
 // /
-RecognitionException.prototype.getExpectedTokens = function() {
-    if (this.recognizer!==null) {
-        return this.recognizer.atn.getExpectedTokens(this.offendingState, this.ctx);
-    } else {
-        return null;
-    }
+RecognitionException.prototype.getExpectedTokens = function () {
+  if (this.recognizer !== null) {
+    return this.recognizer.atn.getExpectedTokens(this.offendingState, this.ctx);
+  } else {
+    return null;
+  }
 };
 
-RecognitionException.prototype.toString = function() {
-    return this.message;
+RecognitionException.prototype.toString = function () {
+  return this.message;
 };
 
 function LexerNoViableAltException(lexer, input, startIndex, deadEndConfigs) {
-	RecognitionException.call(this, {message:"", recognizer:lexer, input:input, ctx:null});
-    this.startIndex = startIndex;
-    this.deadEndConfigs = deadEndConfigs;
-    return this;
+  RecognitionException.call(this, {
+    message: '',
+    recognizer: lexer,
+    input: input,
+    ctx: null,
+  });
+  this.startIndex = startIndex;
+  this.deadEndConfigs = deadEndConfigs;
+  return this;
 }
 
-LexerNoViableAltException.prototype = Object.create(RecognitionException.prototype);
+LexerNoViableAltException.prototype = Object.create(
+  RecognitionException.prototype,
+);
 LexerNoViableAltException.prototype.constructor = LexerNoViableAltException;
 
-LexerNoViableAltException.prototype.toString = function() {
-    var symbol = "";
-    if (this.startIndex >= 0 && this.startIndex < this.input.size) {
-        symbol = this.input.getText((this.startIndex,this.startIndex));
-    }
-    return "LexerNoViableAltException" + symbol;
+LexerNoViableAltException.prototype.toString = function () {
+  var symbol = '';
+  if (this.startIndex >= 0 && this.startIndex < this.input.size) {
+    symbol = this.input.getText((this.startIndex, this.startIndex));
+  }
+  return 'LexerNoViableAltException' + symbol;
 };
 
 // Indicates that the parser could not decide which of two or more paths
@@ -88,21 +95,33 @@ LexerNoViableAltException.prototype.toString = function() {
 // of the offending input and also knows where the parser was
 // in the various paths when the error. Reported by reportNoViableAlternative()
 //
-function NoViableAltException(recognizer, input, startToken, offendingToken, deadEndConfigs, ctx) {
-	ctx = ctx || recognizer._ctx;
-	offendingToken = offendingToken || recognizer.getCurrentToken();
-	startToken = startToken || recognizer.getCurrentToken();
-	input = input || recognizer.getInputStream();
-	RecognitionException.call(this, {message:"", recognizer:recognizer, input:input, ctx:ctx});
-    // Which configurations did we try at input.index() that couldn't match
-	// input.LT(1)?//
-    this.deadEndConfigs = deadEndConfigs;
-    // The token object at the start index; the input stream might
-    // not be buffering tokens so get a reference to it. (At the
-    // time the error occurred, of course the stream needs to keep a
-    // buffer all of the tokens but later we might not have access to those.)
-    this.startToken = startToken;
-    this.offendingToken = offendingToken;
+function NoViableAltException(
+  recognizer,
+  input,
+  startToken,
+  offendingToken,
+  deadEndConfigs,
+  ctx,
+) {
+  ctx = ctx || recognizer._ctx;
+  offendingToken = offendingToken || recognizer.getCurrentToken();
+  startToken = startToken || recognizer.getCurrentToken();
+  input = input || recognizer.getInputStream();
+  RecognitionException.call(this, {
+    message: '',
+    recognizer: recognizer,
+    input: input,
+    ctx: ctx,
+  });
+  // Which configurations did we try at input.index() that couldn't match
+  // input.LT(1)?//
+  this.deadEndConfigs = deadEndConfigs;
+  // The token object at the start index; the input stream might
+  // not be buffering tokens so get a reference to it. (At the
+  // time the error occurred, of course the stream needs to keep a
+  // buffer all of the tokens but later we might not have access to those.)
+  this.startToken = startToken;
+  this.offendingToken = offendingToken;
 }
 
 NoViableAltException.prototype = Object.create(RecognitionException.prototype);
@@ -112,11 +131,18 @@ NoViableAltException.prototype.constructor = NoViableAltException;
 // when the current input does not match the expected token.
 //
 function InputMismatchException(recognizer) {
-	RecognitionException.call(this, {message:"", recognizer:recognizer, input:recognizer.getInputStream(), ctx:recognizer._ctx});
-    this.offendingToken = recognizer.getCurrentToken();
+  RecognitionException.call(this, {
+    message: '',
+    recognizer: recognizer,
+    input: recognizer.getInputStream(),
+    ctx: recognizer._ctx,
+  });
+  this.offendingToken = recognizer.getCurrentToken();
 }
 
-InputMismatchException.prototype = Object.create(RecognitionException.prototype);
+InputMismatchException.prototype = Object.create(
+  RecognitionException.prototype,
+);
 InputMismatchException.prototype.constructor = InputMismatchException;
 
 // A semantic predicate failed during validation. Validation of predicates
@@ -125,37 +151,46 @@ InputMismatchException.prototype.constructor = InputMismatchException;
 // prediction.
 
 function FailedPredicateException(recognizer, predicate, message) {
-	RecognitionException.call(this, {message:this.formatMessage(predicate,message || null), recognizer:recognizer,
-                         input:recognizer.getInputStream(), ctx:recognizer._ctx});
-    var s = recognizer._interp.atn.states[recognizer.state];
-    var trans = s.transitions[0];
-    if (trans instanceof PredicateTransition) {
-        this.ruleIndex = trans.ruleIndex;
-        this.predicateIndex = trans.predIndex;
-    } else {
-        this.ruleIndex = 0;
-        this.predicateIndex = 0;
-    }
-    this.predicate = predicate;
-    this.offendingToken = recognizer.getCurrentToken();
-    return this;
+  RecognitionException.call(this, {
+    message: this.formatMessage(predicate, message || null),
+    recognizer: recognizer,
+    input: recognizer.getInputStream(),
+    ctx: recognizer._ctx,
+  });
+  var s = recognizer._interp.atn.states[recognizer.state];
+  var trans = s.transitions[0];
+  if (trans instanceof PredicateTransition) {
+    this.ruleIndex = trans.ruleIndex;
+    this.predicateIndex = trans.predIndex;
+  } else {
+    this.ruleIndex = 0;
+    this.predicateIndex = 0;
+  }
+  this.predicate = predicate;
+  this.offendingToken = recognizer.getCurrentToken();
+  return this;
 }
 
-FailedPredicateException.prototype = Object.create(RecognitionException.prototype);
+FailedPredicateException.prototype = Object.create(
+  RecognitionException.prototype,
+);
 FailedPredicateException.prototype.constructor = FailedPredicateException;
 
-FailedPredicateException.prototype.formatMessage = function(predicate, message) {
-    if (message !==null) {
-        return message;
-    } else {
-        return "failed predicate: {" + predicate + "}?";
-    }
+FailedPredicateException.prototype.formatMessage = function (
+  predicate,
+  message,
+) {
+  if (message !== null) {
+    return message;
+  } else {
+    return 'failed predicate: {' + predicate + '}?';
+  }
 };
 
 function ParseCancellationException() {
-	Error.call(this);
-	Error.captureStackTrace(this, ParseCancellationException);
-	return this;
+  Error.call(this);
+  Error.captureStackTrace(this, ParseCancellationException);
+  return this;
 }
 
 ParseCancellationException.prototype = Object.create(Error.prototype);

@@ -1,6 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
 
-
 import { NgModule } from '@angular/core';
 import { PainelControleComponent } from './painel-controle.component';
 import { ValidacaoFormulasComponent } from './validacao-formulas/validacao-formulas.component';
@@ -16,51 +15,52 @@ import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
 import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
 import { EditarExercicioComponent } from './validacao-formulas/exercicios/editar-exercicio/editar-exercicio.component';
 
-export const routes : Routes = [
-
-
+export const routes: Routes = [
   {
-    path:'modulo1',
+    path: 'modulo1',
     redirectTo: 'modulo1/inicio',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 
- 
   {
     path: '',
-    component:PainelControleComponent,
+    component: PainelControleComponent,
     children: [
-
-    { path: 'configuracao/logiclive', component: LogicLiveComponent },
-     { path: 'modulo1',
+      { path: 'configuracao/logiclive', component: LogicLiveComponent },
+      {
+        path: 'modulo1',
         component: ValidacaoFormulasComponent,
         children: [
           { path: 'inicio', component: InicioComponent },
           { path: 'niveis', component: NiveisComponent },
           { path: 'niveis/cadastrar', component: CadastrarNivelComponent },
           { path: 'niveis/editar/:id', component: EditarNivelComponent },
-          { path: 'exercicios', component: ExerciciosComponent,
-          children: [
-            { path: '', component: PesquisarExercicioComponent },
-            { path: ':id', component: TabelaExerciciosComponent},
-            { path: ':idNivel/cadastrar', component: CadastrarExercicioComponent},
-            { path: ':idNivel/editar/:id', component: EditarExercicioComponent}
-          ] },
+          {
+            path: 'exercicios',
+            component: ExerciciosComponent,
+            children: [
+              { path: '', component: PesquisarExercicioComponent },
+              { path: ':id', component: TabelaExerciciosComponent },
+              {
+                path: ':idNivel/cadastrar',
+                component: CadastrarExercicioComponent,
+              },
+              {
+                path: ':idNivel/editar/:id',
+                component: EditarExercicioComponent,
+              },
+            ],
+          },
 
-
-
-          
           { path: 'respostas', component: RespostasComponent },
-          ]
-
-      }
-      ]
+        ],
+      },
+    ],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PainelRoutingModule { }
+export class PainelRoutingModule {}

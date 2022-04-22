@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -18,37 +23,36 @@ import { AuthService } from './auth.service';
  */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    /**
-     * O construtor injeta o serviço `AuthService` para estar disponível para a classe.
-     *
-     * @param auth O serviço de autenticação
-     */
-    constructor(private auth: AuthService) {
+  /**
+   * O construtor injeta o serviço `AuthService` para estar disponível para a classe.
+   *
+   * @param auth O serviço de autenticação
+   */
+  constructor(private auth: AuthService) {}
+
+  /**
+   * A sobrescrita desse método interage com o serviço `AuthService` para recuperar
+   * as informações de autenticação e, se disponíveis, modifica o cabeçalho
+   * da requisição e adiciona o cabeçalho `Authorization`, informando o "token"
+   * armazenado.
+   *
+   * @param request A requisição
+   * @param next A próxima requisição
+   */
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
+    const data = this.auth.get();
+    let token = '';
+    if (data && data.accessToken) {
+      token = data.accessToken;
+      request = request.clone({
+        setHeaders: {
+          authorization: `Bearer ${token}`,
+        },
+      });
     }
-
-    /**
-     * A sobrescrita desse método interage com o serviço `AuthService` para recuperar
-     * as informações de autenticação e, se disponíveis, modifica o cabeçalho
-     * da requisição e adiciona o cabeçalho `Authorization`, informando o "token"
-     * armazenado.
-     *
-     * @param request A requisição
-     * @param next A próxima requisição
-     */
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      const data = this.auth.get();
-      let token = '';
-      if (data && data['access_token']) {
-          token = data['access_token'];
-          request = request.clone({
-              setHeaders: {
-                  Authorization: `Bearer ${token}`
-              }
-          });
-      }
-      return next.handle(request);
-      
-
-    }
-
+    return next.handle(request);
+  }
 }

@@ -1,11 +1,11 @@
-export class Recompensa {
+/* eslint-disable @typescript-eslint/naming-convention */
+export type Recompensa = {
+     id: number;
+     nome: string;
+     imagem: string;
+     pontuacao: number;
+     created_at: Date;
+     updated_at: Date;
+     id_logic_live: number;
 
-	constructor(
-    public id?: string,
-		public nome?: string,
-        public imagem?: string,
-        public pontuacao?: number,
-        public created_at?: Date,
-        public updated_at?: Date,        
-        ) {}
-}
+};

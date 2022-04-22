@@ -1,23 +1,24 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Recompensa } from './recompensa.model';
 import { Formula } from './formula.model';
 import { Niveis } from './niveis.model';
 
-export class Exercicio {
+export type Exercicio = {
 
-	constructor(
-    public id?: string,
-        public id_recompensa?: Recompensa,
-        public id_nivel?: Niveis,
-        public id_formula?: Formula,
-        public nome?: string,
-        public enunciado?: string,
-        public descricao?: string,
-        public hash?: string,
-        public url?: string,
-        public tempo=null,
-        public qndt_erros=null,
-        public ativo: boolean=true,
-        public created_at?: Date,
-        public updated_at?: Date,
-        ) {}
-}
+     id: string;
+     id_logic_live: number;
+     id_recompensa: Recompensa;
+     id_nivel: Niveis;
+     id_formula: Formula;
+     nome: string;
+     enunciado: string;
+     descricao: string;
+     hash: string;
+     url: string;
+     tempo: number |null;
+     qndt_erros: number |null;
+     ativo: number;
+     created_at: Date;
+     updated_at: Date;
+
+};
