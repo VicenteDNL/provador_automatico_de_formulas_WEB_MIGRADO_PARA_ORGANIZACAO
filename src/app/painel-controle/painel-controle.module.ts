@@ -18,7 +18,7 @@ import { PesquisarExercicioComponent } from './modulo/exercicios/pesquisar-exerc
 import { ListarExerciciosComponent } from './modulo/exercicios/listar-exercicios/listar-exercicios.component';
 import { CadastrarExercicioComponent } from './modulo/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
 import { TabelaGramaticaComponent } from './modulo/exercicios/cadastrar-exercicio/tabela-gramatica/tabela-gramatica.component';
-import { VisualizadorArvoreComponent } from './visualizador-arvore/visualizador-arvore.component';
+import { VisualizadorArvoreComponent } from './modulo/visualizador-arvore/visualizador-arvore.component';
 import { PersonalizarArvoreComponent } from
 './modulo/exercicios/cadastrar-exercicio/personalizar-arvore/personalizar-arvore.component';
 import { InicioComponent } from './modulo/inicio/inicio.component';
