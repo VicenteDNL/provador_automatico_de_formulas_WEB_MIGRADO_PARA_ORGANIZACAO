@@ -4,7 +4,7 @@ import { Recompensa } from '../models/recompensa.model';
 export interface RecompensaResponse extends BaseResponse{
   success: boolean;
   msg: string;
-  data: Recompensa[];
+  data?: Recompensa[];
 };
 
 export interface RecompensaInput {
