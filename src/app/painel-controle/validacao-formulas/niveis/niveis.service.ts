@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import {take } from 'rxjs/operators';
-import { NiveisResponse, NivelInput, NivelResponse, RecompensaResponse } from './interfaces';
+import {Response, NiveisResponse, NivelInput, NivelResponse, RecompensasResponse, NiveisPaginationResponse } from './interfaces';
 import { BaseResponse } from '../../models/baseResponse';
 
 @Injectable({
@@ -14,15 +14,15 @@ export class NiveisService {
   constructor(private http: HttpClient) {}
 
   listar(pg: number) {
-    return this.http.get<NiveisResponse>(`${this.api}mvflp/niveis/?page=${pg}`);
+    return this.http.get<NiveisPaginationResponse>(`${this.api}mvflp/niveis/?page=${pg}`);
   }
 
   todasRecompensas() {
-    return this.http.get<RecompensaResponse>(`${this.api}recompensas`).pipe(take(1));
+    return this.http.get<RecompensasResponse>(`${this.api}recompensas`).pipe(take(1));
   }
 
   cadastrar(nivel: NivelInput) {
-    return this.http.post<NivelResponse>(`${this.api}mvflp/niveis/`, nivel);
+    return this.http.post<Response>(`${this.api}mvflp/niveis/`, nivel);
   }
 
   buscarPorId(id: number) {
@@ -30,10 +30,10 @@ export class NiveisService {
   }
 
   editar(nivel: NivelInput) {
-    return this.http.put<BaseResponse>(`${this.api}mvflp/niveis/${nivel.id}/`, nivel);
+    return this.http.put<Response>(`${this.api}mvflp/niveis/${nivel.id}/`, nivel);
   }
 
   deletar(id: number) {
-    return this.http.delete(`${this.api}mvflp/niveis/${id}/`);
+    return this.http.delete<Response>(`${this.api}mvflp/niveis/${id}/`);
   }
 }

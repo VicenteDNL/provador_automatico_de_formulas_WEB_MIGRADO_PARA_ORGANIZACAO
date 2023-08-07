@@ -4,22 +4,28 @@ import { Nivel } from '../../models/nivel.model';
 import { PaginationResponse } from '../../models/paginationResponse';
 import { Recompensa } from '../../models/recompensa.model';
 
-export interface NiveisResponse extends BaseResponse{
-    data?: PaginationResponse<Nivel[]>;
-  };
+export type Response = BaseResponse;
 
-  export interface NivelResponse extends BaseResponse{
-    data?: Nivel;
-  };
+export interface NiveisPaginationResponse extends Response{
+  data?: PaginationResponse<Nivel[]>;
+};
 
-  export interface RecompensaResponse extends BaseResponse{
-    data?: Recompensa[];
-  };
+export interface NiveisResponse extends Response{
+  data?: Nivel[];
+};
 
-  export interface NivelInput {
-    id?: number;
-    nome: string;
-    id_recompensa?: number;
-    descricao: string;
-    ativo: boolean;
-  }
+export interface NivelResponse extends Response{
+  data?: Nivel;
+};
+
+export interface RecompensasResponse extends Response{
+  data?: Recompensa[];
+};
+
+export interface NivelInput {
+  id?: number;
+  nome: string;
+  id_recompensa?: number;
+  descricao: string;
+  ativo: boolean;
+}

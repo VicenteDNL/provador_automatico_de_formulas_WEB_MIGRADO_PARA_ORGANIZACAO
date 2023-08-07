@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { RecompensaInput, RecompensaResponse } from './interfaces';
+import { Response,RecompensaInput, RecompensasResponse } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -13,22 +13,22 @@ export class RecompensaService {
 
   cadastrarRecompensa(recompensa: RecompensaInput) {
     recompensa.imagem = 'vazio';
-    return this.http.post<RecompensaResponse>(`${this.api}recompensas/`, recompensa);
+    return this.http.post<Response>(`${this.api}recompensas/`, recompensa);
   }
 
   editarRecompensa(recompensa: RecompensaInput) {
     recompensa.imagem = 'vazio';
-    return this.http.put<RecompensaResponse>(
+    return this.http.put<Response>(
       `${this.api}recompensas/${recompensa.id}/`,
       recompensa,
     );
   }
 
   deletarRecompensa(id: number) {
-    return this.http.delete<RecompensaResponse>(`${this.api}recompensas/${id}/`);
+    return this.http.delete<Response>(`${this.api}recompensas/${id}/`);
   }
 
   todasRecompensas() {
-    return this.http.get<RecompensaResponse>(`${this.api}recompensas`).pipe(take(1));
+    return this.http.get<RecompensasResponse>(`${this.api}recompensas`).pipe(take(1));
   }
 }

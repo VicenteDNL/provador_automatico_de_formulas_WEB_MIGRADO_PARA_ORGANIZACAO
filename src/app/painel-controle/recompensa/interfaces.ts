@@ -1,7 +1,9 @@
 import { BaseResponse } from '../models/baseResponse';
 import { Recompensa } from '../models/recompensa.model';
 
-export interface RecompensaResponse extends BaseResponse{
+export type Response = BaseResponse;
+
+export interface RecompensasResponse extends Response{
   data?: Recompensa[];
 };
 
