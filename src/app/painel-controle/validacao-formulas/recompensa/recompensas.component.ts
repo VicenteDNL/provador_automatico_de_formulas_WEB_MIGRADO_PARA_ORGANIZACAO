@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RecompensaService } from './recompensa.service';
-import { Recompensa } from '../models/recompensa.model';
+import { RecompensaService } from './recompensas.service';
+import { Recompensa } from '../../models/recompensa.model';
 import { RecompensaInput } from './interfaces';
 
 @Component({
-  selector: 'app-recompensa',
-  templateUrl: './recompensa.component.html',
-  styleUrls: ['./recompensa.component.css'],
+  selector: 'app-recompensas',
+  templateUrl: './recompensas.component.html',
+  styleUrls: ['./recompensas.component.css'],
 })
-export class RecompensaComponent implements OnInit {
+export class RecompensasComponent implements OnInit {
   cadastrarColapse = false;
   editarColapse = true;
   idRecompensaSelecionada: number;

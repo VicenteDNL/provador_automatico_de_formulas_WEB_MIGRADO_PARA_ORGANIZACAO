@@ -24,7 +24,7 @@ import { PersonalizarArvoreComponent } from
 import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
 import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
 import { UsuarioComponent } from './configuracoes/usuario/usuario.component';
-import { RecompensaComponent } from './recompensa/recompensa.component';
+import { RecompensasComponent } from './validacao-formulas/recompensa/recompensas.component';
 import { EditarExercicioComponent } from './validacao-formulas/exercicios/editar-exercicio/editar-exercicio.component';
 
 @NgModule({
@@ -45,7 +45,7 @@ import { EditarExercicioComponent } from './validacao-formulas/exercicios/editar
     InicioComponent,
     LogicLiveComponent,
     UsuarioComponent,
-    RecompensaComponent,
+    RecompensasComponent,
     EditarExercicioComponent,
   ],
   imports: [
