@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 import {
   faArrowAltCircleLeft,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { Niveis } from 'src/app/painel-controle/models/niveis.model';
-import { NiveisService } from '../niveis.service';
+import {  NiveisService } from '../niveis.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
+import { Recompensa } from 'src/app/painel-controle/models/recompensa.model';
+import { NivelInput, NivelResponse } from '../interfaces';
 
 @Component({
   selector: 'app-editar-nivel',
@@ -16,9 +18,14 @@ import { map, switchMap } from 'rxjs/operators';
 export class EditarNivelComponent implements OnInit {
   iconVoltar = faArrowAltCircleLeft;
   iconFechar = faTimes;
-  listaRecompensas = [];
+  listaRecompensas: Recompensa[] = [];
   loadingRecompensa = false;
-  nivel: Niveis;
+  nivel: NivelInput = {
+    nome:'',
+    descricao:'',
+    ativo:false,
+    id_recompensa:null
+  };
   semRecompensa = true;
   requisitando = false;
   spineer = false;
@@ -70,7 +77,7 @@ export class EditarNivelComponent implements OnInit {
       );
   }
 
-  carregarNivel(response) {
+  carregarNivel(response: NivelResponse) {
     if (response.success === true) {
       this.requisitando = false;
 
@@ -95,7 +102,6 @@ export class EditarNivelComponent implements OnInit {
   editarNivel() {
     this.requisitando = true;
     this.spineer = true;
-
     this.service.editar(this.nivel).subscribe(
       response => this.sucessoEdicao(response),
       error => this.errorNivel(error),
@@ -108,11 +114,9 @@ export class EditarNivelComponent implements OnInit {
     this.router.navigate(['/painel/modulo1/niveis']);
   }
 
-
-
   recompensaDesbilita() {
     if (this.semRecompensa === false) {
-      this.nivel.id_recompensa = undefined;
+      this.nivel.id_recompensa = null;
     }
   }
 

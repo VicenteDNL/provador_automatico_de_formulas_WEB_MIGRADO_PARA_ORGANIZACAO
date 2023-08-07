@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {
   faArrowAltCircleLeft,
   faPlusSquare,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { Niveis } from 'src/app/painel-controle/models/niveis.model';
 import { NiveisService } from '../niveis.service';
 import { Router } from '@angular/router';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NivelInput } from '../interfaces';
 
 @Component({
   selector: 'app-cadastrar-nivel',
@@ -21,7 +22,12 @@ export class CadastrarNivelComponent implements OnInit {
   add = faPlusSquare;
   listaRecompensas = [];
   loadingRecompensa = false;
-  nivel: Niveis;
+  nivel: NivelInput = {
+    nome:'',
+    descricao:'',
+    ativo:false,
+    id_recompensa:null
+  };
   semRecompensa = true;
   requisitando = false;
   spineer = false;

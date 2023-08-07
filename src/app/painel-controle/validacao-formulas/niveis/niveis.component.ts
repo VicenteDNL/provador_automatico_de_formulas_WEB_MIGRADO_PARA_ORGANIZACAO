@@ -1,17 +1,13 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {
-  faPlus,
   faTrash,
   faEdit,
   faStepForward,
   faStepBackward,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { Observable } from 'rxjs';
-import { Niveis } from '../../models/niveis.model';
 import { NiveisService } from './niveis.service';
-import { map, delay } from 'rxjs/operators';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PainelControleComponent } from '../../painel-controle.component';
 
@@ -40,7 +36,7 @@ export class NiveisComponent implements OnInit {
 
   excluindo = false;
   modalRef: BsModalRef;
-  idNivelDeletar = null;
+  idNivelDeletar: number|null = null; ;
 
   constructor(
     private modalService: BsModalService,
@@ -90,7 +86,7 @@ export class NiveisComponent implements OnInit {
           // ----------------------------------------------------
 
           const data = response.data.data.map((d)=>{
-            const ativo = d.ativo === 1 ?'Ativo':'Inativo' ;
+            const ativo = d.ativo ?'Ativo':'Inativo' ;
            return { ...d,
             ativo};
           });
@@ -114,7 +110,7 @@ export class NiveisComponent implements OnInit {
     this.router.navigate(['/painel/modulo1/niveis/editar', id]);
   }
 
-  deletar(template: TemplateRef<any>, id) {
+  deletar(template: TemplateRef<any>, id: number) {
     this.idNivelDeletar = id;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
