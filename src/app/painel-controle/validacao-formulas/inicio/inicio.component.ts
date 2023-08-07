@@ -28,8 +28,8 @@ export class InicioComponent implements OnInit {
     if (validacao.sucesso === true) {
       this.service.arvoreOtimizada(validacao.xml, 200).subscribe(
         response => {
-          this.listaImpressaoNo = response.data.nos;
-          this.listaImpressaoAresta = response.data.arestas;
+          this.listaImpressaoNo = response.data.impressao.nos;
+          this.listaImpressaoAresta = response.data.impressao.arestas;
         },
         error => {
           this.errorMensagem(error.message);
