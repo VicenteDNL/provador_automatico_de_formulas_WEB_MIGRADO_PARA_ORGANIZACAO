@@ -7,5 +7,4 @@ export type Recompensa = {
      created_at: Date;
      updated_at: Date;
      id_logic_live: number;
-
 };

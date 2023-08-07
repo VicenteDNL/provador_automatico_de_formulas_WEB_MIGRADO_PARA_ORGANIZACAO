@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Recompensa } from './recompensa.model';
+
 import { Formula } from './formula.model';
-import { Niveis } from './niveis.model';
 
 export type Exercicio = {
 
-     id: string;
+     id: number;
      id_logic_live: number;
-     id_recompensa: Recompensa;
-     id_nivel: Niveis;
-     id_formula: Formula;
+     id_recompensa: number;
+     id_nivel: number;
+     formula: Formula;
      nome: string;
      enunciado: string;
      descricao: string;
@@ -17,7 +16,7 @@ export type Exercicio = {
      url: string;
      tempo: number |null;
      qndt_erros: number |null;
-     ativo: number;
+     ativo: boolean;
      created_at: Date;
      updated_at: Date;
 

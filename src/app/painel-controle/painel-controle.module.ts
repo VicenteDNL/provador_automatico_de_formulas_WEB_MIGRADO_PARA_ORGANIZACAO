@@ -8,36 +8,36 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 
-import { ValidacaoFormulasComponent } from './validacao-formulas/validacao-formulas.component';
-import { NiveisComponent } from './validacao-formulas/niveis/niveis.component';
-import { ExerciciosComponent } from './validacao-formulas/exercicios/exercicios.component';
-import { RespostasComponent } from './validacao-formulas/respostas/respostas.component';
-import { CadastrarNivelComponent } from './validacao-formulas/niveis/cadastrar-nivel/cadastrar-nivel.component';
-import { EditarNivelComponent } from './validacao-formulas/niveis/editar-nivel/editar-nivel.component';
-import { PesquisarExercicioComponent } from './validacao-formulas/exercicios/pesquisar-exercicio/pesquisar-exercicio.component';
-import { TabelaExerciciosComponent } from './validacao-formulas/exercicios/tabela-exercicios/tabela-exercicios.component';
-import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
-import { TabelaGramaticaComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/tabela-gramatica/tabela-gramatica.component';
+import { ModuloComponent  } from './modulo/modulo.component';
+import { NiveisComponent } from './modulo/niveis/niveis.component';
+import { ExerciciosComponent } from './modulo/exercicios/exercicios.component';
+import { RespostasComponent } from './modulo/respostas/respostas.component';
+import { CadastrarNivelComponent } from './modulo/niveis/cadastrar-nivel/cadastrar-nivel.component';
+import { EditarNivelComponent } from './modulo/niveis/editar-nivel/editar-nivel.component';
+import { PesquisarExercicioComponent } from './modulo/exercicios/pesquisar-exercicio/pesquisar-exercicio.component';
+import { ListarExerciciosComponent } from './modulo/exercicios/listar-exercicios/listar-exercicios.component';
+import { CadastrarExercicioComponent } from './modulo/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
+import { TabelaGramaticaComponent } from './modulo/exercicios/cadastrar-exercicio/tabela-gramatica/tabela-gramatica.component';
 import { VisualizadorArvoreComponent } from './visualizador-arvore/visualizador-arvore.component';
 import { PersonalizarArvoreComponent } from
-'./validacao-formulas/exercicios/cadastrar-exercicio/personalizar-arvore/personalizar-arvore.component';
-import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
+'./modulo/exercicios/cadastrar-exercicio/personalizar-arvore/personalizar-arvore.component';
+import { InicioComponent } from './modulo/inicio/inicio.component';
 import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
 import { UsuarioComponent } from './configuracoes/usuario/usuario.component';
-import { RecompensasComponent } from './validacao-formulas/recompensa/recompensas.component';
-import { EditarExercicioComponent } from './validacao-formulas/exercicios/editar-exercicio/editar-exercicio.component';
+import { RecompensasComponent } from './modulo/recompensa/recompensas.component';
+import { EditarExercicioComponent } from './modulo/exercicios/editar-exercicio/editar-exercicio.component';
 
 @NgModule({
   declarations: [
     PainelControleComponent,
-    ValidacaoFormulasComponent,
+    ModuloComponent,
     NiveisComponent,
     ExerciciosComponent,
     RespostasComponent,
     CadastrarNivelComponent,
     EditarNivelComponent,
     PesquisarExercicioComponent,
-    TabelaExerciciosComponent,
+    ListarExerciciosComponent,
     CadastrarExercicioComponent,
     TabelaGramaticaComponent,
     VisualizadorArvoreComponent,

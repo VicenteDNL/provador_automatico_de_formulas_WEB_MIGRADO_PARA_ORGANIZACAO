@@ -2,23 +2,23 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { NgModule } from '@angular/core';
 import { PainelControleComponent } from './painel-controle.component';
-import { ValidacaoFormulasComponent } from './validacao-formulas/validacao-formulas.component';
-import { NiveisComponent } from './validacao-formulas/niveis/niveis.component';
-import { ExerciciosComponent } from './validacao-formulas/exercicios/exercicios.component';
-import { RespostasComponent } from './validacao-formulas/respostas/respostas.component';
-import { CadastrarNivelComponent } from './validacao-formulas/niveis/cadastrar-nivel/cadastrar-nivel.component';
-import { EditarNivelComponent } from './validacao-formulas/niveis/editar-nivel/editar-nivel.component';
-import { PesquisarExercicioComponent } from './validacao-formulas/exercicios/pesquisar-exercicio/pesquisar-exercicio.component';
-import { TabelaExerciciosComponent } from './validacao-formulas/exercicios/tabela-exercicios/tabela-exercicios.component';
-import { CadastrarExercicioComponent } from './validacao-formulas/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
-import { InicioComponent } from './validacao-formulas/inicio/inicio.component';
+import { ModuloComponent } from './modulo/modulo.component';
+import { NiveisComponent } from './modulo/niveis/niveis.component';
+import { ExerciciosComponent } from './modulo/exercicios/exercicios.component';
+import { RespostasComponent } from './modulo/respostas/respostas.component';
+import { CadastrarNivelComponent } from './modulo/niveis/cadastrar-nivel/cadastrar-nivel.component';
+import { EditarNivelComponent } from './modulo/niveis/editar-nivel/editar-nivel.component';
+import { PesquisarExercicioComponent } from './modulo/exercicios/pesquisar-exercicio/pesquisar-exercicio.component';
+import { ListarExerciciosComponent } from './modulo/exercicios/listar-exercicios/listar-exercicios.component';
+import { CadastrarExercicioComponent } from './modulo/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
+import { InicioComponent } from './modulo/inicio/inicio.component';
 import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
-import { EditarExercicioComponent } from './validacao-formulas/exercicios/editar-exercicio/editar-exercicio.component';
+import { EditarExercicioComponent } from './modulo/exercicios/editar-exercicio/editar-exercicio.component';
 
 export const routes: Routes = [
   {
-    path: 'modulo1',
-    redirectTo: 'modulo1/inicio',
+    path: 'modulo',
+    redirectTo: 'modulo/inicio',
     pathMatch: 'full',
   },
 
@@ -28,8 +28,8 @@ export const routes: Routes = [
     children: [
       { path: 'configuracao/logiclive', component: LogicLiveComponent },
       {
-        path: 'modulo1',
-        component: ValidacaoFormulasComponent,
+        path: 'modulo',
+        component: ModuloComponent,
         children: [
           { path: 'inicio', component: InicioComponent },
           { path: 'niveis', component: NiveisComponent },
@@ -40,7 +40,7 @@ export const routes: Routes = [
             component: ExerciciosComponent,
             children: [
               { path: '', component: PesquisarExercicioComponent },
-              { path: ':id', component: TabelaExerciciosComponent },
+              { path: ':id', component: ListarExerciciosComponent },
               {
                 path: ':idNivel/cadastrar',
                 component: CadastrarExercicioComponent,

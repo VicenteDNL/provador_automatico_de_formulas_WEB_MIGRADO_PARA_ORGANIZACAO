@@ -39,19 +39,19 @@ export class PainelControleComponent implements OnInit {
       itens: [
         {
           item: 'Níveis',
-          url: 'painel/modulo1/niveis',
+          url: 'painel/modulo/niveis',
           id: 'item-nav1',
           ativo: false,
         },
         {
           item: 'Exercícios',
-          url: 'painel/modulo1/exercicios/pesquisar',
+          url: 'painel/modulo/exercicios/pesquisar',
           id: 'item-nav2',
           ativo: false,
         },
         {
           item: 'Respostas',
-          url: 'painel/modulo1/respostas',
+          url: 'painel/modulo/respostas',
           id: 'item-nav3',
           ativo: false,
         },
@@ -88,14 +88,14 @@ export class PainelControleComponent implements OnInit {
   rotaAtiva(url) {
     const lista = url.split('/')[2];
     switch (lista) {
-      case 'modulo1':
+      case 'modulo':
         this.itensNavegacao = this.modulos.modulo1;
-        this.router.navigate(['painel/modulo1/inicio']);
+        this.router.navigate(['painel/modulo/inicio']);
 
         break;
       case 'configuracao':
         this.itensNavegacao = this.modulos.modulo1;
-        this.router.navigate(['painel/modulo1/inicio']);
+        this.router.navigate(['painel/modulo/inicio']);
         break;
     }
   }
@@ -186,10 +186,10 @@ export class PainelControleComponent implements OnInit {
   voltar() {
     switch (this.itensNavegacao.id) {
       case 1:
-        this.router.navigate(['painel/modulo1/inicio']);
+        this.router.navigate(['painel/modulo/inicio']);
         break;
       default:
-        this.router.navigate(['painel/modulo1/inicio']);
+        this.router.navigate(['painel/modulo/inicio']);
     }
 
     this.configAberta = false;
