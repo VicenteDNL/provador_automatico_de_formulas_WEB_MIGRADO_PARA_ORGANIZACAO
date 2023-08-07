@@ -58,9 +58,9 @@
               >Recompensas</label
             >
             <select
-              id="recompensaSelecionada"
-              name="recompensaSelecionada"
-              [(ngModel)]="recompensaSelecionada"
+              id="idRecompensaSelecionada"
+              name="idRecompensaSelecionada"
+              [(ngModel)]="idRecompensaSelecionada"
               class="form-control form-control-sm"
               (change)="preencherForms()">
               <option
@@ -146,5 +146,10 @@
       role="status">
       <span class="sr-only">Carregando...</span>
     </div>
+    <div  *ngIf="error" class="alert alert-danger pt-1" role="alert">
+      <span class="text-center ">Não foi possível executar essa ação, tente novamente.</span>
+    </div>
+    <div>
+  </div>
   </div>
 </div>

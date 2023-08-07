@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Recompensa } from '../models/recompensa.model';
 import { RecompensaService } from './recompensa.service';
+import { Recompensa } from '../models/recompensa.model';
+import { RecompensaInput } from './interfaces';
 
 @Component({
   selector: 'app-recompensa',
@@ -10,29 +11,30 @@ import { RecompensaService } from './recompensa.service';
 export class RecompensaComponent implements OnInit {
   cadastrarColapse = false;
   editarColapse = true;
-  recompensaSelecionada;
-  listaRecompensas;
+  idRecompensaSelecionada: number;
+  listaRecompensas: Recompensa[];
   criando = false;
   title = 'Criar Recompensa';
-  recompensa: Recompensa;
+  recompensa: RecompensaInput =  {
+    nome: '',
+    pontuacao: 0
+  };
   exibirFormEditar = true;
+  error=false;
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() referenciaModal: any;
 
   constructor(private service: RecompensaService) {}
 
-  // files =null;
-
-
-
   ngOnInit(): void {
     this.service.todasRecompensas().subscribe(
-      recompensas => (this.listaRecompensas = recompensas),
-      error => (this.listaRecompensas = ['ERROR AO CARREGAR!']),
+      response => (this.listaRecompensas = response.success === true ?response.data:[]),
+      error => (this.listaRecompensas = []),
     );
   }
 
   cadastrarRecompensa() {
+    this.error=false;
     this.criando = true;
     this.service.cadastrarRecompensa(this.recompensa).subscribe(
       response => {
@@ -45,11 +47,13 @@ export class RecompensaComponent implements OnInit {
       },
       error => {
         this.criando = false;
+        this.error=true;
       },
     );
   }
 
   editarRecompensa() {
+    this.error=false;
     this.criando = true;
     this.service.editarRecompensa(this.recompensa).subscribe(
       response => {
@@ -57,18 +61,19 @@ export class RecompensaComponent implements OnInit {
 
         if (response.success) {
           this.referenciaModal.hide();
-        } else {
         }
       },
       error => {
         this.criando = false;
+        this.error=true;
       },
     );
   }
 
   deletarRecompensa() {
+    this.error=false;
     this.criando = true;
-    this.service.deletarRecompensa(this.recompensa).subscribe(
+    this.service.deletarRecompensa(this.recompensa.id).subscribe(
       response => {
         this.criando = false;
 
@@ -79,11 +84,13 @@ export class RecompensaComponent implements OnInit {
       },
       error => {
         this.criando = false;
+        this.error=true;
       },
     );
   }
 
-  exibirColapse(val) {
+  exibirColapse(val: number) {
+    this.error = false;
     if (val === 1 && this.cadastrarColapse) {
       this.title = 'Criar Recompensa';
       this.cadastrarColapse = !this.cadastrarColapse;
@@ -95,17 +102,12 @@ export class RecompensaComponent implements OnInit {
     }
   }
 
-  // public validaArquivo(evento){
-  //   let files:FileList =evento.target.files
-  //   const fileItem = files.item(0);
-  //   this.files = fileItem;
-  //   const selectedFiles = <FileList>evento.srcElement.files;
-  //   document.getElementById('nome-imagem').innerHTML = (selectedFiles[0].name);
-  // }
+  fecharAvisoError() {
+    this.error = false;
+  }
 
   preencherForms() {
     this.exibirFormEditar = false;
-
-    this.recompensa = this.listaRecompensas[this.recompensaSelecionada];
+    this.recompensa = this.listaRecompensas[this.idRecompensaSelecionada];
   }
 }
