@@ -7,7 +7,7 @@
             <h6 class="m-0 font-weight-bold">Orientação:</h6>
           </div>
           <div class="card-body">
-            <p class="enunciado mb-0">{{ enunciado }}</p>
+            <p class="enunciado mb-0">{{ exercicio.enunciado }}</p>
           </div>
         </div>
       </div>
@@ -26,11 +26,11 @@
                   <div class="icon-painel shadow-sm" [ngClass]="classTentativa">
                     <fa-icon [icon]="heart"></fa-icon>
                   </div>
-                  <div class="texto-painel shadow-sm" *ngIf="vida == null">
+                  <div class="texto-painel shadow-sm" *ngIf="tentativas.erros == null">
                     Sem limite de erros
                   </div>
-                  <div class="texto-painel shadow-sm" *ngIf="vida != null">
-                    Tentativas restantes = {{ vida }}
+                  <div class="texto-painel shadow-sm" *ngIf="tentativas.erros != null">
+                    Tentativas restantes = {{ tentativas.erros }}
                   </div>
                 </div>
               </div>
@@ -54,14 +54,14 @@
                   </div>
                   <div
                     class="texto-painel shadow-sm"
-                    *ngIf="minutosRestante != null">
+                    *ngIf="tentativas.tempo.minutos != null">
                     Tempo restante =
-                    <span> {{ minutosRestante }} Min </span>
-                    <span> {{ segundosRestante }} Seg </span>
+                    <span> {{ tentativas.tempo.minutos }} Min </span>
+                    <span> {{ tentativas.tempo.segundos }} Seg </span>
                   </div>
                   <div
                     class="texto-painel shadow-sm"
-                    *ngIf="minutosRestante == null">
+                    *ngIf="tentativas.tempo.minutos == null">
                     Sem limite de tempo
                   </div>
                 </div>
@@ -75,10 +75,10 @@
                     style="overflow: auto">
                     <!-- Str Formula -->
                     <div class="container-str-formula text-center">
-                      <h6 class="formula-str mb-0">{{ request.strformula }}</h6>
+                      <h6 class="formula-str mb-0">{{ arvore.strformula }}</h6>
                     </div>
                     <svg width="700" height="660">
-                      <g *ngFor="let item of request.arestas; let i = index">
+                      <g *ngFor="let item of arvore.arestas; let i = index">
                         <line
                           [attr.x1]="item.linhaX1"
                           [attr.y1]="item.linhaY1"
@@ -90,7 +90,7 @@
                       </g>
 
                       <g
-                        *ngFor="let item of request.nos; let i = index"
+                        *ngFor="let item of arvore.nos; let i = index"
                         (mouseover)="alterarcor(i)"
                         (mouseleave)="voltarcor(i)"
                         (click)="selecionarNo(i)">
@@ -258,29 +258,29 @@
                     <!-- Elementos para exibição do fim das tentativas -->
                     <div
                       *ngIf="
-                        (minutosRestante == 0 && segundosRestante == 0) ||
-                        vida == 0
+                        (tentativas.tempo.minutos == 0 && tentativas.tempo.segundos == 0) ||
+                        tentativas.erros == 0
                       "
                       class="container-erros">
                       <div
                         *ngIf="
-                          minutosRestante != 0 &&
-                          segundosRestante != 0 &&
-                          vida == 0
+                          tentativas.tempo.minutos != 0 &&
+                          tentativas.tempo.segundos != 0 &&
+                          tentativas.erros == 0
                         "
                         class="imagem-sem-vida"></div>
                       <div
                         *ngIf="
-                          minutosRestante == 0 &&
-                          segundosRestante == 0 &&
-                          vida != 0
+                          tentativas.tempo.minutos == 0 &&
+                          tentativas.tempo.segundos == 0 &&
+                          tentativas.erros != 0
                         "
                         class="imagem-sem-tempo"></div>
                       <div
                         *ngIf="
-                          minutosRestante == 0 &&
-                          segundosRestante == 0 &&
-                          vida == 0
+                          tentativas.tempo.minutos == 0 &&
+                          tentativas.tempo.segundos == 0 &&
+                          tentativas.erros == 0
                         "
                         class="sem-tentativas-vida"></div>
                       <div class="container-btn-nova-tentativa">
@@ -296,19 +296,19 @@
                     <!-- Elementos do painel de controle -->
                     <div
                       *ngIf="
-                        vida != 0 &&
-                        (minutosRestante != 0 || segundosRestante != 0) &&
-                        request.finalizada == false
+                      tentativas.erros != 0 &&
+                        (tentativas.tempo.minutos != 0 || tentativas.tempo.segundos != 0) &&
+                        arvore.finalizada == false
                       ">
                       <!-- Posicionamento dos Primeiros nós na arvore -->
                       <div
-                        *ngIf="!request.inicio.completa"
+                        *ngIf="!arvore.inicio.completa"
                         class="grupo-controles p-3 flex-item">
                         <div class="grupo-check flex-um">
                           <div
                             class="form-check mb-2"
                             *ngFor="
-                              let arg of request.inicio.opcoes;
+                              let arg of arvore.inicio.opcoes;
                               let i = index
                             ">
                             <input
@@ -332,7 +332,7 @@
                             class="btn btn-sm btn-inserir btn-block mt-3"
                             (click)="adicionaNo(0)"
                             [disabled]="
-                              request.inicio.no == null ||
+                              arvore.inicio.no == null ||
                               carregamentoConsole == true
                             ">
                             Inserir
@@ -342,7 +342,7 @@
                             class="btn btn-sm btn-fechar-ramo btn-block"
                             (click)="adicionaNo(1)"
                             [disabled]="
-                              request.inicio.no == null ||
+                              arvore.inicio.no == null ||
                               carregamentoConsole == true
                             ">
                             Negar e Inserir
@@ -352,11 +352,11 @@
 
                       <!-- Derivação dos elementos da árvore -->
                       <div
-                        *ngIf="request.inicio.completa"
+                        *ngIf="arvore.inicio.completa"
                         class="grupo-controles p-3 mb-3">
                         <div
                           class="form-check"
-                          *ngFor="let reg of request.regras; let i = index">
+                          *ngFor="let reg of arvore.regras; let i = index">
                           <input
                             class="form-check-input form-control-sm"
                             type="radio"
@@ -388,12 +388,12 @@
                       </div>
 
                       <!-- botões para fechar e ticar um nó -->
-                      <div *ngIf="request.inicio.completa">
+                      <div *ngIf="arvore.inicio.completa">
                         <div
-                          *ngIf="!request.fechar.auto || !request.ticar.auto"
+                          *ngIf="!arvore.fechar.auto || !arvore.ticar.auto"
                           class="grupo-controles p-3">
                           <button
-                            *ngIf="!request.fechar.auto"
+                            *ngIf="!arvore.fechar.auto"
                             type="button"
                             class="btn btn-sm btn-fechar-ramo btn-block"
                             [disabled]="
@@ -404,7 +404,7 @@
                             Fechar Ramo
                           </button>
                           <button
-                            *ngIf="!request.ticar.auto"
+                            *ngIf="!arvore.ticar.auto"
                             type="button"
                             class="btn btn-sm btn-ticar btn-block"
                             [disabled]="
@@ -419,9 +419,9 @@
                     </div>
                     <div
                       *ngIf="
-                        request.finalizada &&
-                        vida != 0 &&
-                        (minutosRestante != 0 || segundosRestante != 0)
+                        arvore.finalizada &&
+                        tentativas.erros != 0 &&
+                        (tentativas.tempo.minutos != 0 || tentativas.tempo.segundos != 0)
                       "
                       class="botoes-fim mt-2">
                       <div *ngIf="resultado == null" class="text-center">
@@ -484,8 +484,8 @@
                           <div
                             class="btn-group mx-2 mt-3"
                             *ngIf="
-                              vida != 0 &&
-                              (minutosRestante != 0 || segundosRestante != 0)
+                              tentativas.erros != 0 &&
+                              (tentativas.tempo.minutos != 0 || tentativas.tempo.segundos != 0)
                             ">
                             <button
                               class="btn btn-sm btn-icon"

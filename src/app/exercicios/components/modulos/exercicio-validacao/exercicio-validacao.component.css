@@ -93,7 +93,6 @@
 }
 
 .grupo-controles {
-  /* border: 1px solid #88888836; */
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
@@ -150,7 +149,7 @@
   font-weight: bold;
 }
 
-.sem-risco {
+.semRisco {
   background-color: #1cc88a !important;
 }
 
@@ -163,10 +162,10 @@
   }
 }
 
-.com-atenção {
+.comAtencao {
   background-color: #ffc107;
 }
-.com-risco {
+.comRisco {
   background-color: #ea5547;
   animation: neon 1s alternate infinite ease-in-out;
 }
@@ -188,7 +187,6 @@
   border-right: 1px solid #88888836;
   padding: 5px;
   color: white;
-  /* font-weight: bold; */
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
   background-color: #6c757d;
