@@ -17,5 +17,4 @@ export type No =  {
     fill: string;
     strokeWidth: number;
     strokeColor: string;
-
 };
