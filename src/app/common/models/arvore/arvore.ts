@@ -20,5 +20,7 @@ export type Arvore = {
     id_exercicio: number;
     exe_hash: string | null;
     usu_hash: string | null;
+    resposta?: string;
+    xml: string;
 };
 
