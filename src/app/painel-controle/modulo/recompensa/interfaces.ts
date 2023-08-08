@@ -1,5 +1,5 @@
-import { BaseResponse } from '../../models/baseResponse';
-import { Recompensa } from '../../models/recompensa.model';
+import { Recompensa } from 'src/app/common/models/recompensa.model';
+import { BaseResponse } from '../../../common/models/baseResponse';
 
 export type Response = BaseResponse;
 

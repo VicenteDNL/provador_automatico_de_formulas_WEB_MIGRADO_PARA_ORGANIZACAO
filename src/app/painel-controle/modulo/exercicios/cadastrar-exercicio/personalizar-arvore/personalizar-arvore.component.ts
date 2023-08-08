@@ -10,9 +10,8 @@ import {
   faMinusSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { CadastrarExercicioComponent } from '../cadastrar-exercicio.component';
-import { Mensagem } from 'src/app/painel-controle/models/mensagem.model';
-import { Request } from 'src/app/painel-controle/models/request.model';
-import { MensagemConsole } from 'src/app/painel-controle/models/mensagemConsole';
+import { Mensagem } from 'src/app/common/models/mensagem.model';
+import { Arvore } from 'src/app/common/models/arvore/arvore';
 @Component({
   selector: 'app-personalizar-arvore',
   templateUrl: './personalizar-arvore.component.html',
@@ -37,7 +36,7 @@ export class PersonalizarArvoreComponent implements OnInit {
   carregamentoConsole = false;
   // --------
 
-  request: Request = new Request();
+  request: Arvore;
 
   vermelho = null;
   amarelo = [];
@@ -48,7 +47,7 @@ export class PersonalizarArvoreComponent implements OnInit {
   // --------
 
   // outras variaveis de controle
-  msgConsole = new MensagemConsole();
+  msgConsole: Mensagem={msg:'',tipo:'success'};
   errorMensagen;
   strFormula;
   desmarcadonoInsercao = false;
@@ -285,7 +284,7 @@ export class PersonalizarArvoreComponent implements OnInit {
         this.desmarcadonoInsercao === false
       ) {
         this.request.nos[index].strokeColor = '#b91d1d';
-        this.request.nos[index].strokeWidth = '3';
+        this.request.nos[index].strokeWidth = 3;
         this.vermelho = this.request.nos[index];
         // this.request.derivacao.no=this.request.nos[index]
 
@@ -300,7 +299,7 @@ export class PersonalizarArvoreComponent implements OnInit {
         this.desmarcadonoInsercao === false
       ) {
         this.request.nos[index].strokeColor = 'url(#grad3)';
-        this.request.nos[index].strokeWidth = '3';
+        this.request.nos[index].strokeWidth = 3;
         this.amarelo.push(this.request.nos[index]);
 
         this.ativosCheckDerivacao = true;
@@ -315,7 +314,7 @@ export class PersonalizarArvoreComponent implements OnInit {
         this.desmarcadonoInsercao === false
       ) {
         this.request.nos[index].strokeColor = '#b91d1d';
-        this.request.nos[index].strokeWidth = '3';
+        this.request.nos[index].strokeWidth = 3;
         this.amarelo.splice(this.amarelo.indexOf(this.request.nos[index]), 1);
         this.desmarcadonoInsercao = true;
 
@@ -331,7 +330,7 @@ export class PersonalizarArvoreComponent implements OnInit {
         this.desmarcadonoInsercao === true
       ) {
         this.request.nos[index].strokeColor = '#C0C0C0';
-        this.request.nos[index].strokeWidth = '2';
+        this.request.nos[index].strokeWidth = 2;
         this.vermelho = null;
         this.desmarcadonoInsercao = false;
 
@@ -346,7 +345,7 @@ export class PersonalizarArvoreComponent implements OnInit {
         this.amarelo.indexOf(this.request.nos[index]) === -1
       ) {
         this.request.nos[index].strokeColor = '#FFFF00';
-        this.request.nos[index].strokeWidth = '3';
+        this.request.nos[index].strokeWidth = 3;
         this.amarelo.push(this.request.nos[index]);
 
         this.ativosCheckDerivacao = true;
@@ -357,7 +356,7 @@ export class PersonalizarArvoreComponent implements OnInit {
       // Desmarcando um nó amarelo selecionado
       else if (this.amarelo.indexOf(this.request.nos[index]) !== -1) {
         this.request.nos[index].strokeColor = '#C0C0C0';
-        this.request.nos[index].strokeWidth = '2';
+        this.request.nos[index].strokeWidth = 2;
         this.amarelo.splice(this.amarelo.indexOf(this.request.nos[index]), 1);
 
         this.ativosCheckDerivacao = this.amarelo.length >= 1 ? true : false;
@@ -368,7 +367,7 @@ export class PersonalizarArvoreComponent implements OnInit {
   }
 
   exibirNoConsole(msg, tipo) {
-    this.listaconsole.push(new Mensagem(msg, tipo));
+    this.listaconsole.push({msg, tipo});
   }
 
   limparConsole() {
@@ -380,7 +379,7 @@ export class PersonalizarArvoreComponent implements OnInit {
   }
 
   finalizar() {
-    this.cadastrarCmp.request = new Request();
+    this.cadastrarCmp.request = {};
     this.cadastrarCmp.exercicio.formula.inicio_personalizado = false;
     this.cadastrarCmp.exercicio.formula.iniciar_zerada = true;
     this.refModal.hide();

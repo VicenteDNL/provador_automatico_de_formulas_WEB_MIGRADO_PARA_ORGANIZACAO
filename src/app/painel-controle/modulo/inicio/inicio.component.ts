@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ExerciciosService } from '../../modulo/exercicios/exercicios.service';
 import { PainelControleComponent } from '../../painel-controle.component';
 import { environment } from 'src/environments/environment';
-import { Arestas } from '../../models/arvore/arestas';
+import { Arestas } from '../../../common/models/arvore/arestas';
 
 declare let gramLogic: any;
 

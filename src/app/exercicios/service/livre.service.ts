@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { Arvore } from 'src/app/painel-controle/models/arvore/arvore';
-import { BaseResponse } from 'src/app/painel-controle/models/baseResponse';
-import { ProcessoDerivacao } from 'src/app/painel-controle/models/arvore/processoDerivacao';
+import { Arvore } from 'src/app/common/models/arvore/arvore';
+import { BaseResponse } from 'src/app/common/models/baseResponse';
 import { environment } from 'src/environments/environment';
 
 interface ArvoreResponse extends BaseResponse {
@@ -13,7 +12,7 @@ interface ArvoreResponse extends BaseResponse {
 
  interface IniciarResponse extends BaseResponse {
   data: {
-    arvore: ProcessoDerivacao;
+    arvore: Arvore;
   };
  }
 
@@ -57,7 +56,7 @@ export class LivreService {
 
   iniciar(xml) {
     return this.http
-      .post<IniciarResponse>(`${this.api}aluno/livre/iniciar/`, { xml })
+      .post<any>(`${this.api}aluno/livre/iniciar/`, { xml })
       .pipe(take(1));
   }
 }

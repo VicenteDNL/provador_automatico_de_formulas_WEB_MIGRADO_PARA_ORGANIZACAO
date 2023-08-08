@@ -12,9 +12,9 @@ import {  ExerciciosService } from '../exercicios.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
-import { Request } from 'src/app/painel-controle/models/request.model';
+import { Request } from 'src/app/common/models/request.model';
 import { environment } from 'src/environments/environment';
-import {Recompensa} from 'src/app/painel-controle/models/recompensa.model';
+import {Recompensa} from 'src/app/common/models/recompensa.model';
 import { ExercicioInput, RecompensasResponse, Response } from '../interfaces';
 
 
@@ -46,6 +46,7 @@ export class CadastrarExercicioComponent implements OnInit {
       iniciar_zerada:true,
       inicio_personalizado:false,
       ticar_automaticamente:false,
+      fechar_automaticamente:false,
       xml:'',
       lista_derivacoes: [],
       lista_fechamento: [],

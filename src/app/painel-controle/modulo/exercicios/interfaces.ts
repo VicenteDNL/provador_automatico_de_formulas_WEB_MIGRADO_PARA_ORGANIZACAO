@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Arvore } from '../../models/arvore/arvore';
-import { BaseResponse } from '../../models/baseResponse';
-import { Exercicio } from '../../models/exercicio.model';
-import { Nivel } from '../../models/nivel.model';
-import { PaginationResponse } from '../../models/paginationResponse';
-import { Recompensa } from '../../models/recompensa.model';
+import { Exercicio } from 'src/app/common/models/exercicio.model';
+import { Arvore } from '../../../common/models/arvore/arvore';
+import { BaseResponse } from '../../../common/models/baseResponse';
+
+import { Nivel } from 'src/app/common/models//nivel.model';
+import { PaginationResponse } from 'src/app/common/models//paginationResponse';
+import { Recompensa } from 'src/app/common/models//recompensa.model';
 
 export type Response = BaseResponse;
 
@@ -42,6 +43,7 @@ export interface ArvoreResponse extends Response {
     inicio_personalizado: boolean;
     iniciar_zerada: boolean;
     ticar_automaticamente: boolean;
+    fechar_automaticamente: boolean;
     lista_derivacoes: any[];
     lista_fechamento: any[];
     lista_ticagem: any[];

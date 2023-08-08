@@ -7,7 +7,7 @@ import {
 import {  NiveisService } from '../../../modulo/niveis/niveis.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { Recompensa } from 'src/app/painel-controle/models/recompensa.model';
+import { Recompensa } from 'src/app/common/models/recompensa.model';
 import { NivelInput, NivelResponse } from '../interfaces';
 
 @Component({

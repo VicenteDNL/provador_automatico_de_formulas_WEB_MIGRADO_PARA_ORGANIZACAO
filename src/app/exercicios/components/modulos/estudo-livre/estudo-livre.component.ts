@@ -7,10 +7,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from 'src/environments/environment';
-import { MensagemConsole } from '../../../models/mensagemConsole';
-import { Request } from '../../../models/request.model';
-import { AlunoAuthService } from '../../../service/aluno-auth.service';
 import { LivreService } from '../../../service/livre.service';
+import { Mensagem } from 'src/app/common/models/mensagem.model';
+import { Arvore } from 'src/app/common/models/arvore/arvore';
 declare let gramLogic: any;
 
 @Component({
@@ -25,9 +24,9 @@ export class EstudoLivreComponent implements OnInit {
   erro = faExclamationTriangle;
 
   // Variaveis do CONSOLE
-  msgConsole = new MensagemConsole();
+  msgConsole: Mensagem = {msg:'',tipo:'sucesso'};
   carregamentoConsole = false;
-  request: Request ;
+  arvore: Arvore ;
   formula = '';
 
   // Variaveis da etapa de INICIALIZACAO
@@ -59,7 +58,7 @@ export class EstudoLivreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.request.strformula = 'Crie uma fórmula';
+    this.arvore.strformula = 'Crie uma fórmula';
   }
 
   error(error) {
@@ -76,20 +75,20 @@ export class EstudoLivreComponent implements OnInit {
         case 'fechar':
           msg =
             'Fechamento do nó  \'' +
-            this.request.fechar.folha.str +
+            this.arvore.fechar.folha.str +
             '\' realizado com sucesso';
           break;
         case 'ticar':
-          msg = 'Nó \'' + this.request.ticar.no.str + '\' ticado com sucesso!';
+          msg = 'Nó \'' + this.arvore.ticar.no.str + '\' ticado com sucesso!';
           break;
         case 'derivar':
           msg =
             'Derivação do nó \'' +
-            this.request.derivacao.no.str +
+            this.arvore.derivacao.no.str +
             '\' realizado com sucesso';
           break;
         case 'adicionar':
-          msg = 'Argumento  \'' + this.request.inicio.no.str + '\' inserido';
+          msg = 'Argumento  \'' + this.arvore.inicio.no.str + '\' inserido';
           break;
         default:
           msg = '';
@@ -99,7 +98,7 @@ export class EstudoLivreComponent implements OnInit {
       this.ativosCheckDerivacao = false;
       this.ativosBtnFecharRamo = false;
       this.ativosBtnTicarNo = false;
-      this.request = response.data;
+      this.arvore = response.data;
       this.vermelho = null;
       this.amarelo = [];
     } else {
@@ -109,8 +108,8 @@ export class EstudoLivreComponent implements OnInit {
   }
 
   validarFormula() {
-    if (this.request.xml === '') {
-      this.request.xml = '';
+    if (this.arvore.xml === '') {
+      this.arvore.xml = '';
       this.formulaInvalida = false;
       this.visualizararvore = true;
     } else {
@@ -118,7 +117,7 @@ export class EstudoLivreComponent implements OnInit {
       if (validacao.sucesso === true) {
         this.formulaInvalida = false;
         this.visualizararvore = true;
-        this.request.xml = validacao.xml;
+        this.arvore.xml = validacao.xml;
       } else {
         this.formulaInvalida = true;
         this.visualizararvore = false;
@@ -159,8 +158,8 @@ export class EstudoLivreComponent implements OnInit {
   }
 
   abrirArvore(template: TemplateRef<any>) {
-    if (this.request.xml !== '') {
-      this.service.arvoreOtimizada(this.request.xml).subscribe(
+    if (this.arvore.xml !== '') {
+      this.service.arvoreOtimizada(this.arvore.xml).subscribe(
         response => {
           if (response.success) {
             this.listaImpressaoNo = response.data.nos;
@@ -178,9 +177,9 @@ export class EstudoLivreComponent implements OnInit {
 
   iniciarDerivacao() {
     if (this.visualizararvore === true) {
-      this.service.iniciar(this.request.xml).subscribe(response => {
+      this.service.iniciar(this.arvore.xml).subscribe(response => {
         if (response.success) {
-          this.request = response.data.arvore;
+          this.arvore = response.data.arvore;
           this.exibirNoConsole('Exercício iniciado', 'sucesso');
           this.derivacaoIniciada = true;
         }
@@ -203,7 +202,7 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Pega o valor do check box selecionado e adiciona a variavel
    */
   selecionado(id) {
-    this.request.inicio.no = this.request.inicio.opcoes[id];
+    this.arvore.inicio.no = this.arvore.inicio.opcoes[id];
   }
 
   /**
@@ -211,13 +210,13 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : adiciona a premissa ou conclusão na arvore
    */
   adicionaNo(negar) {
-    this.request.inicio.negacao = negar === 1 ? true : false;
+    this.arvore.inicio.negacao = negar === 1 ? true : false;
     this.carregamentoConsole = true;
     this.exibirNoConsole(
-      'Inserindo o argumento  \'' + this.request.inicio.no.str + '\'',
+      'Inserindo o argumento  \'' + this.arvore.inicio.no.str + '\'',
       'info',
     );
-    this.service.adicionarNo(this.request).subscribe(
+    this.service.adicionarNo(this.arvore).subscribe(
       response => this.sucesso(response, 'adicionar'),
       error => this.error(error.message),
     );
@@ -237,7 +236,7 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Adiciona a regra escolhida
    */
   regra(regra) {
-    this.request.derivacao.regra = regra;
+    this.arvore.derivacao.regra = regra;
     if (this.msgConsole.msg === 'Nenhuma regra selecionada') {
       this.msgConsole.msg = '';
     }
@@ -248,13 +247,13 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Tica o nó de interesse
    */
   ticar() {
-    this.request.ticar.no = this.vermelho;
+    this.arvore.ticar.no = this.vermelho;
     this.carregamentoConsole = true;
     this.exibirNoConsole(
       'Requisitando ticagem do nó  \'' + this.vermelho.str + '\'',
       'info',
     );
-    this.service.ticarNo(this.request).subscribe(
+    this.service.ticarNo(this.arvore).subscribe(
       response => this.sucesso(response, 'ticar'),
       error => this.error(error.message),
     );
@@ -265,18 +264,18 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Fechar o nó de interesse
    */
   fechar() {
-    this.request.fechar.no = this.amarelo[0];
-    this.request.fechar.folha = this.vermelho;
+    this.arvore.fechar.no = this.amarelo[0];
+    this.arvore.fechar.folha = this.vermelho;
     this.carregamentoConsole = true;
     this.exibirNoConsole(
       'Requisitando fechamento do nó  \'' +
-        this.request.fechar.folha.str +
+        this.arvore.fechar.folha.str +
         '\', contradição na linha:' +
-        this.request.fechar.no.linha +
+        this.arvore.fechar.no.linha +
         '',
       'info',
     );
-    this.service.fecharRamo(this.request).subscribe(
+    this.service.fecharRamo(this.arvore).subscribe(
       response => this.sucesso(response, 'fechar'),
       error => this.error(error.message),
     );
@@ -287,17 +286,17 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Realiza a derivação da arvore
    */
   derivar() {
-    if (this.request.derivacao.regra === null) {
+    if (this.arvore.derivacao.regra === null) {
       this.exibirNoConsole('Nenhuma regra selecionada', 'error');
       return;
     }
-    this.request.derivacao.no = this.vermelho;
-    this.request.derivacao.folhas = this.amarelo;
+    this.arvore.derivacao.no = this.vermelho;
+    this.arvore.derivacao.folhas = this.amarelo;
 
     const listaIds = [];
       let nomes = '';
 
-    this.request.derivacao.folhas.forEach((item)=> {
+    this.arvore.derivacao.folhas.forEach((item)=> {
       listaIds.push(item.idNo);
       nomes = nomes + '[ ' + item.str + ', linha: ' + item.linha + ' ], ';
     });
@@ -305,12 +304,12 @@ export class EstudoLivreComponent implements OnInit {
     this.carregamentoConsole = true;
     this.exibirNoConsole(
       'Requisitando derivação do nó \'' +
-        this.request.derivacao.no.str +
+        this.arvore.derivacao.no.str +
         '\' para inserção no no(s): ' +
         nomes,
       'info',
     );
-    this.service.derivar(this.request).subscribe(
+    this.service.derivar(this.arvore).subscribe(
       response => this.sucesso(response, 'derivar'),
       error => this.error(error.message),
     );
@@ -331,7 +330,7 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Metodo aplicado para alterar cor do nó com o evento de hover-in do mouse
    */
   alterarcor(index) {
-    this.request.nos[index].fill = 'url(#grad2)';
+    this.arvore.nos[index].fill = 'url(#grad2)';
   }
 
   /**
@@ -339,7 +338,7 @@ export class EstudoLivreComponent implements OnInit {
    * Descrição : Metodo aplicado para voltar a cor original do nó com o evento de hover-out do mouse
    */
   voltarcor(index) {
-    this.request.nos[index].fill = 'url(#grad1)';
+    this.arvore.nos[index].fill = 'url(#grad1)';
   }
 
   /**
@@ -348,16 +347,16 @@ export class EstudoLivreComponent implements OnInit {
    */
 
   selecionarNo(index) {
-    if (this.request.inicio.completa === true) {
+    if (this.arvore.inicio.completa === true) {
       // Seleção do no vermelho
       if (
         this.amarelo.length === 0 &&
         this.vermelho === null &&
         this.desmarcadonoInsercao === false
       ) {
-        this.request.nos[index].strokeColor = '#b91d1d';
-        this.request.nos[index].strokeWidth = '3';
-        this.vermelho = this.request.nos[index];
+        this.arvore.nos[index].strokeColor = '#b91d1d';
+        this.arvore.nos[index].strokeWidth = 3;
+        this.vermelho = this.arvore.nos[index];
 
         this.ativosCheckDerivacao = false;
         this.ativosBtnFecharRamo = false;
@@ -366,12 +365,12 @@ export class EstudoLivreComponent implements OnInit {
       // Seleção  vermelho e amarelho no mesmo nó
       else if (
         this.amarelo.length === 0 &&
-        this.vermelho === this.request.nos[index] &&
+        this.vermelho === this.arvore.nos[index] &&
         this.desmarcadonoInsercao === false
       ) {
-        this.request.nos[index].strokeColor = 'url(#grad3)';
-        this.request.nos[index].strokeWidth = '3';
-        this.amarelo.push(this.request.nos[index]);
+        this.arvore.nos[index].strokeColor = 'url(#grad3)';
+        this.arvore.nos[index].strokeWidth = 3;
+        this.amarelo.push(this.arvore.nos[index]);
 
         this.ativosCheckDerivacao = true;
         this.ativosBtnFecharRamo = false;
@@ -380,13 +379,13 @@ export class EstudoLivreComponent implements OnInit {
 
       // Desmarcando um nó amarelo selecionado
       else if (
-        this.amarelo.indexOf(this.request.nos[index]) !== -1 &&
-        this.vermelho === this.request.nos[index] &&
+        this.amarelo.indexOf(this.arvore.nos[index]) !== -1 &&
+        this.vermelho === this.arvore.nos[index] &&
         this.desmarcadonoInsercao === false
       ) {
-        this.request.nos[index].strokeColor = '#b91d1d';
-        this.request.nos[index].strokeWidth = '3';
-        this.amarelo.splice(this.amarelo.indexOf(this.request.nos[index]), 1);
+        this.arvore.nos[index].strokeColor = '#b91d1d';
+        this.arvore.nos[index].strokeWidth = 3;
+        this.amarelo.splice(this.amarelo.indexOf(this.arvore.nos[index]), 1);
         this.desmarcadonoInsercao = true;
 
         this.ativosCheckDerivacao = false;
@@ -397,11 +396,11 @@ export class EstudoLivreComponent implements OnInit {
       // Desmarcando um nó vermelho selecionado
       else if (
         this.amarelo.length === 0 &&
-        this.vermelho === this.request.nos[index] &&
+        this.vermelho === this.arvore.nos[index] &&
         this.desmarcadonoInsercao === true
       ) {
-        this.request.nos[index].strokeColor = '#C0C0C0';
-        this.request.nos[index].strokeWidth = '2';
+        this.arvore.nos[index].strokeColor = '#C0C0C0';
+        this.arvore.nos[index].strokeWidth = 2;
         this.vermelho = null;
         this.desmarcadonoInsercao = false;
 
@@ -412,12 +411,12 @@ export class EstudoLivreComponent implements OnInit {
 
       // Marcando um segundo nó amarelho
       else if (
-        this.vermelho !== this.request.nos[index] &&
-        this.amarelo.indexOf(this.request.nos[index]) === -1
+        this.vermelho !== this.arvore.nos[index] &&
+        this.amarelo.indexOf(this.arvore.nos[index]) === -1
       ) {
-        this.request.nos[index].strokeColor = '#FFFF00';
-        this.request.nos[index].strokeWidth = '3';
-        this.amarelo.push(this.request.nos[index]);
+        this.arvore.nos[index].strokeColor = '#FFFF00';
+        this.arvore.nos[index].strokeWidth = 3;
+        this.amarelo.push(this.arvore.nos[index]);
 
         this.ativosCheckDerivacao = true;
         this.ativosBtnFecharRamo = this.amarelo.length === 1 ? true : false;
@@ -425,10 +424,10 @@ export class EstudoLivreComponent implements OnInit {
       }
 
       // Desmarcando um nó amarelo selecionado
-      else if (this.amarelo.indexOf(this.request.nos[index]) !== -1) {
-        this.request.nos[index].strokeColor = '#C0C0C0';
-        this.request.nos[index].strokeWidth = '2';
-        this.amarelo.splice(this.amarelo.indexOf(this.request.nos[index]), 1);
+      else if (this.amarelo.indexOf(this.arvore.nos[index]) !== -1) {
+        this.arvore.nos[index].strokeColor = '#C0C0C0';
+        this.arvore.nos[index].strokeWidth = 2;
+        this.amarelo.splice(this.amarelo.indexOf(this.arvore.nos[index]), 1);
 
         this.ativosCheckDerivacao = this.amarelo.length >= 1 ? true : false;
         this.ativosBtnFecharRamo = this.amarelo.length === 1 ? true : false;
@@ -438,6 +437,6 @@ export class EstudoLivreComponent implements OnInit {
   }
 
   exibirNoConsole(msg, tipo) {
-    this.msgConsole = new MensagemConsole(msg, tipo);
+    this.msgConsole = {msg,tipo};
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { BaseResponse } from '../../models/baseResponse';
+import { BaseResponse } from '../../../common/models/baseResponse';
 import { Nivel } from '../../models/nivel.model';
 import { PaginationResponse } from '../../models/paginationResponse';
 import { Recompensa } from '../../models/recompensa.model';

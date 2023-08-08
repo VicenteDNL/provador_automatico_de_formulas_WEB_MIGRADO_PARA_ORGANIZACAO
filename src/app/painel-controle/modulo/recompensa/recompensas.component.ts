@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RecompensaService } from './recompensas.service';
-import { Recompensa } from '../../models/recompensa.model';
 import { RecompensaInput } from './interfaces';
+import { Recompensa } from 'src/app/common/models/recompensa.model';
 
 @Component({
   selector: 'app-recompensas',
