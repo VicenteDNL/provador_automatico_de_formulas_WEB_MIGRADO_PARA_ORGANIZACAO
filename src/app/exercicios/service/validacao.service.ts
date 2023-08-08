@@ -1,22 +1,11 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { BaseResponse } from 'src/app/painel-controle/models/baseResponse';
+import { Arvore } from 'src/app/common/models/arvore/arvore';
 import { environment } from 'src/environments/environment';
-
-interface ValidacaoResponse extends BaseResponse {
-data: {
-  tempo: {
-    minutos: number;
-    segundos: number;
-  };
-  erros: number;
-  pontuacao: {
-    ponto: number;
-    maximo: number;
-  };
-};
-}
+import { ArvoreResponse, ExercicioValidacaoResponse, HashExecicioInput, ValidacaoResponse } from './interfaces';
+import { No } from 'src/app/common/models/arvore/no';
 
 @Injectable({
   providedIn: 'root',
@@ -25,70 +14,58 @@ export class ValidacaoService {
   private readonly api = `${environment.api}`;
   constructor(private http: HttpClient) {}
 
-  validarResposta(dado) {
+  validarResposta(arvore: Arvore) {
     return this.http
-      .post<ValidacaoResponse>(`${this.api}exercicio/validacao/resposta/`, dado)
+      .post<ValidacaoResponse>(`${this.api}exercicio/validacao/resposta/`, arvore)
       .pipe(take(1));
   }
-  adicionarNo(dado) {
+  adicionarNo(arvore: Arvore) {
     return this.http
-      .post(`${this.api}aluno/arvore/inicializacao/adiciona-no/`, dado)
+      .post<ArvoreResponse>(`${this.api}aluno/arvore/inicializacao/adiciona-no/`, arvore)
       .pipe(take(1));
   }
 
-  adicionarNoNegando(xml, lista, id, idExercicio, hash) {
+  adicionarNoNegando(xml: string, lista: No[], idNo: number, idExercicio: number, hash: HashExecicioInput) {
     return this.http
-      .post(`${this.api}aluno/arvore/inicializacao/adiciona-no/`, {
+      .post<ArvoreResponse>(`${this.api}aluno/arvore/inicializacao/adiciona-no/`, {
         xml,
         inseridos: lista,
-        idNo: id,
+        idNo,
         negacao: true,
         idExercicio,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        usu_hash: hash.usu_hash,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        exe_hash: hash.exe_hash,
+        ...hash
       })
       .pipe(take(1));
   }
 
-  derivar(derivar) {
+  derivar(arvore: Arvore) {
     return this.http
-      .post(`${this.api}aluno/arvore/derivacao/adiciona-no/`, derivar)
+      .post<ArvoreResponse>(`${this.api}aluno/arvore/derivacao/adiciona-no/`, arvore)
       .pipe(take(1));
   }
 
-  ticarNo(ticarNo) {
+  ticarNo(arvore: Arvore) {
     return this.http
-      .post(`${this.api}aluno/arvore/derivacao/ticar-no/`, ticarNo)
+      .post<ArvoreResponse>(`${this.api}aluno/arvore/derivacao/ticar-no/`, arvore)
       .pipe(take(1));
   }
 
-  fecharRamo(fecharNo) {
+  fecharRamo(arvore: Arvore) {
     return this.http
-      .post(`${this.api}aluno/arvore/derivacao/fechar-no/`, fecharNo)
+      .post<ArvoreResponse>(`${this.api}aluno/arvore/derivacao/fechar-no/`, arvore)
       .pipe(take(1));
   }
 
-  buscarExercicios(id, hash) {
+  buscarExercicio(id: number, hash: HashExecicioInput) {
     return this.http
-      .post<{success: boolean; msg: string; data: any}>(`${this.api}exercicio/validacao/${id}`, {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        usu_hash: hash.usu_hash,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        exe_hash: hash.exe_hash,
-      })
+      .post<ExercicioValidacaoResponse>(`${this.api}exercicio/validacao/${id}`, hash)
       .pipe(take(1));
   }
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  tentarNovamente(id, usu_hash, exe_hash) {
+  tentarNovamente(id: number, hash: HashExecicioInput) {
     return this.http
-      .post(`${this.api}exercicio/tentarnovamente/${id}`, {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        usu_hash,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        exe_hash,
+      .post<ExercicioValidacaoResponse>(`${this.api}exercicio/tentarnovamente/${id}`, {
+        ...hash
       })
       .pipe(take(1));
   }
