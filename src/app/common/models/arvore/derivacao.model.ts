@@ -1,4 +1,4 @@
-import { No } from './no';
+import { No } from './no.model.';
 
 export type Derivacao ={
     lista: {

@@ -9,7 +9,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from 'src/environments/environment';
 import { LivreService } from '../../../service/livre.service';
 import { Mensagem } from 'src/app/common/models/mensagem.model';
-import { Arvore } from 'src/app/common/models/arvore/arvore';
+import { Arvore } from 'src/app/common/models/arvore/arvore.model';
 declare let gramLogic: any;
 
 @Component({

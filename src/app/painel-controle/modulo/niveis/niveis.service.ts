@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import {take } from 'rxjs/operators';
 import {Response, NiveisResponse, NivelInput, NivelResponse, RecompensasResponse, NiveisPaginationResponse } from './interfaces';
-import { BaseResponse } from '../../../common/models/baseResponse';
+import { BaseResponse } from '../../../common/models/baseResponse.model';
 
 @Injectable({
   providedIn: 'root',

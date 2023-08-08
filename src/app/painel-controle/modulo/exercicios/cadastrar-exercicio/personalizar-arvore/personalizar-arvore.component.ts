@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CadastrarExercicioComponent } from '../cadastrar-exercicio.component';
 import { Mensagem } from 'src/app/common/models/mensagem.model';
-import { Arvore } from 'src/app/common/models/arvore/arvore';
+import { Arvore } from 'src/app/common/models/arvore/arvore.model';
 @Component({
   selector: 'app-personalizar-arvore',
   templateUrl: './personalizar-arvore.component.html',

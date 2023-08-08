@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { Arvore } from 'src/app/common/models/arvore/arvore';
-import { BaseResponse } from 'src/app/common/models/baseResponse';
+import { Arvore } from 'src/app/common/models/arvore/arvore.model';
+import { BaseResponse } from 'src/app/common/models/baseResponse.model';
 import { environment } from 'src/environments/environment';
 
 interface ArvoreResponse extends BaseResponse {

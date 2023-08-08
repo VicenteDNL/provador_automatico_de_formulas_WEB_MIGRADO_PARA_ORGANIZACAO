@@ -2,7 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { BaseResponse } from '../../../common/models/baseResponse';
+import { BaseResponse } from '../../../common/models/baseResponse.model';
 import { PaginationResponse } from '../../models/paginationResponse';
 import { RespostasUsuarios } from '../../models/respostasUsuarios';
 

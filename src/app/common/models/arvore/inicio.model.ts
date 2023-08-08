@@ -1,4 +1,4 @@
-import { NoInicializacao } from './noInicializacao';
+import { NoInicializacao } from './noInicializacao.model';
 
 export type Inicio = {
     completa: boolean;

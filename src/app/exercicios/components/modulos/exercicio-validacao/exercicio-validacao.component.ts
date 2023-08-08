@@ -14,10 +14,10 @@ import {
   faTrophy,
 } from '@fortawesome/free-solid-svg-icons';
 import { ValidacaoService } from '../../../service/validacao.service';
-import { Arvore } from 'src/app/common/models/arvore/arvore';
+import { Arvore } from 'src/app/common/models/arvore/arvore.model';
 import { Exercicio } from 'src/app/common/models/exercicio.model';
-import { Tentativas } from 'src/app/common/models/tentativas';
-import { Riscos } from 'src/app/common/models/riscos';
+import { Tentativas } from 'src/app/common/models/tentativas.model';
+import { Riscos } from 'src/app/common/models/riscos.model';
 import { Mensagem } from 'src/app/common/models/mensagem.model';
 import { ExercicioValidacaoResponse, HashExecicioInput } from 'src/app/exercicios/service/interfaces';
 @Component({

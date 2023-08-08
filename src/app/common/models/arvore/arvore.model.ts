@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Arestas } from './arestas';
-import { Derivacao } from './derivacao';
-import { Fechar } from './fechar';
-import { Inicio } from './inicio';
-import { No } from './no';
-import { Regras } from './regras';
-import { Ticar } from './ticar';
+import { Arestas } from './arestas.model';
+import { Derivacao } from './derivacao.model';
+import { Fechar } from './fechar.model.';
+import { Inicio } from './inicio.model';
+import { No } from './no.model.';
+import { Regras } from './regras.model.';
+import { Ticar } from './ticar.model';
 
 export type Arvore = {
     strformula: string;

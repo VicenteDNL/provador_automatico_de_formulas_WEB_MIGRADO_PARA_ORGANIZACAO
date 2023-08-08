@@ -2,10 +2,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { Arvore } from 'src/app/common/models/arvore/arvore';
+import { Arvore } from 'src/app/common/models/arvore/arvore.model';
 import { environment } from 'src/environments/environment';
 import { ArvoreResponse, ExercicioValidacaoResponse, HashExecicioInput, ValidacaoResponse } from './interfaces';
-import { No } from 'src/app/common/models/arvore/no';
+import { No } from 'src/app/common/models/arvore/no.model.';
 
 @Injectable({
   providedIn: 'root',
