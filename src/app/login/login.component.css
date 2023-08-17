@@ -1,32 +1,7 @@
-.response-linha {
-  height: 100%;
-}
-
-@media screen and (max-width: 576px) {
-  .response-linha {
-    height: auto;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .barra-navegacao {
-    box-shadow: -3px -10px 11px -7px rgba(0, 0, 0, 0.75);
-  }
-}
 
 .area-login {
   background-color: #6e52d2;
 }
-
-.display-flex {
-  display: flex;
-  flex-direction: column;
-}
-
-.estender {
-  flex: 1;
-}
-
 .barra-login {
   width: 50px;
   height: 5px;

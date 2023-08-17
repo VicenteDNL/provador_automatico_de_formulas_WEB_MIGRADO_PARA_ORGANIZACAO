@@ -9,10 +9,10 @@ import { AuthService } from '../auth/services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  email;
-  senha;
+  email: string;
+  senha: string;
   logando = false;
-  errorLogin;
+  errorLogin: string|null;
   sucessoLogin = false;
   constructor(
     private login$: LoginService,
@@ -21,10 +21,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
-  // ngAfterViewInit() {
-  //   this.animacaoIniciar();
-  // }
 
   onLogin() {
     this.errorLogin = null;
@@ -36,13 +32,14 @@ export class LoginComponent implements OnInit {
         this.logando = false;
         this.email = '';
         this.senha = '';
-        this.router.navigate(['painel/modulo/inicio']);
+        this.router.navigate(['painel']);
       },
 
       error => {
-        if (error.status === '401') {
-          this.errorLogin = 'email ou senha inválidos ';
-        } else if (error.status === '0') {
+        console.log(error);
+        if (error.status === 401) {
+          this.errorLogin = 'Email ou senha inválidos ';
+        } else if (error.status === 500) {
           this.errorLogin = 'Erro interno. tente novamente';
         } else {
           this.errorLogin = 'Ocorreu um erro ao tentar entrar no sistema';
@@ -51,60 +48,4 @@ export class LoginComponent implements OnInit {
       },
     );
   }
-
-  // navegarPara(id) {
-  //   // Calculo para movimentação da barra do menu de navegação
-  //   const cordeNav = document
-  //       .getElementById('barra-navegacao')
-  //       .getBoundingClientRect().left;
-  //     const item = document.getElementById(id);
-  //     const barra = document.getElementById('barra-ativa');
-  //     const tamanhoItem = item.getBoundingClientRect().left;
-  //     const centralizar =
-  //       tamanhoItem -
-  //       cordeNav +
-  //       item.getBoundingClientRect().width / 2 -
-  //       barra.getBoundingClientRect().width / 2;
-  //   document.getElementById('barra-ativa').style.transform =
-  //     'translateX(' + centralizar + 'px)';
-  //   // -----------------------------------
-
-  //   //Remoção da Classe "navegacao-ativa" de todos os itens da navegação
-  //   const lista = document.getElementsByClassName('item-navegacao') as unknown as any[];
-  //   for (const value of lista) {
-  //     const arr = value.className.split(' ');
-  //     if (arr.indexOf('navegacao-ativa') !== -1) {
-  //       arr.splice(arr.indexOf('navegacao-ativa'), 1);
-  //       let classes = '';
-  //       // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  //       for (let e = 0; e < arr.length; e++) {
-  //         classes = classes + ' ' + arr[e];
-  //       }
-  //       value.className = classes;
-  //     }
-  //   }
-  //   // -----------------------------------
-
-  //   // Adição da Classe "navegacao-ativa" no item de navegação clicado
-  //   item.classList.add('navegacao-ativa');
-  //   // -----------------------------------
-  // }
-
-  // animacaoIniciar() {
-  //   // Calculo para movimentação da barra do menu de navegação ao iniciar o componente
-  //   const cordeNav = document
-  //       .getElementById('barra-navegacao')
-  //       .getBoundingClientRect().left;
-  //     const item = document.getElementsByClassName('navegacao-ativa')[0];
-  //     const barra = document.getElementById('barra-ativa');
-  //     const tamanhoItem = item.getBoundingClientRect().left;
-  //     const centralizar =
-  //       tamanhoItem -
-  //       cordeNav +
-  //       item.getBoundingClientRect().width / 2 -
-  //       barra.getBoundingClientRect().width / 2;
-  //   document.getElementById('barra-ativa').style.transform =
-  //     'translateX(' + centralizar + 'px)';
-  //   // -----------------------------------
-  // }
 }
