@@ -4,12 +4,21 @@ import {
   faExclamationTriangle,
   faEye,
   faQuestionCircle,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from 'src/environments/environment';
 import { LivreService } from '../../../service/livre.service';
-import { Mensagem } from 'src/app/common/models/mensagem.model';
 import { Arvore } from 'src/app/common/models/arvore/arvore.model';
+import { ArvoreAutomatica } from 'src/app/common/models/arvore/arvoreAutomatica';
+import { PassoInicializacao } from 'src/app/common/models/passo/passoInicializacao';
+import { ArvoreResponse } from 'src/app/exercicios/service/interfaces';
+import { Selecao, onClickNo } from 'src/app/common/functions/onClickNo';
+import { OpcoesInicializacao } from 'src/app/common/models/arvore/opcoesInicializacao.model';
+import { PassoDerivacao } from 'src/app/common/models/passo/passoDerivacao';
+import { PassoTicagem } from 'src/app/common/models/passo/passoTicagem';
+import { PassoFechamento } from 'src/app/common/models/passo/passoFechamento';
+import { Regra } from 'src/app/common/models/arvore/regra.model.';
 declare let gramLogic: any;
 
 @Component({
@@ -22,34 +31,112 @@ export class EstudoLivreComponent implements OnInit {
   duvida = faQuestionCircle;
   visual = faEye;
   erro = faExclamationTriangle;
+  iconFechar = faTimes;
 
-  // Variaveis do CONSOLE
-  msgConsole: Mensagem = {msg:'',tipo:'sucesso'};
-  carregamentoConsole = false;
-  arvore: Arvore ;
-  formula = '';
+  console = {
+    msg:  '',
+    tipo: 'sucesso',
+    isCarregando: false,
+  };
 
-  // Variaveis da etapa de INICIALIZACAO
-  vermelho = null;
-  amarelo = [];
+  arvoreAutomatica: ArvoreAutomatica ={
+    formula:{texto:'',xml:''},
+    visualizar:{
+      arestas:[],
+      nos:[],
+      linhas:[],
+      height:0,
+      width:0
+    }
+  };
 
-  // Variaveis para controlar a ativação dos botoes
-  ativosBtnFecharRamo = false;
-  ativosBtnTicarNo = false;
-  ativosCheckDerivacao = false;
+  arvore: Arvore ={
+    visualizar:{
+      arestas:[],
+      nos:[],
+      linhas:[],
+      height:0,
+      width:0
+    },
+    iniciar:{
+      isCompleto:false,
+      opcoesDisponiveis:[],
+      passosExecutados:[]
+    },
+    derivar:{
+      passosExecutados:[],
+      regras:[]
+    },
+    fechar:{
+      passosExecutados:[],
+      isAutomatico:false
+    },
+    ticar:{
+      passosExecutados:[],
+      isAutomatico:false
+    },
+    formula:{
+      xml:'',
+      texto:''
+    },
+    isCompleto:false
+  } ;
 
-  // outras variaveis de controle
-  desmarcadonoInsercao = false;
-  formulaInvalida = false;
-  visualizararvore = false;
-  mensagemError;
-  respostaCorreta = true;
-  derivacaoIniciada = false;
-  modalInfoRef;
-  modaErrorlRef;
-  listaImpressaoNo;
-  listaImpressaoAresta;
-  modaArvoreRef;
+  nosSelecionados: Selecao ={
+    amarelos:[],
+    vermelho:null,
+    desmarcadoNoInsercao:false
+  };
+
+  botoesEnable = {
+  fecharRamo : false,
+  ticarNo : false,
+  derivacao : false
+  };
+
+  formula ={
+    texto:'',
+    isValida:false,
+    mensagemErro: ''
+  };
+
+  etapasEmProgresso = {
+    inicializacao:false,
+    derivacao:false
+  };
+
+  passosInicializacao: PassoInicializacao ={
+    no:null,
+    negacao:null
+  };
+
+  passoDerivacao: PassoDerivacao ={
+    noDerivacao:null,
+    nosInsercoes:null,
+    regra:null,
+    desmarcadoNoInsercao:false
+  };
+
+  passoTicagem: PassoTicagem ={
+    no:null
+  };
+
+  passoFechamento: PassoFechamento = {
+    noContraditorio:null,
+    noFolha:null
+  };
+
+  modalRef: BsModalRef;
+
+  spinners = {
+    iniciandoEstudo:false,
+    criandoArvoreOtimizada:false
+  };
+
+  globalErro ={
+    msg:'',
+    isAberto:false
+  };
   private readonly production = `${environment.production}`;
   constructor(
     private modalService: BsModalService,
@@ -58,385 +145,308 @@ export class EstudoLivreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.arvore.strformula = 'Crie uma fórmula';
+    this.arvore.formula.texto = 'Crie uma fórmula';
   }
 
-  error(error) {
-    this.carregamentoConsole = false;
-    this.exibirNoConsole(error, 'error');
+  cleanConsole() {
+    this.exibirNoConsole('', 'info',false);
   }
 
-  sucesso(response, tipo = '') {
-    this.carregamentoConsole = false;
-    if (response.success === true) {
-      this.respostaCorreta = true;
+  sucesso(response: ArvoreResponse, tipo: string ) {
+    this.console.isCarregando = false;
+    if (response.success) {
       let msg = '';
       switch (tipo) {
         case 'fechar':
           msg =
-            'Fechamento do nó  \'' +
-            this.arvore.fechar.folha.str +
-            '\' realizado com sucesso';
+          `Fechamento do nó '${this.passoFechamento.noFolha.str}' realizado com sucesso`;
+          this.passoFechamento.noFolha =null;
+          this.passoFechamento.noContraditorio=null;
           break;
         case 'ticar':
-          msg = 'Nó \'' + this.arvore.ticar.no.str + '\' ticado com sucesso!';
+          msg = `Nó '${this.passoTicagem.no.str}' ticado com sucesso`;
+          this.passoTicagem.no=null;
           break;
         case 'derivar':
           msg =
-            'Derivação do nó \'' +
-            this.arvore.derivacao.no.str +
-            '\' realizado com sucesso';
+          `Derivação do nó '${this.passoDerivacao.noDerivacao.str}' realizado com sucesso`;
+          this.passoDerivacao.noDerivacao=null;
+          this.passoDerivacao.nosInsercoes=null;
+          this.passoDerivacao.regra=null;
           break;
         case 'adicionar':
-          msg = 'Argumento  \'' + this.arvore.inicio.no.str + '\' inserido';
+          msg = `Argumento '${this.passosInicializacao.no.texto}' inserido`;
+          this.passosInicializacao.no=null;
+          this.passosInicializacao.negacao=null;
           break;
         default:
           msg = '';
       }
 
-      this.exibirNoConsole(msg, 'sucesso');
-      this.ativosCheckDerivacao = false;
-      this.ativosBtnFecharRamo = false;
-      this.ativosBtnTicarNo = false;
-      this.arvore = response.data;
-      this.vermelho = null;
-      this.amarelo = [];
+      this.arvore =response.data;
+      if(this.arvore.iniciar.isCompleto){
+        this.etapasEmProgresso.inicializacao=false;
+        this.etapasEmProgresso.derivacao=true;
+      }
+      this.exibirNoConsole(msg, 'sucesso',false);
+
+      this.botoesEnable = {
+        fecharRamo : false,
+        ticarNo : false,
+        derivacao : false
+        };
+
+      this.nosSelecionados ={
+        amarelos:[],
+        vermelho:null,
+        desmarcadoNoInsercao:false
+      };
+
+      if(this.arvore.isCompleto){
+        this.etapasEmProgresso.derivacao=false;
+        this.etapasEmProgresso.inicializacao=false;
+      }
     } else {
-      this.exibirNoConsole(response.msg, 'error');
-      this.respostaCorreta = false;
+      this.exibirNoConsole(response.msg, 'error',false);
     }
   }
 
   validarFormula() {
-    if (this.arvore.xml === '') {
-      this.arvore.xml = '';
-      this.formulaInvalida = false;
-      this.visualizararvore = true;
+    if (this.formula.texto === '') {
+      this.arvore.formula.xml = '';
+      this.formula.isValida = false;
+      this.formula.mensagemErro='';
     } else {
-      const validacao = gramLogic.validar(this.formula, this.production);
+      const validacao = gramLogic.validar(this.formula.texto, this.production);
       if (validacao.sucesso === true) {
-        this.formulaInvalida = false;
-        this.visualizararvore = true;
-        this.arvore.xml = validacao.xml;
+        this.formula.isValida = true;
+        this.arvore.formula.xml = validacao.xml;
+        this.formula.mensagemErro='';
       } else {
-        this.formulaInvalida = true;
-        this.visualizararvore = false;
-        this.mensagemError = validacao.mensagem;
+        this.formula.isValida = false;
+        this.formula.mensagemErro = validacao.mensagem;
       }
     }
   }
 
-  infoGramatica(template: TemplateRef<any>) {
-    this.modalInfoRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'gray modal-lg' }),
-    );
+  abirModal(template: TemplateRef<any>, nome: string){
+
+    switch(nome){
+      case 'gramatica':
+        this.modalRef = this.modalService.show(
+          template,
+          Object.assign({}, { class: 'gray modal-lg' }),
+        );
+        break;
+      case 'erroFormula':
+        this.modalRef = this.modalService.show(
+          template,
+          Object.assign({}, { class: 'modal-sm' }),
+        );
+        break;
+      case 'arvore':
+        if (this.arvore.formula.xml !== '') {
+          this.spinners.criandoArvoreOtimizada=true;
+          this.service.arvoreOtimizada(this.arvore.formula.xml).subscribe(
+            response => {
+              if (response.success) {
+                this.arvoreAutomatica = response.data;
+                this.modalRef = this.modalService.show(
+                  template,
+                  Object.assign({}, { class: 'modal-lg' }),
+                );
+              }else{
+                this.abrirAvisoError(response.msg);
+              }
+              this.spinners.criandoArvoreOtimizada=false;
+            },
+            error => {
+              this.abrirAvisoError('Ops! Ocorreu um erro ao gerar a árvore');
+              this.spinners.criandoArvoreOtimizada=false;
+            }
+          );
+        }
+        break;
+    }
   }
-  errorGramatica(template: TemplateRef<any>) {
-    this.modaErrorlRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-sm' }),
-    );
+
+  fecharAvisoError() {
+    this.globalErro.msg='';
+    this.globalErro.isAberto=false;
   }
+
+  abrirAvisoError(msg: string) {
+    this.globalErro.msg=msg;
+    this.globalErro.isAberto=true;
+
+    setTimeout(() => {
+      this.fecharAvisoError();
+    },5000);
+}
 
   fecharModal() {
-    this.modalInfoRef =
-      this.modalInfoRef != null ? this.limparRefModal(this.modalInfoRef) : null;
-    this.modaErrorlRef =
-      this.modaErrorlRef != null
-        ? this.limparRefModal(this.modaErrorlRef)
-        : null;
-    this.modaArvoreRef =
-      this.modaArvoreRef != null
-        ? this.limparRefModal(this.modaArvoreRef)
-        : null;
-  }
-
-  limparRefModal(modal) {
-    modal.hide();
+    this.modalRef.hide();
     return null;
   }
 
-  abrirArvore(template: TemplateRef<any>) {
-    if (this.arvore.xml !== '') {
-      this.service.arvoreOtimizada(this.arvore.xml).subscribe(
+  iniciarEstudo() {
+    this.spinners.iniciandoEstudo=true;
+    if (this.formula.isValida && this.arvore.formula.xml !=='') {
+      this.service.iniciar(this.arvore.formula.xml).subscribe(
         response => {
           if (response.success) {
-            this.listaImpressaoNo = response.data.nos;
-            this.listaImpressaoAresta = response.data.arestas;
-            this.modaArvoreRef = this.modalService.show(
-              template,
-              Object.assign({}, { class: 'modal-lg' }),
-            );
+            this.arvore = response.data;
+            this.etapasEmProgresso.inicializacao=true;
+            this.exibirNoConsole('Adicione as premissas e conclução na árvore', 'sucesso',false);
+
+          }else{
+            this.abrirAvisoError(response.msg);
           }
+          this.spinners.iniciandoEstudo=false;
         },
-        error => null,
+        erro =>{
+          this.abrirAvisoError('Ops! Ocorreu um erro ao inicar os estudos');
+          this.spinners.iniciandoEstudo=false;
+        }
       );
     }
   }
 
-  iniciarDerivacao() {
-    if (this.visualizararvore === true) {
-      this.service.iniciar(this.arvore.xml).subscribe(response => {
-        if (response.success) {
-          this.arvore = response.data.arvore;
-          this.exibirNoConsole('Exercício iniciado', 'sucesso');
-          this.derivacaoIniciada = true;
-        }
-      });
-    }
+  reiniciarEstudo(){
+
   }
 
-  /**
-   * ----------- Metodos da etapa de Inicialização -----------
-   *
-   * Descrição :
-   * 		 Os métodos de 1 a 2 são responsavel pelo controle
-   * 		 de inserção de todas as premissas e conclução na árvore de
-   *       derivação
-   *
-   */
+  seleciona(op: OpcoesInicializacao) {
 
-  /**
-   * ----------- Método 01 -----------
-   * Descrição : Pega o valor do check box selecionado e adiciona a variavel
-   */
-  selecionado(id) {
-    this.arvore.inicio.no = this.arvore.inicio.opcoes[id];
+    this.passosInicializacao.no = op;
   }
 
-  /**
-   * ----------- Método 02 -----------
-   * Descrição : adiciona a premissa ou conclusão na arvore
-   */
-  adicionaNo(negar) {
-    this.arvore.inicio.negacao = negar === 1 ? true : false;
-    this.carregamentoConsole = true;
+  adicionaPremissaConclucao(negar: boolean) {
+   this.passosInicializacao.negacao=negar;
     this.exibirNoConsole(
-      'Inserindo o argumento  \'' + this.arvore.inicio.no.str + '\'',
+      `Inserindo o argumento '${this.passosInicializacao.no.texto}'`,
       'info',
+      true
     );
-    this.service.adicionarNo(this.arvore).subscribe(
+
+    this.service.adicionar(this.arvore,this.passosInicializacao).subscribe(
       response => this.sucesso(response, 'adicionar'),
-      error => this.error(error.message),
+      error => {
+        this.cleanConsole();
+        this.abrirAvisoError('Ops! Ocorreu um erro ao inserir o argumento, tente novamente.');
+      }
     );
   }
 
-  /**
-   * ----------- Metodos da etapa de Derivavao  -----------
-   *
-   * Descrição :
-   * 		 Os métodos de 3 a 6 são responsavel pelo controle
-   * 		 de derivação dos nós da
-   *
-   */
-
-  /**
-   * ----------- Método 03 -----------
-   * Descrição : Adiciona a regra escolhida
-   */
-  regra(regra) {
-    this.arvore.derivacao.regra = regra;
-    if (this.msgConsole.msg === 'Nenhuma regra selecionada') {
-      this.msgConsole.msg = '';
-    }
+  regra(regra: Regra) {
+    this.passoDerivacao.regra = regra;
   }
 
-  /**
-   * ----------- Método 04 -----------
-   * Descrição : Tica o nó de interesse
-   */
   ticar() {
-    this.arvore.ticar.no = this.vermelho;
-    this.carregamentoConsole = true;
+    this.passoTicagem.no = this.nosSelecionados.vermelho;
+
     this.exibirNoConsole(
-      'Requisitando ticagem do nó  \'' + this.vermelho.str + '\'',
+      `Ticando nó '${this.nosSelecionados.vermelho.str}'`,
       'info',
+      true
     );
-    this.service.ticarNo(this.arvore).subscribe(
+    this.service.ticar(this.arvore,this.passoTicagem).subscribe(
       response => this.sucesso(response, 'ticar'),
-      error => this.error(error.message),
+      error => {
+        this.cleanConsole();
+        this.abrirAvisoError('Ops! Ocorreu um erro ao ticar o argumento, tente novamente.');
+      },
     );
   }
 
-  /**
-   * ----------- Método 05 -----------
-   * Descrição : Fechar o nó de interesse
-   */
   fechar() {
-    this.arvore.fechar.no = this.amarelo[0];
-    this.arvore.fechar.folha = this.vermelho;
-    this.carregamentoConsole = true;
+
+    if(this.nosSelecionados.amarelos.length>1){
+      this.exibirNoConsole('Mais de um nó folha selecionado', 'error', false);
+    }
+    this.passoFechamento.noContraditorio = this.nosSelecionados.amarelos[0];
+    this.passoFechamento.noFolha = this.nosSelecionados.vermelho;
+
     this.exibirNoConsole(
-      'Requisitando fechamento do nó  \'' +
-        this.arvore.fechar.folha.str +
-        '\', contradição na linha:' +
-        this.arvore.fechar.no.linha +
-        '',
+      `Fechando o nó '${this.passoFechamento.noFolha.str}', contradição na linha:'${this.passoFechamento.noContraditorio.linha}'`,
       'info',
+      false
     );
-    this.service.fecharRamo(this.arvore).subscribe(
+
+    this.service.fechar(this.arvore,this.passoFechamento).subscribe(
       response => this.sucesso(response, 'fechar'),
-      error => this.error(error.message),
+      error =>{
+        this.cleanConsole();
+        this.abrirAvisoError('Ops! Ocorreu um erro ao derivar o argumento, tente novamente.');
+      },
     );
   }
 
-  /**
-   * ----------- Método 06 -----------
-   * Descrição : Realiza a derivação da arvore
-   */
   derivar() {
-    if (this.arvore.derivacao.regra === null) {
-      this.exibirNoConsole('Nenhuma regra selecionada', 'error');
+    if (this.passoDerivacao.regra === null) {
+      this.exibirNoConsole('Nenhuma regra selecionada', 'error', false);
       return;
     }
-    this.arvore.derivacao.no = this.vermelho;
-    this.arvore.derivacao.folhas = this.amarelo;
 
-    const listaIds = [];
-      let nomes = '';
+    this.passoDerivacao.noDerivacao =this.nosSelecionados.vermelho;
+    this.passoDerivacao.nosInsercoes =this.nosSelecionados.amarelos;
 
-    this.arvore.derivacao.folhas.forEach((item)=> {
-      listaIds.push(item.idNo);
-      nomes = nomes + '[ ' + item.str + ', linha: ' + item.linha + ' ], ';
-    });
-
-    this.carregamentoConsole = true;
     this.exibirNoConsole(
-      'Requisitando derivação do nó \'' +
-        this.arvore.derivacao.no.str +
-        '\' para inserção no no(s): ' +
-        nomes,
+      `Derivando o nó '${this.passoDerivacao.noDerivacao.str}`,
       'info',
+      true
     );
-    this.service.derivar(this.arvore).subscribe(
+
+    this.service.derivar(this.arvore,this.passoDerivacao).subscribe(
       response => this.sucesso(response, 'derivar'),
-      error => this.error(error.message),
+      error =>{
+        this.cleanConsole();
+        this.abrirAvisoError('Ops! Ocorreu um erro ao derivar o argumento, tente novamente.');
+      },
     );
   }
 
-  /**
-   * ----------- Metodos para controlar a selecção dos nós -----------
-   *
-   * Descrição :
-   * 		 Os métodos de 7 a 9 são responsavel pelo controle
-   * 		 controlar o evento de selecção dos nos da arvore, e
-   * 		 aplicar os estilos para os nós selecionados
-   *
-   */
-
-  /**
-   * ----------- Método 07 -----------
-   * Descrição : Metodo aplicado para alterar cor do nó com o evento de hover-in do mouse
-   */
-  alterarcor(index) {
-    this.arvore.nos[index].fill = 'url(#grad2)';
+  exibirNoConsole(msg: string, tipo: string,isCarregando: boolean) {
+    this.console = {msg,tipo,isCarregando};
   }
 
-  /**
-   * ----------- Método 08 -----------
-   * Descrição : Metodo aplicado para voltar a cor original do nó com o evento de hover-out do mouse
-   */
-  voltarcor(index) {
-    this.arvore.nos[index].fill = 'url(#grad1)';
+  eventoMouseover(index: number) {
+    this.arvore.visualizar.nos[index].fill = 'url(#grad2)';
   }
 
-  /**
-   * ----------- Método 09 -----------
-   * Descrição : Metodo aplicado para adicioanar os nós selecionados na arvore
-   */
+  eventoMouseleave(index: number) {
+    this.arvore.visualizar.nos[index].fill = 'url(#grad1)';
+  }
 
-  selecionarNo(index) {
-    if (this.arvore.inicio.completa === true) {
-      // Seleção do no vermelho
-      if (
-        this.amarelo.length === 0 &&
-        this.vermelho === null &&
-        this.desmarcadonoInsercao === false
-      ) {
-        this.arvore.nos[index].strokeColor = '#b91d1d';
-        this.arvore.nos[index].strokeWidth = 3;
-        this.vermelho = this.arvore.nos[index];
+  eventoOnclickNo(index: number) {
 
-        this.ativosCheckDerivacao = false;
-        this.ativosBtnFecharRamo = false;
-        this.ativosBtnTicarNo = true;
-      }
-      // Seleção  vermelho e amarelho no mesmo nó
-      else if (
-        this.amarelo.length === 0 &&
-        this.vermelho === this.arvore.nos[index] &&
-        this.desmarcadonoInsercao === false
-      ) {
-        this.arvore.nos[index].strokeColor = 'url(#grad3)';
-        this.arvore.nos[index].strokeWidth = 3;
-        this.amarelo.push(this.arvore.nos[index]);
+    const retorno = onClickNo(index,this.arvore,this.nosSelecionados);
 
-        this.ativosCheckDerivacao = true;
-        this.ativosBtnFecharRamo = false;
-        this.ativosBtnTicarNo = false;
-      }
-
-      // Desmarcando um nó amarelo selecionado
-      else if (
-        this.amarelo.indexOf(this.arvore.nos[index]) !== -1 &&
-        this.vermelho === this.arvore.nos[index] &&
-        this.desmarcadonoInsercao === false
-      ) {
-        this.arvore.nos[index].strokeColor = '#b91d1d';
-        this.arvore.nos[index].strokeWidth = 3;
-        this.amarelo.splice(this.amarelo.indexOf(this.arvore.nos[index]), 1);
-        this.desmarcadonoInsercao = true;
-
-        this.ativosCheckDerivacao = false;
-        this.ativosBtnFecharRamo = false;
-        this.ativosBtnTicarNo = true;
-      }
-
-      // Desmarcando um nó vermelho selecionado
-      else if (
-        this.amarelo.length === 0 &&
-        this.vermelho === this.arvore.nos[index] &&
-        this.desmarcadonoInsercao === true
-      ) {
-        this.arvore.nos[index].strokeColor = '#C0C0C0';
-        this.arvore.nos[index].strokeWidth = 2;
-        this.vermelho = null;
-        this.desmarcadonoInsercao = false;
-
-        this.ativosCheckDerivacao = false;
-        this.ativosBtnFecharRamo = false;
-        this.ativosBtnTicarNo = false;
-      }
-
-      // Marcando um segundo nó amarelho
-      else if (
-        this.vermelho !== this.arvore.nos[index] &&
-        this.amarelo.indexOf(this.arvore.nos[index]) === -1
-      ) {
-        this.arvore.nos[index].strokeColor = '#FFFF00';
-        this.arvore.nos[index].strokeWidth = 3;
-        this.amarelo.push(this.arvore.nos[index]);
-
-        this.ativosCheckDerivacao = true;
-        this.ativosBtnFecharRamo = this.amarelo.length === 1 ? true : false;
-        this.ativosBtnTicarNo = false;
-      }
-
-      // Desmarcando um nó amarelo selecionado
-      else if (this.amarelo.indexOf(this.arvore.nos[index]) !== -1) {
-        this.arvore.nos[index].strokeColor = '#C0C0C0';
-        this.arvore.nos[index].strokeWidth = 2;
-        this.amarelo.splice(this.amarelo.indexOf(this.arvore.nos[index]), 1);
-
-        this.ativosCheckDerivacao = this.amarelo.length >= 1 ? true : false;
-        this.ativosBtnFecharRamo = this.amarelo.length === 1 ? true : false;
-        this.ativosBtnTicarNo = this.amarelo.length === 0 ? true : false;
-      }
+    this.arvore=retorno.arvore;
+    this.nosSelecionados=retorno.selecao;
+    if(this.nosSelecionados.vermelho !== null && this.nosSelecionados.amarelos.length===0){
+      this.botoesEnable.ticarNo=true;
+      this.botoesEnable.derivacao=false;
+      this.botoesEnable.fecharRamo=false;
+    }else if(
+        this.nosSelecionados.vermelho !== null &&
+        this.nosSelecionados.amarelos.length>0 &&
+        this.nosSelecionados.amarelos.filter((n)=>this.nosSelecionados.vermelho===n).length>0){
+      this.botoesEnable.ticarNo=false;
+      this.botoesEnable.derivacao=true;
+      this.botoesEnable.fecharRamo=false;
+    }else if(
+        this.nosSelecionados.vermelho !== null &&
+        this.nosSelecionados.amarelos.length>0){
+          this.botoesEnable.ticarNo=false;
+          this.botoesEnable.derivacao=true;
+          this.botoesEnable.fecharRamo=true;
+    }
+    else{
+      this.botoesEnable.ticarNo=false;
+      this.botoesEnable.derivacao=false;
+      this.botoesEnable.fecharRamo=false;
     }
   }
 
-  exibirNoConsole(msg, tipo) {
-    this.msgConsole = {msg,tipo};
-  }
 }

@@ -1,6 +1,5 @@
 export type No =  {
 
-    // arv: {};
     str:  string;
     idNo: number;
     linha: number;

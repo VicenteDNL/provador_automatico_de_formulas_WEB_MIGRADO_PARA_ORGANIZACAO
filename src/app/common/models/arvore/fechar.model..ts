@@ -1,11 +1,9 @@
 import { No } from './no.model.';
 
 export type Fechar ={
-    lista: {
+    passosExecutados: {
         noContradicao: No;
         nofechado: No;
     }[];
-    no: No;
-    folha: No;
-    auto: boolean;
+    isAutomatico: boolean;
 };

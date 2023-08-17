@@ -1,62 +1,74 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { Arvore } from 'src/app/common/models/arvore/arvore.model';
-import { BaseResponse } from 'src/app/common/models/baseResponse.model';
 import { environment } from 'src/environments/environment';
-
-interface ArvoreResponse extends BaseResponse {
-  data: Arvore;
- }
-
-
- interface IniciarResponse extends BaseResponse {
-  data: {
-    arvore: Arvore;
-  };
- }
-
+import { ArvoreAutomaticaResponse, ArvoreResponse } from './interfaces';
+import { Arvore } from 'src/app/common/models/arvore/arvore.model';
+import { PassoInicializacao } from 'src/app/common/models/passo/passoInicializacao';
+import { PassoDerivacao } from 'src/app/common/models/passo/passoDerivacao';
+import { PassoTicagem } from 'src/app/common/models/passo/passoTicagem';
+import { PassoFechamento } from 'src/app/common/models/passo/passoFechamento';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LivreService {
-  private readonly api = `${environment.api}`;
+  private readonly api = `${environment.api}aluno/livre/`;
   constructor(private http: HttpClient) {}
 
-  adicionarNo(dado) {
+  adicionar(arvore: Arvore, passo: PassoInicializacao) {
     return this.http
-      .post(`${this.api}aluno/livre/adiciona/`, dado)
+      .post<ArvoreResponse>(`${this.api}adiciona/`, {arvore, passo: {idNo:passo.no.id, negacao:passo.negacao}},)
       .pipe(take(1));
   }
 
-  derivar(derivar) {
+  derivar(arvore: Arvore,passo: PassoDerivacao) {
     return this.http
-      .post(`${this.api}aluno/livre/deriva/`, derivar)
+      .post<ArvoreResponse>(
+        `${this.api}deriva/`,
+        {
+          arvore,
+          passo:{
+            idsNoInsercoes:passo.nosInsercoes.map((p)=>p.idNo),
+            idNoDerivacao:passo.noDerivacao.idNo,
+            regra:passo.regra.codigo
+          }
+        })
+      .pipe(take(1));
+
+  }
+
+  ticar(arvore: Arvore, passo: PassoTicagem) {
+    return this.http
+      .post<ArvoreResponse>(`${this.api}tica/`,
+      {
+        arvore,
+        passo: {idNo:passo.no.idNo}
+      })
       .pipe(take(1));
   }
 
-  ticarNo(ticarNo) {
+  fechar(arvore: Arvore,passo: PassoFechamento) {
     return this.http
-      .post(`${this.api}aluno/livre/tica/`, ticarNo)
+      .post<ArvoreResponse>(`${this.api}fecha/`,        {
+        arvore,
+        passo:{
+          idNoFolha:passo.noFolha.idNo,
+          idNoContraditorio:passo.noContraditorio.idNo,
+        }
+      })
       .pipe(take(1));
   }
 
-  fecharRamo(fecharNo) {
+  arvoreOtimizada(xml: string, width = 700) {
     return this.http
-      .post(`${this.api}aluno/livre/fecha/`, fecharNo)
+      .post<ArvoreAutomaticaResponse>(`${this.api}arvore/`, { xml, canvas:{width} })
       .pipe(take(1));
   }
 
-  arvoreOtimizada(xml, width = 700) {
+  iniciar(xml: string, width = 700) {
     return this.http
-      .post<ArvoreResponse>(`${this.api}aluno/livre/arvore/`, { xml, width })
-      .pipe(take(1));
-  }
-
-  iniciar(xml) {
-    return this.http
-      .post<any>(`${this.api}aluno/livre/iniciar/`, { xml })
+      .post<ArvoreResponse>(`${this.api}inicia/`, { xml, canvas:{width} })
       .pipe(take(1));
   }
 }
