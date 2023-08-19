@@ -1,48 +1,24 @@
 import { Injectable } from '@angular/core';
-
-/**
- * A classe `AuthService` fornece um serviço que funciona como um controlador
- * do armazenamento de informações sobre autenticação do usuário.
- *
- * Para armazenar as informações o serviço utiliza o `LocalStorage`.
- *
- * Os dados são armazenados na chave `auth-data`.
- */
-
-type LocalStorageValue ={
-    accessToken: string;
-  email: string;
-  success: boolean;
-  tokenType: string;
-};
-
+import { Auth, AuthResponse } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  keyname = 'auth-data';
+  keyname = 'arvore-refutacao-auth-data';
   redirectUrl: string;
 
   constructor() {}
 
-  /**
-   * Armazena as informações de autenticação no `LocalStorage`, convertendo o
-   * parâmetro `data` (um objeto) para JSON.
-   *
-   * @param data As informações de autenticação
-   */
-  set(data) {
-    localStorage.setItem(this.keyname, JSON.stringify(data));
+
+  setLocalStorage(auth: Auth) {
+    localStorage.setItem(this.keyname, JSON.stringify(auth));
   }
 
-  /**
-   * Retorna as informações de autenticação (se disponíveis).
-   */
-  get() {
+  getLocalStorage() {
     const dataJson = localStorage.getItem(this.keyname);
     if (dataJson) {
-      const data = JSON.parse(dataJson) as LocalStorageValue;
+      const data = JSON.parse(dataJson) as Auth;
       return data;
     }
     return null;
@@ -50,21 +26,9 @@ export class AuthService {
   }
 
   /**
-   * Retorna o identificador do usuário, se disponível.
-   */
-  getUserId() {
-    const data = this.get();
-    if (data) {
-      return data.email;
-    } else {
-      return null;
-    }
-  }
-
-  /**
    * Remove as informações de autenticação do `LocalStorage`.
    */
-  clean() {
+  cleanLocalStorage() {
     localStorage.removeItem(this.keyname);
   }
 }

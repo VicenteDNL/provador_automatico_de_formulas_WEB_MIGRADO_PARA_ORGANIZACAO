@@ -26,23 +26,29 @@ export class LoginComponent implements OnInit {
     this.errorLogin = null;
     this.logando = true;
     this.login$.login(this.email, this.senha).subscribe(
-      data => {
-        this.sucessoLogin = true;
-        this.auth$.set(data);
+      response => {
+        if (response.success){
+          this.sucessoLogin = true;
+          this.auth$.setLocalStorage(response.data);
+          this.email = '';
+          this.senha = '';
+          this.router.navigate(['painel']);
+        }else{
+          this.errorLogin = 'Ocorreu um erro ao efetuar login.';
+        }
         this.logando = false;
-        this.email = '';
-        this.senha = '';
-        this.router.navigate(['painel']);
-      },
 
+      },
       error => {
-        console.log(error);
         if (error.status === 401) {
-          this.errorLogin = 'Email ou senha inválidos ';
+          this.errorLogin = 'Email ou senha inválidos.';
         } else if (error.status === 500) {
-          this.errorLogin = 'Erro interno. tente novamente';
-        } else {
-          this.errorLogin = 'Ocorreu um erro ao tentar entrar no sistema';
+          this.errorLogin = 'Erro interno, tente novamente.';
+        }else if (error.status === 422) {
+            this.errorLogin = error.error.msg;
+        }
+        else {
+          this.errorLogin = 'Ocorreu um erro ao efetuar login.';
         }
         this.logando = false;
       },
