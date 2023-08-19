@@ -434,7 +434,7 @@
                         class="btn btn-sm btn-inserir btn-block mt-3"
                         (click)="adicionaPremissaConclucao(false)"
                         [disabled]="
-                          passosInicializacao.idNo == '' ||
+                          passosInicializacao.no.id == '' ||
                           console.isCarregando == true
                         ">
                         Inserir
@@ -444,7 +444,7 @@
                         class="btn btn-sm btn-fechar-ramo btn-block"
                         (click)="adicionaPremissaConclucao(true)"
                         [disabled]="
-                          passosInicializacao.idNo == '' ||
+                          passosInicializacao.no.id == '' ||
                           console.isCarregando == true
                         ">
                         Negar e Inserir
