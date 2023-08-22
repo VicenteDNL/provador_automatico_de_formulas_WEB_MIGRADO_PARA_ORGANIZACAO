@@ -1,0 +1,136 @@
+<ng-template #DeletarModal>
+    <div class="modal-body text-center p-0">
+      <div class="text-center titulo-modal p-2">
+        <span>Deletar Usuário</span>
+      </div>
+      <div class="text-center d-flex justify-content-center w-100">
+        <div class="barra-modal"></div>
+      </div>
+      <div class="p-3 w-100 text-center">
+        <p>Realmente deseja deletar?</p>
+      </div>
+      <div class="pb-3 w-100 text-center" *ngIf="!excluindo">
+        <button
+          type="button"
+          class="btn btn-padrao mx-2"
+          (click)="confirmarDelete()">
+          Sim
+        </button>
+        <button
+          type="button"
+          class="btn btn-padrao mx-2"
+          (click)="cancelarDelete()">
+          Não
+        </button>
+      </div>
+      <div class="pb-3 w-100 text-center" *ngIf="excluindo">
+        <div class="spinner-border text-roxo" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  <div class="container conteudo-niveis">
+    <div class="d-flex align-items-center justify-content-between mb-5 mt-3">
+      <h5 class="text-roxo m-0">Gerenciamento de Usuários</h5>
+      <button
+        type="button"
+        class="btn btn-padrao mx-2"
+        [routerLink]="['/painel/usuarios/cadastrar']">
+        Criar Usuário
+      </button>
+    </div>
+    <div class="row">
+      <div class="col-md-12 m-auto pt-2">
+        <div *ngIf="exibirTabela" class="tabela-listagem">
+          <table class="table table-sm table-responsive-sm">
+            <thead>
+              <tr>
+                <th scope="col" class="header-tabela-primeiro">Nome</th>
+                <th
+                  scope="col"
+                  class="header-tabela text-center"
+                  >
+                  Email
+                </th>
+                <th scope="col" class="header-tabela text-center" >
+                Status
+              </th>
+                <th
+                  scope="col"
+                  class="header-tabela-ultimo text-center"
+                  >
+                  Ações
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of listaUsuarios">
+                <td style="vertical-align: inherit">
+                  {{ usuario.nome }}
+                </td>
+                <td
+                  class="text-center"
+                  style="vertical-align: inherit">
+                  {{ usuario.email }}
+                </td>
+                <td
+                [ngClass]=" usuario.ativo==1 ? 'status-ativo' : 'status-inativo'"
+                class="text-center"
+                style="vertical-align: inherit">
+                {{ usuario.ativo ? 'Ativo': 'Inativo' }}
+                </td>
+                <td class="text-center">
+                  <div class="btn-group my-1">
+                    <button
+                      class="btn btn-sm btn-tabela"
+                      (click)="abrirEdicao(usuario.id)">
+                      <fa-icon class="mx-1" [icon]="iconEditar"></fa-icon>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-tabela-delete btn-sm"
+                      (click)="deletar(DeletarModal, usuario.id)">
+                      <fa-icon class="mx-1" [icon]="iconDeletar"></fa-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <div class="text-center folder-tabela-listagem">
+      <div
+        *ngIf="buscando"
+        class="spinner-border text-roxo pinner-border-sm mb-2"
+        role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+  
+      <div>
+        <div class="btn-group my-1">
+          <button
+            class="btn btn-sm btn-paginacao"
+            (click)="carregarLista('prev')"
+            [disabled]="prevPage == 0">
+            <fa-icon class="mx-1" [icon]="prev"></fa-icon>
+          </button>
+          <button class="btn btn-sm btn-paginacao-desabilitado" disabled>
+            {{ from }} - {{ to }} de um total de {{ total }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-paginacao btn-sm"
+            (click)="carregarLista('next')"
+            [disabled]="nextPage == 0">
+            <fa-icon class="mx-1" [icon]="next"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

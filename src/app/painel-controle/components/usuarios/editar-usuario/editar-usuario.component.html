@@ -1,0 +1,86 @@
+  
+  <div class="container conteudo-formulario">
+    <div class="d-flex align-items-center justify-content-between mb-5 mt-3">
+      <h5 class="text-roxo">Editar Usuário </h5>
+      <button
+        type="button"
+        class="btn btn-voltar font-18"
+        [routerLink]="['/painel/usuarios']">
+        <fa-icon class="mx-1" [icon]="iconVoltar"></fa-icon>
+        voltar
+      </button>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <form #formUsuario="ngForm" *ngIf="!requisitando">
+          <div class="form-row">
+            <div class="form-group col-12 mb-2">
+              <label class="col-form-label-sm mb-0" for="name"
+                >Nome</label
+              >
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="name"
+                name="name"
+                [(ngModel)]="usuario.nome"
+                required />
+            </div>
+            <div class="form-group col-12 mb-2">
+                <label class="col-form-label-sm mb-0" for="email"
+                  >Email</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="email"
+                  name="email"
+                  [(ngModel)]="usuario.email"
+                  required />
+            </div>
+            <div class="form-group col-12 mb-2">
+                <label class="col-form-label-sm mb-0" for="password"
+                  >Senha</label
+                >
+                <input
+                  type="password"
+                  class="form-control form-control-sm"
+                  id="password"
+                  name="password"
+                  [(ngModel)]="usuario.password"
+                  />
+            </div>
+  
+            <div class="form-group col-12 mb-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input form-control-sm"
+                  type="checkbox"
+                  id="ativo"
+                  name="ativo"
+                  [(ngModel)]="usuario.ativo" />
+                <label class="form-check-label col-form-label-sm" for="ativo">
+                  Ativo
+                </label>
+              </div>
+            </div>
+  
+            <div class="form-group col-12 text-right">
+              <button
+                (click)="editarUsuario()"
+                class="btn btn-padrao"
+                [disabled]="!formUsuario.form.valid ? true : false">
+                Salvar
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="d-flex justify-content-center" *ngIf="spineer">
+          <div class="spinner-border text-roxo" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,4 +1,4 @@
-import { delay, map, tap, catchError } from 'rxjs/operators';
+import {  catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
@@ -11,13 +11,13 @@ import {
   Router,
   CanLoad,
 } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, throwError } from 'rxjs';
 
 import { Route } from '@angular/compiler/src/core';
 import { environment } from 'src/environments/environment';
 
-import { LoginService } from 'src/app/auth/services/login.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { BaseResponse } from 'src/app/common/models/baseResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +25,9 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class AuthGuardAdmin implements CanActivate, CanActivateChild, CanLoad {
   private readonly api = `${environment.api}`;
   constructor(
-    private auth$: AuthService,
+    private auth: AuthService,
     private router: Router,
     private http: HttpClient,
-    private login$: LoginService,
   ) {}
 
   canActivate(
@@ -39,25 +38,8 @@ export class AuthGuardAdmin implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // const authData = this.auth$.get();
-
-    // if (authData) {
-    //   return this.http
-    //     .get(`${this.api}islogin/funcionario/?token=${authData.accessToken}`)
-    //     .pipe(
-    //       map(response => {
-    //         if (response.grupo === 'Administrador') {
-    //           return true;
-    //         } else {
-    //           this.router.navigate(['admin']);
-    //           return false;
-    //         }
-    //       }),
-    //     );
-    // }
-    // this.router.navigate(['admin']);
-    return false;
-  }
+      return this.validate();
+    }
 
   canActivateChild(
     next: ActivatedRouteSnapshot,
@@ -67,54 +49,43 @@ export class AuthGuardAdmin implements CanActivate, CanActivateChild, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.canActivate(next, state);
+    return this.validate();
   }
 
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
-    // const authData = this.auth$.get();
-    // if (authData) {
-    //   const httpOptions = {
-    //     headers: new HttpHeaders({
-    //       authorization: 'Bearer ' + authData.access_token,
-    //     }),
-    //   };
-    //   return this.http.get(`${this.api}auth/me`, httpOptions).pipe(
-    //     map(response => {
-    //       try {
-    //         if (response.success) {
-    //           return true;
-    //         } else {
-    //           this.router.navigate(['login']);
-    //           return false;
-    //         }
-    //       } catch (e) {
-    //         return false;
-    //       }
-    //     }),
-    //   );
-    // }
-    // this.router.navigate(['login']);
-    return true;
+    return this.validate();
   }
 
-  getToken() {
-    // const authData = this.auth$.get();
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     authorization: 'Bearer ' + authData.access_token,
-    //   }),
-    // };
-    // class Retorno {
-    //   constructor(public resultado?: Object, public paciente?: Object) {}
-    // }
-    // return this.http.get(`${this.api}auth/me`, httpOptions).pipe(
-    //   map(res => {
-    //     if (!res.success) {
-    //       throw new Error('Value expected!');
-    //     }
-    //     return true;
-    //   }),
-    //   catchError(err => 'erro!!!'),
-    // );
+  validate(){
+    const authData = this.auth.getLocalStorage();
+    if (authData) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          authorization: 'Bearer ' + authData.accessToken,
+        }),
+      };
+      return this.http.get<BaseResponse>(`${this.api}auth/me`, httpOptions).pipe(
+        catchError((__,_)=>{
+          this.router.navigate(['login']);
+          return new Observable<BaseResponse>();
+        }),
+        map(response => {
+
+          try {
+            if (response.success) {
+              return true;
+            } else {
+              this.router.navigate(['login']);
+              return false;
+            }
+          } catch (e) {
+            this.router.navigate(['login']);
+            return false;
+          }
+        },
+      ));
+    }
+    this.router.navigate(['login']);
+    return false;
   }
 }
