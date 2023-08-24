@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Aresta } from 'src/app/common/models/arvore/aresta.model';
+import { Linha } from 'src/app/common/models/arvore/linha.model';
+import { No } from 'src/app/common/models/arvore/no.model.';
 
 @Component({
   selector: 'app-visualizador-arvore',
@@ -6,9 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./visualizador-arvore.component.css'],
 })
 export class VisualizadorArvoreComponent implements OnInit {
-  @Input() impressaoNo: Array<any>;
-  @Input() impressaoAresta: Array<any>;
-  @Input() exibirLinha: boolean;
+  @Input() impressaoNo: No[];
+  @Input() impressaoAresta: Aresta[];
+  @Input() impressaoLinha: Linha[];
   @Input() width: number;
   @Input() height: number;
 
@@ -16,11 +19,11 @@ export class VisualizadorArvoreComponent implements OnInit {
   constructor() {}
   ngOnInit(): void {}
 
-  alterarcor(index) {
+  alterarcor(index: number) {
     this.impressaoNo[index].fill = 'url(#grad2)';
   }
 
-  voltarcor(index) {
+  voltarcor(index: number) {
     this.impressaoNo[index].fill = 'url(#grad1)';
   }
 }

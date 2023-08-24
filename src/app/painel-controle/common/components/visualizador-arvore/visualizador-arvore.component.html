@@ -9,7 +9,16 @@
       stroke-width="1"
       stroke-linecap="butt" />
   </g>
-
+  <g *ngFor="let item of impressaoLinha; let i = index">
+    <text
+      font-size="20"
+      font-weight="bold"
+      fill="rgb(175,175,175)"
+      [attr.x]="item.posX"
+      [attr.y]="item.posY">
+      {{ item.texto }}
+    </text>
+  </g>
   <g
     *ngFor="let item of impressaoNo; let i = index"
     (mouseover)="alterarcor(i)"
@@ -24,15 +33,6 @@
       [attr.cy]="item.posY - 27"
       r="3"
       fill="#AFAFAF" />
-    <text
-      *ngIf="exibirLinha"
-      font-size="20"
-      font-weight="bold"
-      fill="rgb(175,175,175)"
-      [attr.x]="30"
-      [attr.y]="item.posY + 5">
-      Linha {{ item.linha }}
-    </text>
     <defs>
       <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
         <stop
