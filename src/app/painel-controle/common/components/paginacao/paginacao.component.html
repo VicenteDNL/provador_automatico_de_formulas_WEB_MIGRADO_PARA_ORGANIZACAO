@@ -1,0 +1,29 @@
+<div class="text-center folder-paginacao" *ngIf="paginacao != null">
+  <div
+    *ngIf="buscando"
+    class="spinner-border text-roxo spinner-border-sm mb-2"
+    role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+
+  <div>
+    <div class="btn-group my-1">
+      <button
+        class="btn btn-sm btn-paginacao"
+        (click)="paginar('prev')"
+        [disabled]="prevPage == 0">
+        <fa-icon class="mx-1" [icon]="prevIcon"></fa-icon>
+      </button>
+      <button class="btn btn-sm btn-paginacao-desabilitado" disabled>
+        {{ from }} - {{ to }} de um total de {{ total }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-paginacao btn-sm"
+        (click)="paginar('next')"
+        [disabled]="nextPage == 0">
+        <fa-icon class="mx-1" [icon]="nextIcon"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>
