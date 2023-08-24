@@ -11,7 +11,10 @@
   <div class="row">
     <div class="col-md-12 m-auto pt-2 px-0">
       <div class="tabela-listagem">
-        <table class="table table-sm table-responsive-sm" *ngIf="exibirTabela">
+        <table
+          class="table table-sm"
+          [ngClass]="listaNiveis.length > 0 ? 'table-responsive-sm' : ''"
+          *ngIf="exibirTabela">
           <thead>
             <tr>
               <th scope="col" class="header-tabela-primeiro">Nome</th>
@@ -53,7 +56,9 @@
               </td>
             </tr>
             <tr *ngIf="listaUsuarios.length == 0">
-              <td colspan="4" class="text-center font-weight-bold" style="width: 100%;">Nenhum item cadastrado</td>
+              <td colspan="4" class="text-center font-weight-bold">
+                Nenhum item cadastrado
+              </td>
             </tr>
           </tbody>
         </table>
