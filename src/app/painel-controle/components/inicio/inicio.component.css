@@ -1,0 +1,30 @@
+.conteudo-inicio {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cartao-inicio {
+  background: white;
+  padding: 1rem;
+}
+.titulo-inicio {
+  text-align: center;
+  color: #57d0ca;
+}
+.barra-titulo {
+  border-radius: 4px;
+  height: 8px;
+  width: 50px;
+  background: #57d0ca;
+}
+.texto-inicio {
+  text-align: center;
+  color: #707070;
+}
+.conteudo-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+}
