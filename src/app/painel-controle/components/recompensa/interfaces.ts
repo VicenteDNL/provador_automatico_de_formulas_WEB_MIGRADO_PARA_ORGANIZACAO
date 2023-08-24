@@ -3,9 +3,9 @@ import { BaseResponse } from '../../../common/models/baseResponse.model';
 
 export type Response = BaseResponse;
 
-export interface RecompensasResponse extends Response{
+export interface RecompensasResponse extends Response {
   data?: Recompensa[];
-};
+}
 
 export interface RecompensaInput {
   id?: number;
