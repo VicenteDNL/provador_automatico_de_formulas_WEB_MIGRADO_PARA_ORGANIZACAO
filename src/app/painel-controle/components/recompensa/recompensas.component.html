@@ -18,7 +18,7 @@
           <div class="barra-modal"></div>
         </div>
         <div class="p-3 w-100">
-          <div *ngIf="!criando">
+          <div *ngIf="!requisitando">
             <div
               id="cadastrar"
               [collapse]="cadastrarColapse"
@@ -157,7 +157,7 @@
               Deseja editar uma recompensa existente?
             </button>
           </div>
-          <app-spinner *ngIf="criando"></app-spinner>
+          <app-spinner *ngIf="requisitando"></app-spinner>
           <div *ngIf="error" class="alert alert-danger pt-1" role="alert">
             <span class="text-center"
               >Não foi possível executar essa ação, tente novamente.</span
