@@ -1,14 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import {
-  faTrash,
-  faEdit,
-  faStepForward,
-  faStepBackward,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NiveisService } from './niveis.service';
-import { Router } from '@angular/router';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PainelControleComponent } from '../../painel-controle.component';
 import { Nivel } from 'src/app/common/models/nivel.model';
 import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
