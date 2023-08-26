@@ -1,0 +1,115 @@
+<app-recompensas
+  [openSubject]="openRecompensasSubject"
+  (eventFinished)="carregarRecompensas()">
+</app-recompensas>
+<div class="container">
+  <app-header-formulario titulo="Cadastrar Nível" linkVoltar="/painel/niveis">
+  </app-header-formulario>
+  <div class="row">
+    <div class="col-md-12">
+      <form #formNivel="ngForm" *ngIf="!requisitando">
+        <div class="form-row">
+          <div class="form-group col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="nome"
+              >Nome do nível</label
+            >
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="nome"
+              name="nome"
+              [(ngModel)]="nivel.nome"
+              required />
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="descricao"
+              >Descrição</label
+            >
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="descricao"
+              name="descricao"
+              [(ngModel)]="nivel.descricao"
+              required />
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <div class="form-check">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="semRecompensa"
+                name="!semRecompensa"
+                (click)="disbleaEnableRecompensa(!semRecompensa)"
+                [(ngModel)]="semRecompensa" />
+              <label
+                class="form-check-label col-form-label-sm"
+                for="semRecompensa">
+                Sem recompensa
+              </label>
+            </div>
+          </div>
+          <div class="form-group col-12 mb-2">
+            <div>
+              <label class="col-form-label-sm mb-0" for="id_recompensa"
+                >Recompensa</label
+              >
+              <div class="d-flex">
+                <select
+                  id="id_recompensa"
+                  name="id_recompensa"
+                  [(ngModel)]="nivel.id_recompensa"
+                  class="form-control form-control-sm"
+                  [disabled]="semRecompensa"
+                  required>
+                  <option
+                    *ngFor="let recompensa of listaRecompensas"
+                    value="{{ recompensa.id }}">
+                    {{ recompensa.nome }}
+                  </option>
+                </select>
+                <button
+                  class="btn btn-sm btn-add-recompensa"
+                  (click)="abrirRecompensas()">
+                  <fa-icon class="mx-1" [icon]="addIcon"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <div
+              *ngIf="loadingRecompensa"
+              class="spinner-border spinner-border-sm text-roxo ml-2"
+              role="status">
+              <span class="sr-only">Carregando...</span>
+            </div>
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <div class="form-check">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="ativo"
+                name="ativo"
+                [(ngModel)]="nivel.ativo" />
+              <label class="form-check-label col-form-label-sm" for="ativo">
+                Ativo
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-12 text-right">
+            <button
+              (click)="salvar()"
+              class="btn btn-padrao"
+              [disabled]="!formNivel.form.valid ? true : false">
+              Salvar
+            </button>
+          </div>
+        </div>
+      </form>
+      <app-spinner *ngIf="requisitando"></app-spinner>
+    </div>
+  </div>
+</div>

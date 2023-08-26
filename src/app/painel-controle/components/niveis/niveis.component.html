@@ -1,0 +1,70 @@
+<app-modal-delecao
+  [deletarSubject]="deletarSubject"
+  (eventConfirm)="confirmarDelete($event)"
+  titulo="Deletar Nível">
+</app-modal-delecao>
+<div class="container conteudo-pagina">
+  <app-header-listagem
+    titulo="Gerenciamento Níveis"
+    linkCadastro="/painel/niveis/cadastrar">
+  </app-header-listagem>
+  <div class="row">
+    <div class="col-md-12 m-auto pt-2 px-0">
+      <div class="tabela-listagem">
+        <table
+          class="table table-sm"
+          [ngClass]="listaNiveis.length > 0 ? 'table-responsive-sm' : ''"
+          *ngIf="exibirTabela">
+          <thead>
+            <tr>
+              <th scope="col" class="header-tabela-primeiro">Nome</th>
+              <th scope="col" class="header-tabela text-center">Status</th>
+              <th scope="col" class="header-tabela-ultimo text-center">
+                Ações
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let nivel of listaNiveis">
+              <td class=" col-sm-6" style="vertical-align: inherit">
+                {{ nivel.nome }}
+              </td>
+              <td
+                class="text-center col-sm-3"
+                [ngClass]="nivel.ativo == 1 ? 'status-ativo' : 'status-inativo'"
+                style="vertical-align: inherit">
+                {{ nivel.ativo ? 'Ativo' :   'Inativo' }}
+              </td>
+              <td class="text-center  col-sm-3">
+                <div class="btn-group my-1">
+                  <button
+                    class="btn btn-sm btn-tabela"
+                    [routerLink]="['/painel/niveis/editar', nivel.id]">
+                    <fa-icon class="mx-1" [icon]="iconEditar"></fa-icon>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-tabela-delete btn-sm"
+                    (click)="deletar(nivel.id)">
+                    <fa-icon class="mx-1" [icon]="iconDeletar"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="listaNiveis.length == 0">
+              <td colspan="3" class="text-center font-weight-bold">
+                Nenhum item cadastrado
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-spinner *ngIf="!exibirTabela"></app-spinner>
+      </div>
+    </div>
+  </div>
+  <app-paginacao
+    [paginacao]="paginacao"
+    (eventPaginate)="carregarLista($event)"
+    style="flex: 1; display: flex">
+  </app-paginacao>
+</div>
