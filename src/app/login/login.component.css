@@ -16,3 +16,12 @@
 .esqueci-senha {
   cursor: pointer;
 }
+
+.conteudo-login {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  background-image: url('src/assets/img/back-padrao.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+}
