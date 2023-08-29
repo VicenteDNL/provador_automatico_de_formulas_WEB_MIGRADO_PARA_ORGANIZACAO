@@ -21,7 +21,7 @@ export class CadastrarNivelComponent implements OnInit {
     nome: '',
     descricao: '',
     ativo: false,
-    id_recompensa: null,
+    recompensa_id: null,
   };
   semRecompensa = true;
   requisitando = false;
@@ -56,7 +56,7 @@ export class CadastrarNivelComponent implements OnInit {
   salvar() {
     this.requisitando = true;
     if (this.semRecompensa === false) {
-      this.nivel.id_recompensa = undefined;
+      this.nivel.recompensa_id = undefined;
     }
     this.service.cadastrar(this.nivel).subscribe(
       response => {
@@ -78,7 +78,7 @@ export class CadastrarNivelComponent implements OnInit {
   disbleaEnableRecompensa(event: any) {
     if (event) {
       this.listaRecompensas = [];
-      this.nivel.id_recompensa = null;
+      this.nivel.recompensa_id = null;
       return;
     }
     this.carregarRecompensas();

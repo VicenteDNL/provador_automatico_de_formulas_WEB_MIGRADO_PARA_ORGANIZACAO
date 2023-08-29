@@ -25,7 +25,7 @@ export interface RecompensasResponse extends Response {
 export interface NivelInput {
   id?: number;
   nome: string;
-  id_recompensa?: number;
+  recompensa_id?: number;
   descricao: string;
   ativo: boolean;
 }

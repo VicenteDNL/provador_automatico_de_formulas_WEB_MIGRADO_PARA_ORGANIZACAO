@@ -22,7 +22,7 @@ export class EditarNivelComponent implements OnInit {
     nome: '',
     descricao: '',
     ativo: false,
-    id_recompensa: null,
+    recompensa_id: null,
   };
   semRecompensa = true;
   requisitando = true;
@@ -54,9 +54,9 @@ export class EditarNivelComponent implements OnInit {
               nome: data.nome,
               descricao: data.descricao,
               ativo: data.ativo,
-              id_recompensa: data.id_recompensa ?? null,
+              recompensa_id: data.recompensa_id ?? null,
             };
-            this.semRecompensa = data.id_recompensa == null;
+            this.semRecompensa = data.recompensa_id == null;
             this.carregarRecompensas();
           } else {
             this.painelCmp.errorMensagen = response.msg;
@@ -111,7 +111,7 @@ export class EditarNivelComponent implements OnInit {
   disbleaEnableRecompensa(event: any) {
     if (event) {
       this.listaRecompensas = [];
-      this.nivel.id_recompensa = null;
+      this.nivel.recompensa_id = null;
       return;
     }
     this.carregarRecompensas();

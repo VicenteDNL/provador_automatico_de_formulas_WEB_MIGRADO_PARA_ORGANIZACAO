@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ExerciciosService } from '../../modulo/exercicios/exercicios.service';
 import { PainelControleComponent } from '../../painel-controle.component';
 import { environment } from 'src/environments/environment';
 import { Aresta } from '../../../common/models/arvore/aresta.model';
