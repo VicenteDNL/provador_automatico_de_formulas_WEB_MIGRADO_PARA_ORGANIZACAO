@@ -1,0 +1,74 @@
+<app-modal-delecao
+  [deletarSubject]="deletarSubject"
+  (eventConfirm)="confirmarDelete($event)"
+  titulo="Deletar Exercício">
+</app-modal-delecao>
+<div class="container conteudo-pagina">
+  <app-header-listagem
+    titulo="Gerenciamento Exercícios"
+    linkCadastro="/painel/exercicios/cadastrar">
+  </app-header-listagem>
+  <div class="row">
+    <div class="col-md-12 m-auto pt-2">
+      <div class="tabela-listagem">
+        <table
+          class="table table-sm"
+          [ngClass]="listaExercicios.length > 0 ? 'table-responsive-sm' : ''"
+          *ngIf="exibirTabela">
+          <thead>
+            <tr>
+              <th scope="col" class="header-tabela-primeiro">Nível</th>
+              <th scope="col" class="header-tabela">Nome</th>
+              <th scope="col" class="header-tabela text-center">Status</th>
+              <th scope="col" class="header-tabela-ultimo text-center">
+                Ações
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let exercicio of listaExercicios">
+              <td style="vertical-align: inherit">
+                {{ exercicio.nivel.nome }}
+              </td>
+              <td style="vertical-align: inherit">{{ exercicio.nome }}</td>
+              <td
+                style="vertical-align: inherit"
+                class="text-center"
+                [ngClass]="
+                  exercicio.ativo == 1 ? 'status-ativo' : 'status-inativo'
+                ">
+                {{ exercicio.ativo ? 'Ativo' : 'Inativo' }}
+              </td>
+              <td class="text-center">
+                <div class="btn-group my-1">
+                  <button
+                    class="btn btn-sm btn-tabela"
+                    [routerLink]="['/painel/exercicios/editar', exercicio.id]">
+                    <fa-icon class="mx-1" [icon]="iconEditar"></fa-icon>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-tabela-delete btn-sm"
+                    (click)="deletar(exercicio.id)">
+                    <fa-icon class="mx-1" [icon]="iconDeletar"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="listaExercicios.length == 0">
+              <td colspan="4" class="text-center font-weight-bold">
+                Nenhum item cadastrado
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <app-spinner *ngIf="!exibirTabela"></app-spinner>
+      </div>
+    </div>
+  </div>
+  <app-paginacao
+    [paginacao]="paginacao"
+    (eventPaginate)="carregarLista($event)"
+    style="flex: 1; display: flex">
+  </app-paginacao>
+</div>
