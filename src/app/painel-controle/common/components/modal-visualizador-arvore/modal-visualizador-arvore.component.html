@@ -1,0 +1,39 @@
+<div
+  *ngIf="show"
+  [config]="{ show: true }"
+  (onHide)="onHide()"
+  bsModal
+  #autoShownModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body text-center p-0">
+        <div class="text-center titulo-modal p-2">
+          <span>Árvore Otimizada</span>
+        </div>
+        <div class="text-center d-flex justify-content-center w-100">
+          <div class="barra-modal"></div>
+        </div>
+        <div class="p-3 w-100" style="overflow-x: auto;">
+          <app-visualizador-arvore
+            [impressaoNo]="impressaoNo"
+            [impressaoAresta]="impressaoAresta"
+            [impressaoLinha]="impressaoLinha"
+            [width]="width"
+            [height]="height"></app-visualizador-arvore>
+        </div>
+        <div class="pb-3 w-100 text-center">
+          <button
+            type="button"
+            class="btn btn-padrao mx-2"
+            (click)="hideModal()">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

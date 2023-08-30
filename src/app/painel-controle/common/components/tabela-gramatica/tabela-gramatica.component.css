@@ -1,0 +1,27 @@
+.cor-fundo1 {
+  background-color: #f6f6f6;
+}
+
+.cor-fundo2 {
+  background-color: rgb(85, 217, 202);
+  color: #f0f8ff !important;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #c5c5c5;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #af9eeb;
+}
+
+.nav-link.active {
+  color: #6e52d2;
+  font-weight: bold;
+  border-bottom: 5px solid #6e52d2;
+  padding-bottom: 0px !important;
+  background-color: transparent !important;
+}
