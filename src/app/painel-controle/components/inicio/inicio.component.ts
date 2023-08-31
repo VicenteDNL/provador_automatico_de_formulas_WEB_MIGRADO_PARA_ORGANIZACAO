@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PainelControleComponent } from '../../painel-controle.component';
 import { environment } from 'src/environments/environment';
-import { Aresta } from '../../../common/models/arvore/aresta.model';
-import { No } from 'src/app/common/models/arvore/no.model.';
+import { Aresta } from '../../../common/interfaces/arvore/aresta.model';
+import { No } from 'src/app/common/interfaces/arvore/no.model.';
 import { ArvoreService } from '../../common/services/arvore.service';
 
 declare let gramLogic: any;

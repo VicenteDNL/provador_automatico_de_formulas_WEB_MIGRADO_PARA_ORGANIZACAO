@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { Recompensa } from 'src/app/common/models/recompensa.model';
+import { Recompensa } from 'src/app/common/interfaces/recompensa.model';
 import { NivelInput, NivelResponse } from '../interfaces';
 import { NiveisService } from '../niveis.service';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { PainelControleComponent } from 'src/app/painel-controle/painel-controle.component';
 import { NivelInput } from '../interfaces';
 import { NiveisService } from '../niveis.service';
-import { Recompensa } from 'src/app/common/models/recompensa.model';
+import { Recompensa } from 'src/app/common/interfaces/recompensa.model';
 import { Subject } from 'rxjs';
 
 @Component({

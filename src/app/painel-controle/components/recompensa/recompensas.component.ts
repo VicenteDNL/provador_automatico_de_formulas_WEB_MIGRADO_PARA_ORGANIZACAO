@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { RecompensaService } from './recompensas.service';
 import { RecompensaInput } from './interfaces';
-import { Recompensa } from 'src/app/common/models/recompensa.model';
+import { Recompensa } from 'src/app/common/interfaces/recompensa.model';
 import { Subject } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 

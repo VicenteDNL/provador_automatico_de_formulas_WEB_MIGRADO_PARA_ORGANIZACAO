@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Aresta } from 'src/app/common/models/arvore/aresta.model';
-import { Linha } from 'src/app/common/models/arvore/linha.model';
-import { No } from 'src/app/common/models/arvore/no.model.';
+import { Aresta } from 'src/app/common/interfaces/arvore/aresta.model';
+import { Linha } from 'src/app/common/interfaces/arvore/linha.model';
+import { No } from 'src/app/common/interfaces/arvore/no.model.';
 
 @Component({
   selector: 'app-visualizador-arvore',

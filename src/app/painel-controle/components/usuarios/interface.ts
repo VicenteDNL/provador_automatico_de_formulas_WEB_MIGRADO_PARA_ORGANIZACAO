@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { BaseResponse } from 'src/app/common/models/baseResponse.model';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
+import { BaseResponse } from 'src/app/common/interfaces/baseResponse.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
 
 export type Response = BaseResponse;
 export interface Usuario {

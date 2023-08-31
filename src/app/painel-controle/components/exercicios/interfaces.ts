@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Exercicio } from 'src/app/common/models/exercicio.model';
-import { Arvore } from '../../../common/models/arvore/arvore.model';
-import { BaseResponse } from '../../../common/models/baseResponse.model';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
-import { Recompensa } from 'src/app/common/models//recompensa.model';
-import { ArvoreAutomatica } from 'src/app/common/models/arvore/arvoreAutomatica';
+import { Exercicio } from 'src/app/common/interfaces/exercicio.model';
+import { Arvore } from '../../../common/interfaces/arvore/arvore.model';
+import { BaseResponse } from '../../../common/interfaces/baseResponse.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
+import { Recompensa } from 'src/app/common/interfaces//recompensa.model';
+import { ArvoreAutomatica } from 'src/app/common/interfaces/arvore/arvoreAutomatica';
 
 export type Response = BaseResponse;
 

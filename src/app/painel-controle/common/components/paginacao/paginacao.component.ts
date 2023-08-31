@@ -10,7 +10,7 @@ import {
   faStepBackward,
   faStepForward,
 } from '@fortawesome/free-solid-svg-icons';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
 
 @Component({
   selector: 'app-paginacao',

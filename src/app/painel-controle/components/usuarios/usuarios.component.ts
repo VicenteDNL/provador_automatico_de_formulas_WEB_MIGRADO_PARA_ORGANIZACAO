@@ -4,7 +4,7 @@ import { PainelControleComponent } from '../../painel-controle.component';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Usuario } from './interface';
 import { Subject } from 'rxjs';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
 
 @Component({
   selector: 'app-usuarios',

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NiveisService } from './niveis.service';
 import { PainelControleComponent } from '../../painel-controle.component';
-import { Nivel } from 'src/app/common/models/nivel.model';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
+import { Nivel } from 'src/app/common/interfaces/nivel.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
 import { Subject } from 'rxjs';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
-import { Exercicio } from 'src/app/common/models/exercicio.model';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
+import { Exercicio } from 'src/app/common/interfaces/exercicio.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
 import { PainelControleComponent } from '../../painel-controle.component';
 import { ExerciciosService } from './exercicios.service';
 

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { BaseResponse } from '../../../common/models/baseResponse.model';
-import { Nivel } from 'src/app/common/models/nivel.model';
-import { PaginationResponse } from 'src/app/common/models/paginationResponse.model';
-import { Recompensa } from 'src/app/common/models/recompensa.model';
+import { BaseResponse } from '../../../common/interfaces/baseResponse.model';
+import { Nivel } from 'src/app/common/interfaces/nivel.model';
+import { PaginationResponse } from 'src/app/common/interfaces/paginationResponse.model';
+import { Recompensa } from 'src/app/common/interfaces/recompensa.model';
 
 export type Response = BaseResponse;
 
