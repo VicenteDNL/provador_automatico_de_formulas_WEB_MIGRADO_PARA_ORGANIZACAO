@@ -94,6 +94,6 @@ export class Console {
       default:
         msg = '';
     }
-    this.addLog(msg, Logs.info, false);
+    this.addLog(msg, Logs.info, true);
   }
 }

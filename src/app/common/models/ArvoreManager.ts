@@ -69,8 +69,9 @@ export class ArvoreManager {
     const amarelos = selecao.getAmarelos();
     const vermelho = selecao.getVermelho();
     const desmarcadoNo = selecao.isDesmarcando();
+
     if (!this.arvore.iniciar.isCompleto) {
-      return this.arvore;
+      return selecao;
     }
 
     // Seleção do no vermelho
@@ -98,10 +99,8 @@ export class ArvoreManager {
     ) {
       this.arvore.visualizar.nos[index].strokeColor = '#b91d1d';
       this.arvore.visualizar.nos[index].strokeWidth = 3;
-
-      selecao.setAmarelos(
-        amarelos.splice(amarelos.indexOf(this.arvore.visualizar.nos[index]), 1),
-      );
+      amarelos.splice(amarelos.indexOf(this.arvore.visualizar.nos[index]), 1);
+      selecao.setAmarelos(amarelos);
       selecao.setDesmarcando(true);
     }
 
@@ -131,11 +130,9 @@ export class ArvoreManager {
     else if (amarelos.indexOf(this.arvore.visualizar.nos[index]) !== -1) {
       this.arvore.visualizar.nos[index].strokeColor = '#C0C0C0';
       this.arvore.visualizar.nos[index].strokeWidth = 2;
-      selecao.setAmarelos(
-        amarelos.splice(amarelos.indexOf(this.arvore.visualizar.nos[index]), 1),
-      );
+      amarelos.splice(amarelos.indexOf(this.arvore.visualizar.nos[index]), 1);
+      selecao.setAmarelos(amarelos);
     }
-
     selecao.habilitarBotoes();
     return selecao;
   }

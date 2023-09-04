@@ -3,6 +3,10 @@ export class EtapasEmProgresso {
   private etapaDerivacao: boolean;
 
   constructor() {
+    this.restart();
+  }
+
+  restart() {
     this.etapaInicializacao = false;
     this.etapaDerivacao = false;
   }
