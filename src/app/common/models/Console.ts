@@ -65,9 +65,8 @@ export class Console {
         break;
       default:
         msg = '';
-
-        this.addLog(msg, Logs.sucesso, false);
     }
+    this.addLog(msg, Logs.sucesso, false);
   }
 
   addLogByAcao(
@@ -94,8 +93,7 @@ export class Console {
         break;
       default:
         msg = '';
-
-        this.addLog(msg, Logs.sucesso, false);
     }
+    this.addLog(msg, Logs.info, false);
   }
 }

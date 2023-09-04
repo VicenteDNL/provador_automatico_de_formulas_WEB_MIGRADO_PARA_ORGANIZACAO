@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 export enum Logs {
-  sucesso,
-  erro,
-  info,
+  sucesso = 'sucesso',
+  erro = 'erro',
+  info = 'info',
 }

@@ -4,6 +4,10 @@ import { Selecao } from './Selecao';
 export class ArvoreManager {
   private arvore: Arvore;
   constructor() {
+    this.restart();
+  }
+
+  restart() {
     this.arvore = {
       derivar: {
         passosExecutados: [],
