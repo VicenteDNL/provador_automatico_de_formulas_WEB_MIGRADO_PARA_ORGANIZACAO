@@ -1,0 +1,340 @@
+<app-recompensas
+  [openSubject]="recompensa.openModal"
+  (eventFinished)="carregarRecompensas()">
+</app-recompensas>
+
+<app-modal-erro-gramatica
+  [openModal]="formula.openModalErros"
+  [erros]="formula.mensagemErro">
+</app-modal-erro-gramatica>
+
+<app-modal-info-gramatica [openModal]="formula.openModalInfoGramatica">
+</app-modal-info-gramatica>
+
+<app-personalizar-arvore
+  [arvore]="arvore"
+  [openModal]="personalizacao.openModal"
+  (eventConfirm)="salvarPersonalizacao($event)"></app-personalizar-arvore>
+
+<app-modal-visualizador-arvore
+  [impressaoNo]="arvoreAutomatica.arvore.visualizar.nos"
+  [impressaoAresta]="arvoreAutomatica.arvore.visualizar.arestas"
+  [impressaoLinha]="arvoreAutomatica.arvore.visualizar.linhas"
+  [width]="arvoreAutomatica.arvore.visualizar.width"
+  [height]="450"
+  [abrirArvoreSubject]="arvoreAutomatica.openModal">
+</app-modal-visualizador-arvore>
+<div class="container conteudo-cadastro">
+  <app-header-formulario
+    titulo="Editar Exercício"
+    linkVoltar="/painel/exercicios">
+  </app-header-formulario>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form #formNivel="ngForm" *ngIf="!requisitando">
+        <div class="form-row">
+          <div class="form-group col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="nome"
+              >Nome do exercício</label
+            >
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="nome"
+              name="nome"
+              [(ngModel)]="exercicio.nome"
+              required />
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="descricao"
+              >Descrição</label
+            >
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="descricao"
+              name="descricao"
+              [(ngModel)]="exercicio.descricao"
+              required />
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="enunciado"
+              >Enunciado</label
+            >
+            <textarea
+              class="form-control form-control-sm"
+              id="enunciado"
+              name="enunciado"
+              [(ngModel)]="exercicio.enunciado"
+              required
+              rows="2"></textarea>
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="formula">Fórmula</label>
+            <div class="d-flex">
+              <input
+                type="text"
+                (blur)="validarFormula()"
+                class="form-control form-control-sm"
+                id="formula"
+                name="formula"
+                [(ngModel)]="exercicio.formula.formula"
+                [ngClass]="{
+                  'erro-formula':
+                    !formula.isValida && formula.mensagemErro != ''
+                }"
+                required />
+              <div class="btn-group">
+                <button
+                  *ngIf="formula.isValida"
+                  type="button"
+                  class="btn btn-sm btn-inf-formula-2"
+                  (click)="abrirArvore()">
+                  <span
+                    *ngIf="arvoreAutomatica.loading"
+                    class="spinner-border spinner-border-sm"
+                    role="status">
+                    <span class="sr-only">Loading...</span>
+                  </span>
+                  <fa-icon
+                    *ngIf="!arvoreAutomatica.loading"
+                    class="mx-1"
+                    [icon]="iconVisual"></fa-icon>
+                </button>
+                <button
+                  *ngIf="!formula.isValida && formula.mensagemErro != ''"
+                  class="btn btn-sm btn-inf-formula-2"
+                  (click)="abrirErrosGramatica()">
+                  <fa-icon class="mx-1" [icon]="iconErro"></fa-icon>
+                </button>
+                <button
+                  class="btn btn-sm btn-inf-formula-1"
+                  (click)="abrirInfoGramatica()">
+                  <fa-icon class="mx-1" [icon]="iconDuvida"></fa-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-6 mb-2">
+            <div class="form-check">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="inicio_personalizado"
+                name="inicio_personalizado"
+                [(ngModel)]="exercicio.formula.inicio_personalizado"
+                [disabled]="!formula.isValida"
+                (click)="abriPersonalizacao()" />
+              <label
+                class="form-check-label col-form-label-sm"
+                for="inicio_personalizado">
+                Personalizar Inicio
+              </label>
+              <button
+                *ngIf="exercicio.formula.inicio_personalizado"
+                class="btn btn-sm btn-inf ml-1"
+                (click)="editarPersonalizacao()">
+                <fa-icon class="mx-1" [icon]="iconEditar"></fa-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <label for="quantidade_regras">Quantidade de Regras</label>
+            <div class="d-flex">
+              <input
+                type="range"
+                class="form-control-range"
+                id="quantidade_regras"
+                name="quantidade_regras"
+                [(ngModel)]="exercicio.formula.quantidade_regras"
+                min="1"
+                max="9"
+                [disabled]="!formula.isValida" />
+              <span
+                *ngIf="exercicio.formula.quantidade_regras == null"
+                class="ml-1 qntd-regras">
+                0
+              </span>
+              <span
+                *ngIf="exercicio.formula.quantidade_regras != null"
+                class="ml-1 qntd-regras"
+                >{{ exercicio.formula.quantidade_regras }}</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group col-md-6 col-12 mb-2">
+            <div class="form-check">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="fechar_automaticamente"
+                name="fechar_automaticamente"
+                [(ngModel)]="exercicio.formula.fechar_automaticamente"
+                [disabled]="!formula.isValida" />
+              <label
+                class="form-check-label col-form-label-sm"
+                for="fechar_automaticamente">
+                Fechamento Automático
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6 col-12 mb-2">
+            <div class="form-check">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="ticar_automaticamente"
+                name="ticar_automaticamente"
+                [(ngModel)]="exercicio.formula.ticar_automaticamente"
+                [disabled]="!formula.isValida" />
+              <label
+                class="form-check-label col-form-label-sm"
+                for="ticar_automaticamente">
+                Ticagem Automática
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-6 mb-2">
+            <div class="form-check" (click)="tempoDesbilitar()">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="desabilitarInputTempo"
+                name="desabilitarInputTempo"
+                [(ngModel)]="form.desabilitarInputTempo"
+                [disabled]="!formula.isValida" />
+              <label
+                class="form-check-label col-form-label-sm"
+                for="desabilitarInputTempo">
+                Definir tempo
+              </label>
+            </div>
+            <div>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                id="tempo"
+                name="tempo"
+                [(ngModel)]="exercicio.tempo"
+                [disabled]="!form.desabilitarInputTempo"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group col-6 mb-2">
+            <div class="form-check" (click)="limiteErrosDesbilitar()">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="desabilitarInputLimiteErros"
+                name="desabilitarInputLimiteErros"
+                [(ngModel)]="form.desabilitarInputLimiteErros"
+                [disabled]="!formula.isValida" />
+              <label
+                class="form-check-label col-form-label-sm"
+                for="desabilitarInputLimiteErros">
+                Limitar Erros
+              </label>
+            </div>
+            <div>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                id="qndt_erros"
+                name="qndt_erros"
+                [(ngModel)]="exercicio.qndt_erros"
+                [disabled]="!form.desabilitarInputLimiteErros"
+                required />
+            </div>
+          </div>
+
+          <div class="form-group col-md-6 col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="recompensa_id"
+              >Recompensa</label
+            >
+            <div class="d-flex">
+              <select
+                id="recompensa_id"
+                name="recompensa_id"
+                [(ngModel)]="exercicio.recompensa_id"
+                class="form-control form-control-sm"
+                required>
+                <option
+                  *ngFor="let recompensa of recompensa.lista"
+                  value="{{ recompensa.id }}">
+                  {{ recompensa.nome }}
+                </option>
+              </select>
+              <button
+                class="btn btn-sm btn-add-recompensa"
+                (click)="abrirRecompensas()">
+                <fa-icon class="mx-1" [icon]="iconAdd"></fa-icon>
+              </button>
+            </div>
+            <div
+              *ngIf="recompensa.loading"
+              class="spinner-border spinner-border-sm text-roxo ml-2"
+              role="status">
+              <span class="sr-only">Carregando...</span>
+            </div>
+          </div>
+          <div class="form-group col-md-6 col-12 mb-2">
+            <label class="col-form-label-sm mb-0" for="nivel_id">Nível</label>
+            <div class="d-flex">
+              <select
+                id="nivel_id"
+                name="nivel_id"
+                [(ngModel)]="exercicio.nivel_id"
+                class="form-control form-control-sm"
+                required>
+                <option
+                  *ngFor="let nivel of nivel.lista"
+                  value="{{ nivel.id }}">
+                  {{ nivel.nome }}
+                </option>
+              </select>
+            </div>
+            <div
+              *ngIf="nivel.loading"
+              class="spinner-border spinner-border-sm text-roxo ml-2"
+              role="status">
+              <span class="sr-only">Carregando...</span>
+            </div>
+          </div>
+
+          <div class="form-group col-12 mb-2">
+            <div class="form-check">
+              <input
+                class="form-check-input form-control-sm"
+                type="checkbox"
+                id="ativo"
+                name="ativo"
+                [(ngModel)]="exercicio.ativo" />
+              <label class="form-check-label col-form-label-sm" for="ativo">
+                Ativo
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-12 text-right">
+            <button
+              (click)="salvar()"
+              class="btn btn-padrao"
+              [disabled]="!formNivel.form.valid ? true : false">
+              Salvar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

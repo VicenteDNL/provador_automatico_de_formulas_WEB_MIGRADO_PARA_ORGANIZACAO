@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -9,13 +8,14 @@ import {
   ExerciciosPaginationResponse,
   ExercicioResponse,
   RecompensasResponse,
+  NiveisResponse,
 } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciciosService {
-  private readonly api = `${environment.api}exercicio`;
+  private readonly api = `${environment.api}exercicios`;
   constructor(private http: HttpClient) {}
 
   listar(pg: number) {
@@ -43,6 +43,12 @@ export class ExerciciosService {
   recompensas() {
     return this.http
       .get<RecompensasResponse>(`${environment.api}recompensas`)
+      .pipe(take(1));
+  }
+
+  niveis() {
+    return this.http
+      .get<NiveisResponse>(`${environment.api}niveis/all`)
       .pipe(take(1));
   }
 }

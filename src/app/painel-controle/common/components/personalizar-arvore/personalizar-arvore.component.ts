@@ -10,7 +10,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ArvoreService } from 'src/app/painel-controle/common/services/arvore.service';
-import { ArvoreResponse } from 'src/app/painel-controle/common/services/irterfaces';
+import { ArvoreResponse } from 'src/app/painel-controle/common/services/interfaces';
 import { Passos } from 'src/app/common/models/Passos';
 import { EtapasEmProgresso } from 'src/app/common/models/EtapasEmProgresso';
 import { Selecao } from 'src/app/common/models/Selecao';
@@ -25,7 +25,7 @@ import { Arvore } from 'src/app/common/interfaces/arvore/arvore.model';
   styleUrls: ['./personalizar-arvore.component.css'],
 })
 export class PersonalizarArvoreComponent implements OnInit {
-  @Input() xml: string;
+  @Input() arvore: Arvore;
   @Input() openModal: Subject<boolean>;
   @Output() eventConfirm = new EventEmitter<Arvore>();
   @ViewChild('autoShownModal', { static: false })
@@ -54,7 +54,8 @@ export class PersonalizarArvoreComponent implements OnInit {
 
   showModal(): void {
     this.console.addLog('Buscando Fórmula', Logs.info, true);
-    this.service.iniciar(this.xml).subscribe(
+
+    this.service.recria(this.arvore).subscribe(
       response => {
         this.sucessoNaRequisicao(response, Acoes.iniciar);
       },
@@ -68,6 +69,7 @@ export class PersonalizarArvoreComponent implements OnInit {
         );
       },
     );
+
     this.show = true;
   }
 

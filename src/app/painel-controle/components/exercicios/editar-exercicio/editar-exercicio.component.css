@@ -1,0 +1,23 @@
+.erro-formula {
+  border: 2px solid #d22838;
+}
+.btn-inf-formula-1 {
+  background: #efefef;
+  color: #b2b2b2;
+  border-radius: 0 0.2rem 0.2rem 0 !important;
+  border-right: 1px solid !important;
+  border-top: 1px solid !important;
+  border-bottom: 1px solid !important;
+}
+.btn-inf-formula-2 {
+  background: #efefef;
+  color: #b2b2b2;
+  border-radius: 0!important;
+  border-right: 0px solid !important;
+  border-top: 1px solid !important;
+  border-bottom: 1px solid !important;
+}
+.qntd-regras {
+  font-weight: bold;
+  color: #cccccc;
+} 
