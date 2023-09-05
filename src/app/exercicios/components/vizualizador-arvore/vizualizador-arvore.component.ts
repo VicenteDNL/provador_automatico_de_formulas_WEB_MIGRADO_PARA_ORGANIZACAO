@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Aresta } from 'src/app/common/models/arvore/aresta.model';
-import { Linha } from 'src/app/common/models/arvore/linha.model';
-import { No } from 'src/app/common/models/arvore/no.model.';
+import { Aresta } from 'src/app/common/interfaces/arvore/aresta.model';
+import { Linha } from 'src/app/common/interfaces/arvore/linha.model';
+import { No } from 'src/app/common/interfaces/arvore/no.model.';
 
 @Component({
   selector: 'app-vizualizador-arvore',
@@ -19,8 +19,7 @@ export class VizualizadorArvoreComponent implements OnInit {
   fillColor = 'url(#grad1)';
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   alterarcor(index: number) {
     this.impressaoNo[index].fill = 'url(#grad2)';
