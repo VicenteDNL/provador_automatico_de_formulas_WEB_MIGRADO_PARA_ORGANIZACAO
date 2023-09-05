@@ -1,0 +1,369 @@
+<div
+  *ngIf="show"
+  [config]="{ show: true }"
+  (onHide)="onHide()"
+  bsModal
+  #autoShownModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="tamanho-maximo mx-auto">
+    <div class="row h-100 py-2 py-md-4">
+      <div class="col-md-8">
+        <div
+          class="conteudo-personalizar mx-md-0 mx-2 mt-2 mt-md-0 shadow-sm area-svg h-100 d-flex flex-column ">
+          <div class="text-center titulo-modal p-2">
+            <span>Árvore de Refutação</span>
+          </div>
+          <div class="text-center d-flex justify-content-center w-100">
+            <div class="barra-modal"></div>
+          </div>
+          <div class="text-center" style="overflow: auto">
+            <svg
+              [attr.width]="arvoreManager.getArvore().visualizar.width"
+              height="660">
+              <g
+                *ngFor="
+                  let item of arvoreManager.getArvore().visualizar.arestas;
+                  let i = index
+                ">
+                <line
+                  [attr.x1]="item.linhaX1"
+                  [attr.y1]="item.linhaY1"
+                  [attr.x2]="item.linhaX2"
+                  [attr.y2]="item.linhaY2"
+                  stroke="rgb(175,175,175)"
+                  stroke-width="1"
+                  stroke-linecap="butt" />
+              </g>
+              <g
+                *ngFor="
+                  let item of arvoreManager.getArvore().visualizar.linhas;
+                  let i = index
+                ">
+                <text
+                  font-size="20"
+                  font-weight="bold"
+                  fill="rgb(175,175,175)"
+                  [attr.x]="item.posX"
+                  [attr.y]="item.posY">
+                  {{ item.texto }}
+                </text>
+              </g>
+              <g
+                *ngFor="
+                  let item of arvoreManager.getArvore().visualizar.nos;
+                  let i = index
+                "
+                (mouseover)="arvoreManager.eventoMouseover(i)"
+                (mouseleave)="arvoreManager.eventoMouseleave(i)"
+                (click)="eventoOnclickNo(i)">
+                <circle
+                  [attr.cx]="item.posX"
+                  [attr.cy]="item.posY + 27"
+                  r="3"
+                  fill="#AFAFA4" />
+                <circle
+                  [attr.cx]="item.posX"
+                  [attr.cy]="item.posY - 27"
+                  r="3"
+                  fill="#AFAFAF" />
+                <defs>
+                  <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
+                    <stop
+                      offset="0%"
+                      style="stop-color: rgb(32, 178, 170); stop-opacity: 1" />
+                    <stop
+                      offset="100%"
+                      style="stop-color: rgb(0, 128, 128); stop-opacity: 1" />
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="30%" y1="0%" x2="90%" y2="50%">
+                    <stop
+                      offset="0%"
+                      style="stop-color: #7c81eb; stop-opacity: 1" />
+                    <stop
+                      offset="100%"
+                      style="stop-color: #5b60b3; stop-opacity: 1" />
+                  </linearGradient>
+                  <linearGradient id="grad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="50%" stop-color="#FFFF00" />
+                    <stop offset="70%" stop-color="#b91d1d" />
+                  </linearGradient>
+                </defs>
+                <a class="curso-svg">
+                  <rect
+                    [attr.x]="item.posXno"
+                    [attr.y]="item.posY - 20"
+                    rx="20"
+                    ry="20"
+                    [attr.width]="item.tmh"
+                    height="40"
+                    [attr.fill]="item.fill"
+                    [attr.stroke]="item.strokeColor"
+                    [attr.stroke-width]="item.strokeWidth"
+                    id="no01" />
+                  <text
+                    text-anchor="middle"
+                    font-size="15"
+                    font-weight="bold"
+                    fill="white"
+                    font-family="Helvetica, sans-serif, Arial"
+                    [attr.x]="item.posX"
+                    [attr.y]="item.posY + 5">
+                    {{ item.str }}
+                  </text>
+                  <text
+                    font-size="15"
+                    font-weight="bold"
+                    fill="rgb(175,175,175)"
+                    [attr.x]="item.posXlinhaDerivacao"
+                    [attr.y]="item.posY + 25">
+                    {{ item.linhaDerivacao }}
+                  </text>
+                </a>
+                <g *ngIf="item.utilizado == true">
+                  <svg
+                    [attr.x]="item.posXlinhaDerivacao + 12"
+                    [attr.y]="item.posY - 10"
+                    fill="#61CE61">
+                    <path
+                      d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                  </svg>
+                </g>
+                <g *ngIf="item.fechado == true">
+                  <line
+                    [attr.x1]="item.posX - 15"
+                    [attr.y1]="item.posY + 15"
+                    [attr.x2]="item.posX + 15"
+                    [attr.y2]="item.posY + 40"
+                    stroke="#DC0F4B"
+                    stroke-width="4"
+                    stroke-dasharray="1" />
+                  <line
+                    [attr.x1]="item.posX + 15"
+                    [attr.y1]="item.posY + 15"
+                    [attr.x2]="item.posX - 15"
+                    [attr.y2]="item.posY + 40"
+                    stroke="#DC0F4B"
+                    stroke-width="4"
+                    stroke-dasharray="1" />
+                  <text
+                    font-size="17"
+                    fill="#DC0F4B"
+                    [attr.x]="item.posX - 5"
+                    [attr.y]="item.posY + 70">
+                    {{ item.linhaContradicao }}
+                  </text>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 order-first order-md-last d-flex flex-column">
+        <div
+          class="conteudo-personalizar mx-2 mx-md-0  flex-item shadow-sm">
+          <div class="text-center titulo-modal p-2">
+            <span>Controles</span>
+          </div>
+          <div class="text-center d-flex justify-content-center w-100">
+            <div class="barra-modal"></div>
+          </div>
+
+          <div
+            class="m-3 flex-item"
+            *ngIf="
+              etapasEmProgresso.derivacao() || etapasEmProgresso.inicializacao()
+            ">
+            <div class="formula mb-2 text-center">
+              <span>{{ arvoreManager.getArvore().formula.texto }}</span>
+            </div>
+
+            <!-- Posicionamento dos Primeiros nós na arvore -->
+            <div
+              *ngIf="etapasEmProgresso.inicializacao()"
+              class="grupo-controles p-3 flex-item">
+              <div class="flex-um">
+                <div
+                  class="form-check mb-2"
+                  *ngFor="
+                    let arg of arvoreManager.getArvore().iniciar
+                      .opcoesDisponiveis;
+                    let i = index
+                  ">
+                  <input
+                    class="form-check-input form-control-sm"
+                    type="radio"
+                    name="radioArgumentos"
+                    id="{{ arg.id }}"
+                    value="{{ arg.id }}"
+                    (click)="passos.setArgumentoInsercao(arg)" />
+                  <label
+                    class="form-check-label col-form-label-sm"
+                    for="{{ arg.id }}"
+                    (click)="passos.setArgumentoInsercao(arg)">
+                    {{ arg.texto }}
+                  </label>
+                </div>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-inserir btn-block"
+                  (click)="adicionar(false)"
+                  [disabled]="
+                    passos.getInicializacao().no == null ||
+                    console.isLoading() == true
+                  ">
+                  Inserir
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-negar btn-block"
+                  (click)="adicionar(true)"
+                  [disabled]="
+                    passos.getInicializacao().no == null ||
+                    console.isLoading() == true
+                  ">
+                  Negar e Inserir
+                </button>
+              </div>
+            </div>
+
+            <!-- Etapa de derivação -->
+            <div
+              *ngIf="etapasEmProgresso.derivacao()"
+              class="grupo-controles p-3 mb-3 flex-item">
+              <div class="flex-um flex-item">
+                <div
+                  class="form-check"
+                  *ngFor="
+                    let item of arvoreManager.getArvore().derivar.regras;
+                    let i = index
+                  ">
+                  <input
+                    class="form-check-input form-control-sm"
+                    type="radio"
+                    name="regrasDerivacao"
+                    (click)="passos.setRegraDerivacao(item)"
+                    id="{{ item.codigo }}"
+                    value="{{ item.codigo }}"
+                    [disabled]="!selecao.getBotoesEnable().derivacao" />
+                  <label
+                    class="form-check-label col-form-label-sm"
+                    for="{{ item.codigo }}"
+                    (click)="passos.setRegraDerivacao(item)">
+                    {{ item.nome }}
+                  </label>
+                </div>
+                <div class="btn-acoes flex-um align-itens-end">
+                  <div style="width: 100%">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-inserir btn-block"
+                      (click)="derivar()"
+                      [disabled]="
+                        passos.getDerivacao().regra == null ||
+                        console.isLoading() == true ||
+                        !selecao.getBotoesEnable().derivacao
+                      ">
+                      Derivar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botões para fechar e ticar um nó -->
+            <div
+              *ngIf="etapasEmProgresso.derivacao()"
+              class="grupo-controles p-3">
+              <button
+                type="button"
+                class="btn btn-sm btn-inserir btn-block"
+                [disabled]="
+                  selecao.getBotoesEnable().fecharRamo == false ||
+                  console.isLoading() == true
+                "
+                (click)="fechar()">
+                Fechar Ramo
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-negar btn-block"
+                [disabled]="
+                  selecao.getBotoesEnable().ticarNo == false ||
+                  console.isLoading() == true
+                "
+                (click)="ticar()">
+                Ticar Nó
+              </button>
+            </div>
+
+            <div class="p-3 text-center">
+              <button
+                type="submit"
+                class="btn btn-sm botao-primario mx-2"
+                (click)="hideModal()">
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-sm botao-primario mx-2"
+                (click)="salvar()"
+                [disabled]="
+                  arvoreManager.getArvore().iniciar.passosExecutados.length == 0
+                ">
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="conteudo-personalizar mx-2 mx-md-0 mt-2 mt-md-4 shadow-sm">
+          <div class="titulo-console p-2">
+            <div class="col-3 text-left p-0">
+              <button
+                type="button"
+                (click)="console.cleanLogs()"
+                class="btn btn-limpar btn-sm">
+                <fa-icon [icon]="iconLimpar"></fa-icon>
+              </button>
+            </div>
+            <div class="col-6 text-center p-0">
+              <div class="titulo-modal mr-auto ml-auto">Console</div>
+            </div>
+            <div class="col-3 text-right p-0">
+              <div
+                *ngIf="console.isLoading()"
+                class="spinner-border spinner-border-sm text-roxo"
+                role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+          <div class="text-center d-flex justify-content-center w-100">
+            <div class="barra-modal"></div>
+          </div>
+          <div class="mensaggem-console m-1">
+            <code>
+              <ul class="console-ul">
+                <li class="console-li" *ngFor="let log of console.showLogs()">
+                  <span *ngIf="log.tipo == 'info'" class="info-msg">
+                    {{ log.tipo }}: {{ log.msg }}</span
+                  >
+                  <span *ngIf="log.tipo == 'erro'" class="error-msg">
+                    {{ log.tipo }}: {{ log.msg }}</span
+                  >
+                  <span *ngIf="log.tipo == 'sucesso'" class="sucesso-msg"
+                    >{{ log.tipo }}: {{ log.msg }}</span
+                  >
+                </li>
+              </ul>
+            </code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

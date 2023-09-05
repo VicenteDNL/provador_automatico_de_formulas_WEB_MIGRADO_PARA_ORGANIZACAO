@@ -1,0 +1,85 @@
+.conteudo-personalizar {
+  background: white;
+}
+.mensaggem-console {
+  height: 150px;
+  overflow: auto;
+}
+.flex-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.flex-um {
+  flex: 1;
+}
+.grupo-controles {
+  border: 1px solid #88888836;
+  border-radius: 0.25rem;
+}
+.console-ul {
+  padding: 0 !important;
+}
+.console-li {
+  list-style-type: none;
+}
+.error-msg {
+  color: #aa3434;
+}
+.sucesso-msg {
+  color: #48aa34;
+}
+.info-msg {
+  color: #888888;
+}
+.btn-limpar {
+  color: rgb(160 160 160);
+  background-color: transparent;
+}
+.tamanho-maximo {
+  max-width: 1200px;
+  height: 100%;
+}
+.btn-acoes {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: end;
+}
+.formula {
+  background: rgb(255, 0, 230, 0.1) !important;
+  padding: 0.6rem;
+  border-radius: 0.25rem;
+  color: #959595;
+  font-weight: bold;
+}
+.btn-inserir {
+  background: rgba(95, 165, 206, 1);
+  color: #ffffff;
+}
+.btn-inserir:hover {
+  background: rgb(141, 194, 224);
+}
+.btn-negar {
+  background: rgba(106, 112, 210, 1);
+  color: #ffffff;
+}
+.btn-negar:hover {
+  background: rgb(150, 155, 243);
+}
+.curso-svg {
+  cursor: pointer;
+}
+.curso-svg:hover {
+  text-decoration: none !important;
+}
+.card-nos {
+  display: contents;
+}
+.titulo-console {
+  display: flex;
+  justify-content: space-between;
+  background: #f6f6f6;
+  color: #6e52d2;
+  font-weight: bold;
+}
