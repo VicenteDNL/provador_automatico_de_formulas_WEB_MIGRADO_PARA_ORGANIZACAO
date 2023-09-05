@@ -1,7 +1,12 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-// import { Mensagem } from 'src/app/common/interfaces/mensagem.model';
-import { CadastrarExercicioComponent } from '../cadastrar-exercicio.component';
 import { Subject } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ArvoreService } from 'src/app/painel-controle/common/services/arvore.service';
@@ -13,6 +18,7 @@ import { Console } from 'src/app/common/models/Console';
 import { ArvoreManager } from 'src/app/common/models/ArvoreManager';
 import { Logs } from 'src/app/common/enums/Logs';
 import { Acoes } from 'src/app/common/enums/Acoes';
+import { Arvore } from 'src/app/common/interfaces/arvore/arvore.model';
 @Component({
   selector: 'app-personalizar-arvore',
   templateUrl: './personalizar-arvore.component.html',
@@ -21,6 +27,7 @@ import { Acoes } from 'src/app/common/enums/Acoes';
 export class PersonalizarArvoreComponent implements OnInit {
   @Input() xml: string;
   @Input() openModal: Subject<boolean>;
+  @Output() eventConfirm = new EventEmitter<Arvore>();
   @ViewChild('autoShownModal', { static: false })
   autoShownModal?: ModalDirective;
   show = false;
@@ -31,11 +38,9 @@ export class PersonalizarArvoreComponent implements OnInit {
   selecao: Selecao = new Selecao();
   arvoreManager: ArvoreManager = new ArvoreManager();
   passos: Passos = new Passos();
+  onSave = false;
 
-  constructor(
-    private service: ArvoreService,
-    private cadastrarCmp: CadastrarExercicioComponent,
-  ) {}
+  constructor(private service: ArvoreService) {}
 
   ngOnInit(): void {
     this.openModal.subscribe(value => {
@@ -70,12 +75,16 @@ export class PersonalizarArvoreComponent implements OnInit {
     this.autoShownModal?.hide();
   }
   onHide(): void {
+    if (this.onSave === false) {
+      this.eventConfirm.emit(null);
+    }
     this.show = false;
     this.selecao.restart();
     this.passos.restart();
     this.arvoreManager.restart();
     this.etapasEmProgresso.restart();
     this.console.cleanLogs();
+    this.onSave = false;
   }
 
   eventoOnclickNo(index: number) {
@@ -129,15 +138,9 @@ export class PersonalizarArvoreComponent implements OnInit {
   }
 
   salvar() {
-    this.cadastrarCmp.exercicio.formula.lista_derivacoes =
-      this.arvoreManager.getArvore().derivar.passosExecutados;
-    this.cadastrarCmp.exercicio.formula.lista_fechamento =
-      this.arvoreManager.getArvore().fechar.passosExecutados;
-    this.cadastrarCmp.exercicio.formula.lista_ticagem =
-      this.arvoreManager.getArvore().ticar.passosExecutados;
-    this.cadastrarCmp.exercicio.formula.lista_passos =
-      this.arvoreManager.getArvore().iniciar.passosExecutados;
-    this.hideModal();
+    this.onSave = true;
+    this.eventConfirm.emit(this.arvoreManager.getArvore());
+    this.autoShownModal?.hide();
   }
 
   sucessoNaRequisicao(response: ArvoreResponse, acao: Acoes) {
