@@ -1,3 +1,6 @@
+import { Arvore } from '../interfaces/arvore/arvore.model';
+import { ArvoreManager } from './ArvoreManager';
+
 export class EtapasEmProgresso {
   private etapaInicializacao: boolean;
   private etapaDerivacao: boolean;
@@ -31,5 +34,15 @@ export class EtapasEmProgresso {
 
   inicializacao() {
     return this.etapaInicializacao;
+  }
+
+  atualizarEtapa(manager: ArvoreManager) {
+    if (manager.arvoreIsCompleta()) {
+      this.finalizar();
+    } else if (manager.inicializacaoIsCompleta()) {
+      this.startDerivacao();
+    } else {
+      this.startInicializacao();
+    }
   }
 }

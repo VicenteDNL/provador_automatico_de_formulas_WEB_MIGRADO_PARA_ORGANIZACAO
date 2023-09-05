@@ -13,10 +13,10 @@ export class Passos {
   private fechamento: PassoFechamento;
 
   constructor() {
-    this.reset();
+    this.restart();
   }
 
-  reset() {
+  restart() {
     this.inicializacao = {
       no: null,
       negacao: null,
