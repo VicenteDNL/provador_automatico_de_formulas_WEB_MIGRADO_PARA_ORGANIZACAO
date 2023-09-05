@@ -18,7 +18,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   styleUrls: ['./recompensas.component.css'],
 })
 export class RecompensasComponent implements OnInit {
-  @Output() eventFinished = new EventEmitter<unknown>();
+  @Output() eventFinished? = new EventEmitter<unknown>();
   @Input() openSubject: Subject<number | null>;
   @ViewChild('autoShownModal', { static: false })
   autoShownModal?: ModalDirective;

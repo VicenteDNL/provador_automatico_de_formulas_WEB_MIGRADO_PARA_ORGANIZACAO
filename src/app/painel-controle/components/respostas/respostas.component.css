@@ -1,24 +1,4 @@
-.folder-resposta {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.conteudo-resposta {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.responsividade-card {
-  overflow-x: auto;
-}
-
 .card-resposta {
-  display: flex;
-  align-items: center;
   background-color: #f8f9fa;
   padding-left: 7px;
   padding-right: 7px;
@@ -35,30 +15,54 @@
 .grupo-status {
   display: flex;
   flex-direction: row-reverse;
+  position: relative;
+  top: 10px;
 }
-
 .imagem-jogador {
+  height: 60px;
+}
+.container-imagem-jogador{
+  justify-content: center;
+  display: flex;
   height: 60px;
   width: 60px;
   border-radius: 100%;
+  overflow: hidden;
 }
-
 .inativo {
-  background-color: darkgray;
+  margin-right: 5px;
+  background-color: #e74a3b;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  text-align: center;
+  border-radius: 5px;
+  padding: 3px;
+
 }
 .ativo {
+  margin-right: 5px;
   background-color: #28a745;
   color: white;
   font-weight: bold;
   font-size: small;
-  position: relative;
-  top: 10px;
-  left: -5px;
-  width: 50px;
   text-align: center;
   border-radius: 5px;
-}
+  padding: 3px;
 
+}
+.incompleta {
+  color: #ffc107;
+  font-weight: bold;
+  font-size: small;
+  text-align: center;
+}
+.completa {
+  color: #55d9ca;
+  font-weight: bold;
+  font-size: small;
+  text-align: center;
+}
 .grupo {
   display: flex;
   flex-direction: column;
@@ -66,12 +70,11 @@
   align-items: center;
   color: #757575;
 }
-.tempo {
-  font-weight: bold;
-  font-size: small;
-  color: #6e52d2;
+.header-exercicio{
+  color: #757575;
+  border-top: 2px solid #7575750d;
 }
-.exercicio {
+.tempo {
   font-weight: bold;
   font-size: small;
   color: #6e52d2;
@@ -80,13 +83,11 @@
   font-weight: bold;
   font-size: small;
 }
-
 .pontuacao-total {
   font-weight: bold;
   color: #55d9ca;
   font-size: small;
 }
-
 .pontuacao-final {
   font-weight: bold;
   color: #6e52d2;

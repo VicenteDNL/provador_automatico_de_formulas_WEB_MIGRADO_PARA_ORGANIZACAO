@@ -1,0 +1,85 @@
+<div class="container conteudo-pagina">
+  <div class="row justify-content-between my-md-3">
+    <div class="col-sm-12 col-md-auto">
+      <h5 class="text-roxo m-0">Respostas Exercícios </h5>
+    </div>
+  </div>
+  
+  <div class="row mb-4">
+    <div class="col-md-12 m-auto pt-2 px-0">
+      <div *ngFor="let resposta of listaResposta" class="">
+        <div class="container-resposta">
+          <div class="grupo-status">
+            <div class="inativo" *ngIf="!resposta.resposta_ativa">
+              Inativo
+            </div>
+            <div class="ativo" *ngIf="resposta.resposta_ativa">Ativo</div>
+          </div>
+          <div class="card-resposta shadow-sm row">
+            <div class="col-md-6 col-12 mb-2 mb-md-0">
+              <div class="d-flex align-items-center">
+                <div class="container-imagem-jogador mr-2">
+                  <img
+                    [src]="resposta.avatar || 'assets/img/user-icon.png'"
+                    alt=""
+                    class="imagem-jogador" />
+                </div>
+                <h6 class="">{{ resposta.nome }}</h6>
+              </div>
+            </div>
+            <div class="col-md-6 col-12 d-block d-md-none mb-2 text-center">
+              <div class=" header-exercicio mx-3">
+                <span class="titulo text-center">{{ resposta.exercicio_nome }}</span>
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="d-flex align-items-center justify-content-md-end justify-content-center">
+                <div class="grupo mx-3 d-none d-md-block">
+                  <span class="titulo text-center">{{ resposta.exercicio_nome }}</span>
+                </div>
+                <div class="grupo mx-3">
+                  <span
+                    class="incompleta"
+                    *ngIf="resposta.resposta_concluida == 0"
+                    >Incompleta</span
+                  >
+                  <span
+                    class="completa"
+                    *ngIf="resposta.resposta_concluida == 1"
+                    >Completa</span
+                  >
+                </div>
+                <div class="grupo mx-3">
+                  <span class="titulo">Tempo</span>
+                  <span class="tempo text-center" *ngIf="resposta.exercicio_tempo == null"
+                    >vazio</span
+                  >
+                  <span class="tempo text-center" *ngIf="resposta.exercicio_tempo != null"
+                    >{{ resposta.exercicio_tempo }} minutos</span
+                  >
+                </div>
+                <div class="grupo mx-3">
+                  <span class="titulo text-center">Pontuação</span>
+                  <span class="text-center">
+                    <span class="pontuacao-total">
+                      {{ resposta.recompensas_pontuacao }}</span
+                    >
+                    <span style="font-size: small">/</span>
+                    <span class="pontuacao-final">{{
+                      resposta.resposta_pontuacao
+                    }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-paginacao
+    [paginacao]="paginacao"
+    (eventPaginate)="carregarLista($event)"
+    style="flex: 1; display: flex">
+  </app-paginacao>
+</div>
