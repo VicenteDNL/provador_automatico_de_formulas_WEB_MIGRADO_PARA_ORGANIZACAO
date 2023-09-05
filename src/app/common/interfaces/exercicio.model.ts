@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
+import { Formula } from './formula.model';
+import { Nivel } from './nivel.model';
+
 export type Exercicio = {
   id: number;
   nome: string;
@@ -16,4 +19,6 @@ export type Exercicio = {
   logic_live_id: number | null;
   created_at: string;
   updated_at: string;
+  formula: Formula;
+  nivel: Nivel;
 };
