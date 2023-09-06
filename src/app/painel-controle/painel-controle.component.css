@@ -1,13 +1,66 @@
+.base-conteudo {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  background-image: url('src/assets/img/back-padrao.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  overflow-y: auto;
+}
+.tamanho-conteudo {
+  height: 100%;
+  width: 100%;
+}
+.conteudo-interno {
+  display: flex;
+  flex-direction: column;
+}
+.container-central {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 10px;
+}
+.container-mensagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.barra-navegacao {
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0px 4px 16px -7px rgb(0 0 0 / 60%);
+  background-color: #f6f6f6;
+  width: 100%;
+}
+.barra-ativa-interna {
+  height: 7px;
+  width: 50px;
+  background: #6e52d2;
+  transition: all 0.5s;
+  border-radius: 15px;
+}
+.item-navegacao {
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  font-weight: bold;
+  color: #dcdcdc;
+}
 .config-usuario {
   color: white;
   font-weight: bold;
 }
-
 .btn-email {
   color: white;
   font-weight: bold;
 }
-
 .cursor-drop {
   cursor: pointer;
+}
+.footer-painel {
+  font-weight: bold;
+  color: #9ea0c9;
+  padding-bottom: 10px;
+  font-size: small
 }

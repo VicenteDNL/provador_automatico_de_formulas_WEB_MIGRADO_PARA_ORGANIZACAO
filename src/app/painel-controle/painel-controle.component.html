@@ -1,39 +1,61 @@
-<!-- Modal Logout -->
-<ng-template #Ngrecompensa>
-  <app-recompensas [referenciaModal]="modalRef"></app-recompensas>
-</ng-template>
-
-<ng-template #Logout>
-  <div class="modal-body text-center p-0">
-    <div class="text-center titulo-modal p-2">
-      <span>Encerrar Sessão</span>
-    </div>
-    <div class="text-center d-flex justify-content-center w-100">
-      <div class="barra-modal"></div>
-    </div>
-    <div class="p-3 w-100 text-center">
-      <p>Realmente deseja sair?</p>
-    </div>
-    <div class="pb-3 w-100 text-center" *ngIf="!saindo">
-      <button type="button" class="btn btn-padrao mx-2" (click)="confirmar()">
-        Sim
-      </button>
-      <button type="button" class="btn btn-padrao mx-2" (click)="cancelar()">
-        Não
-      </button>
-    </div>
-    <div class="pb-3 w-100 text-center" *ngIf="saindo">
-      <div class="spinner-border text-roxo" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<div style="height: 100%" class="body base-conteudo conteudo">
+<app-recompensas
+  [openSubject]="openRecompensasSubject">
+</app-recompensas>
+<app-modal-logout
+  [openModal]="openModalLogout"
+  (eventConfirm)="confirmarLogout($event)">
+</app-modal-logout>
+<div style="height: 100%" class="body base-conteudo">
   <nav class="container-fluid nav-bar py-2 px-4">
     <div class="row">
-      <div class="col mr-auto p-0">
+      <div class="col mr-auto p-0 d-block d-sm-none" >
+        <div class="btn-group" dropdown [autoClose]="false" #dropdown="bs-dropdown">
+          <a (click)="false"
+            id="button-animated"
+            dropdownToggle
+            class="btn btn-email dropdown-toggle"
+            aria-controls="dropdown-animated">
+            <fa-icon [icon]="menu"></fa-icon>
+          </a>
+          <ul
+            id="dropdown-animated"
+            *dropdownMenu
+            class="dropdown-menu cursor-drop"
+            role="menu"
+            aria-labelledby="button-animated">
+            <li (click)="dropdown.hide()" [routerLink]="['/painel/inicio']" role="menuitem">
+              <a class="dropdown-item">Incio</a>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem" dropdown triggers="onclick" placement="right" container="body">
+              <a dropdownToggle class="dropdown-item dropdown-toggle"
+                 >Configuraçoes<span class="caret"></span></a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem"><a class="dropdown-item" (click)="dropdown.hide()" [routerLink]="['/painel/logiclive']"pode >Logic Live</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="dropdown.hide()" [routerLink]="['/painel/usuarios']">Usuários</a></li>
+              </ul>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li (click)="dropdown.hide()" [routerLink]="['/painel/niveis']" role="menuitem">
+              <a class="dropdown-item">Níveis</a>
+            </li>           
+            <li (click)="dropdown.hide()" [routerLink]="['/painel/exercicios']" role="menuitem" >
+              <a class="dropdown-item">Exércicios</a>
+            </li>
+            <li (click)="dropdown.hide()" [routerLink]="['/painel/respostas']" role="menuitem" >
+              <a class="dropdown-item">Resposta</a>
+            </li>
+            <li (click)="dropdown.hide()" (click)="openModalRecompensa()" role="menuitem" >
+              <a class="dropdown-item">Recompensa</a>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li (click)="dropdown.hide()" (click)="logout()" role="menuitem" >
+              <a class="dropdown-item">Sair</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col mr-auto p-0 d-none d-sm-block">
         <div class="config-usuario">
           <div class="btn-group" dropdown>
             <a
@@ -41,7 +63,7 @@
               dropdownToggle
               class="btn btn-email dropdown-toggle"
               aria-controls="dropdown-animated">
-              <fa-icon [icon]="config"></fa-icon> Configurar<span
+              <fa-icon [icon]="config"></fa-icon> Configurações<span
                 class="caret"></span>
             </a>
             <ul
@@ -52,12 +74,15 @@
               aria-labelledby="button-animated">
               <li (click)="abriConfigLogicLive()" role="menuitem">
                 <a class="dropdown-item">Módulos LogicLive</a>
+              </li>           
+              <li (click)="abriUsuarios()" role="menuitem" >
+                <a class="dropdown-item">Usuários</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      <div class="col-auto p-0">
+      <div class="col-auto p-0 d-none d-sm-block">
         <div class="btn-group" dropdown>
           <a
             id="button-animated"
@@ -85,7 +110,7 @@
   <div class="d-flex justify-content-center align-items-center flex-conteudo">
     <div class="tamanho-conteudo conteudo-interno">
       <div>
-        <div class="barra-navegacao shadow-sm" id="barra-navegacao">
+        <div class="barra-navegacao shadow-sm  d-none d-sm-block" id="barra-navegacao">
           <div *ngIf="configAberta">
             <button
               type="button"
@@ -96,65 +121,60 @@
             </button>
           </div>
           <div *ngIf="!configAberta" class="d-flex">
-            <div class="mr-auto pt-3 pl-2">
-              <div
-                [routerLink]="['/painel/modulo/inicio']"
-                routerLinkActive="navegacao-ativa"
-                class="item-navegacao d-block d-sm-none"
-                (click)="irpara()">
-                <fa-icon [icon]="home"></fa-icon><span class="caret"></span>
-              </div>
+            <div class="mr-auto pt-3 pl-4">
               <div class="d-sm-block d-none">
                 <h5
-                  [routerLink]="['/painel/modulo/inicio']"
+                  id="rota-inicio"
+                  [routerLink]="['/painel/inicio']"
                   routerLinkActive="navegacao-ativa"
                   class="mb-0 item-navegacao font-weight-bold cursor-drop"
-                  (click)="irpara()">
-                  Validação de fórmulas
+                  (click)="irparaIncio()">
+                  Início
                 </h5>
               </div>
             </div>
             <div class="pt-3 pb-1 px-3">
               <div class="d-flex justify-content-center">
                 <div
-                  [routerLink]="['/painel/modulo/niveis']"
+                  [routerLink]="['/painel/niveis']"
                   routerLinkActive="navegacao-ativa"
                   class="item-navegacao mx-2 text-center"
-                  id="item-nav1"
-                  (click)="navegarPara('item-nav1')">
+                  id="rota-niveis"
+                  (click)="navegarPara('rota-niveis')">
                   <a>Níveis</a>
                 </div>
                 <div
-                  [routerLink]="['/painel/modulo/exercicios']"
+                  [routerLink]="['/painel/exercicios']"
                   routerLinkActive="navegacao-ativa"
                   class="item-navegacao mx-2 text-center"
-                  id="item-nav2"
-                  (click)="navegarPara('item-nav2')">
+                  id="rota-exercicios"
+                  (click)="navegarPara('rota-exercicios')">
                   <a>Exércicios</a>
                 </div>
                 <div
-                  [routerLink]="['/painel/modulo/respostas']"
+                  [routerLink]="['/painel/respostas']"
                   routerLinkActive="navegacao-ativa"
                   class="item-navegacao mx-2 text-center"
-                  id="item-nav3"
-                  (click)="navegarPara('item-nav3')">
+                  id="rota-respostas"
+                  (click)="navegarPara('rota-respostas')">
                   <a>Resposta</a>
                 </div>
                 <div
                   class="item-navegacao mx-2 text-center"
                   id="item-nav4"
-                  (click)="criarRecompensa(Ngrecompensa)">
+                  (click)="openModalRecompensa()"
+                  >
                   <a>Recompensa</a>
                 </div>
               </div>
             </div>
           </div>
           <div *ngIf="!configAberta" class="caixa-barra">
-            <div class="barra-ativa-interna" id="barra-ativa-interna"></div>
+            <div class="barra-ativa-interna" id="barra-ativa-interna" style="transform: translateX(25px)"></div>
           </div>
         </div>
       </div>
-      <div class="container-central m-md-3" *ngIf="errorMensagen == null">
+      <div class="container-central" *ngIf="errorMensagen == null">
         <router-outlet></router-outlet>
       </div>
 
@@ -169,7 +189,7 @@
             </button>
           </div>
 
-          <h5 class="alert-heading text-center">Error!</h5>
+          <h5 class="alert-heading text-center">Tivemos um problema</h5>
           <p class="text-center">{{ errorMensagen }}</p>
           <hr class="m-2" />
           <p class="mb-0 text-center">Feche o aviso para tentar novamente!.</p>
@@ -178,6 +198,6 @@
     </div>
   </div>
   <div class="text-center footer-painel">
-    <span>Sistema Gestor do Módulo - Àrvore de Refutação</span>
+    <span >Sistema Gestor do Módulo Àrvore de Refutação</span>
   </div>
 </div>

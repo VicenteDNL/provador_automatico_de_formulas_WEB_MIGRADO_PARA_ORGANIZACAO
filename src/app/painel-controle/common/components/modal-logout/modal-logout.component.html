@@ -1,0 +1,39 @@
+<div
+  *ngIf="show"
+  [config]="{ show: true }"
+  (onHide)="onHide()"
+  bsModal
+  #autoShownModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-body text-center p-0">
+            <div class="text-center titulo-modal p-2">
+              <span>Encerrar Sessão</span>
+            </div>
+            <div class="text-center d-flex justify-content-center w-100">
+              <div class="barra-modal"></div>
+            </div>
+            <div class="p-3 w-100 text-center">
+              <p>Realmente deseja sair?</p>
+            </div>
+            <div class="pb-3 w-100 text-center" *ngIf="!saindo">
+              <button type="button" class="btn btn-padrao mx-2" (click)="confirm()">
+                Sim
+              </button>
+              <button type="button" class="btn btn-padrao mx-2" (click)="hideModal()">
+                Não
+              </button>
+            </div>
+            <div class="pb-3 w-100 text-center" *ngIf="saindo">
+              <div class="spinner-border text-roxo" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>

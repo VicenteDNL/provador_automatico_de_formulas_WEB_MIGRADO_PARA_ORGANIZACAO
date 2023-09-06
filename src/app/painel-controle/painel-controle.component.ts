@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef } from '@angular/core';
 import {
   faCog,
   faUser,
   faTimes,
   faArrowAltCircleLeft,
-  faHome,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -13,6 +13,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { LoginService } from '../auth/services/login.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-painel-controle',
@@ -25,153 +26,78 @@ import { AuthService } from '../auth/services/auth.service';
     },
   ],
 })
-export class PainelControleComponent implements OnInit {
+export class PainelControleComponent implements OnInit, AfterViewInit {
+  menu = faBars;
   config = faCog;
   user = faUser;
   iconFechar = faTimes;
   iconVoltar = faArrowAltCircleLeft;
-  home = faHome;
-
   errorMensagen = null;
-
-  modulos = {
-    modulo1: {
-      itens: [
-        {
-          item: 'Níveis',
-          url: 'painel/modulo/niveis',
-          id: 'item-nav1',
-          ativo: false,
-        },
-        {
-          item: 'Exercícios',
-          url: 'painel/modulo/exercicios/pesquisar',
-          id: 'item-nav2',
-          ativo: false,
-        },
-        {
-          item: 'Respostas',
-          url: 'painel/modulo/respostas',
-          id: 'item-nav3',
-          ativo: false,
-        },
-      ],
-      menu: [false, true, true],
-      nome: 'Validação de fórmulas',
-      id: 1,
-    },
-  };
-
   emailUser = null;
   configAberta = null;
   itensNavegacao = null;
+  openRecompensasSubject = new Subject<any>();
+  openModalLogout = new Subject<any>();
 
-  // Config Modal logout
-  modalRef: BsModalRef;
-  message: string;
-  // ---
-
-  saindo = false;
-  constructor(
-    private modalService: BsModalService,
-    private login$: LoginService,
-    private router: Router,
-    private auth$: AuthService,
-  ) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.rotaAtiva(this.router.url);
-    // this.itensNavegacao=this.modulos.modulo2;
     this.emailUser = this.getEmailUser();
   }
 
-  rotaAtiva(url) {
-    const lista = url.split('/')[2];
-    switch (lista) {
-      case 'modulo':
-        this.itensNavegacao = this.modulos.modulo1;
-        this.router.navigate(['painel/modulo/inicio']);
+  ngAfterViewInit() {
+    this.rotaAtiva(this.router.url);
+  }
 
-        break;
-      case 'configuracao':
-        this.itensNavegacao = this.modulos.modulo1;
-        this.router.navigate(['painel/modulo/inicio']);
-        break;
+  rotaAtiva(url: string) {
+    const path = url.split('/')[2];
+    if (path === 'usuarios' || path === 'logiclive') {
+      this.configAberta = true;
+    } else {
+      this.navegarPara(`rota-${path}`);
     }
   }
 
   getEmailUser() {
-    const dataJson = localStorage.getItem('auth-data');
+    const dataJson = this.auth.getLocalStorage();
     if (dataJson) {
-      const data = JSON.parse(dataJson)  as {access_token: string;
-        email: string;
-        expires_in: 3600;
-        token_type: string;} ;
-      return data.email;
+      return dataJson.email;
     }
+    return 'desconhecido';
   }
 
-  logout(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  logout() {
+    this.openModalLogout.next(true);
   }
 
-  confirmar(): void {
-    this.saindo = true;
-    const sair = this.login$.logout();
-    if (sair !== false) {
-      sair.subscribe(
-        response => this.sucessoLogout(),
-        error => this.erroLogout(),
-      );
+  confirmarLogout(sucesso: boolean): void {
+    if (sucesso) {
+      this.router.navigate(['login']);
     } else {
-      this.erroLogout();
+      this.errorMensagen = 'Ocorreu um erro ao sair';
     }
   }
 
-  cancelar(): void {
-    this.modalRef.hide();
-  }
-
-  sucessoLogout() {
-    this.modalRef.hide();
-    this.router.navigate(['login']);
-    this.auth$.clean();
-    this.saindo = false;
-  }
-  erroLogout() {
-    this.modalRef.hide();
-    this.router.navigate(['login']);
-    this.saindo = false;
-  }
-
-  navegarPara(id) {
+  navegarPara(id: string) {
     // Calculo para movimentação da barra do menu de navegação
     const cordeNav = document
-        .getElementById('barra-navegacao')
-        .getBoundingClientRect().left;
-      const item = document.getElementById(id);
-      const barra = document.getElementById('barra-ativa-interna');
-      const tamanhoItem = item.getBoundingClientRect().left;
-      const centralizar =
-        tamanhoItem -
-        cordeNav +
-        item.getBoundingClientRect().width / 2 -
-        barra.getBoundingClientRect().width / 2;
+      .getElementById('barra-navegacao')
+      .getBoundingClientRect().left;
+    const item = document.getElementById(id);
+    const barra = document.getElementById('barra-ativa-interna');
+    const tamanhoItem = item.getBoundingClientRect().left;
+    const centralizar =
+      tamanhoItem -
+      cordeNav +
+      item.getBoundingClientRect().width / 2 -
+      barra.getBoundingClientRect().width / 2;
     document.getElementById('barra-ativa-interna').style.transform =
       'translateX(' + centralizar + 'px)';
-    // -----------------------------------
   }
 
-  animacaoIniciar() {
+  irparaIncio() {
     document.getElementById('barra-ativa-interna').style.transform =
-      'translateX(50px)';
-
-    // -----------------------------------
-  }
-
-  irpara() {
-    document.getElementById('barra-ativa-interna').style.transform =
-      'translateX(0px)';
+      'translateX(25px)';
   }
 
   fecharAvisoError() {
@@ -179,23 +105,21 @@ export class PainelControleComponent implements OnInit {
   }
 
   abriConfigLogicLive() {
-    this.router.navigate(['painel/configuracao/logiclive']);
     this.configAberta = true;
+    this.router.navigate(['painel/logiclive']);
+  }
+
+  abriUsuarios() {
+    this.configAberta = true;
+    this.router.navigate(['painel/usuarios']);
   }
 
   voltar() {
-    switch (this.itensNavegacao.id) {
-      case 1:
-        this.router.navigate(['painel/modulo/inicio']);
-        break;
-      default:
-        this.router.navigate(['painel/modulo/inicio']);
-    }
-
     this.configAberta = false;
+    this.router.navigate(['painel/inicio']);
   }
 
-  criarRecompensa(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  openModalRecompensa() {
+    this.openRecompensasSubject.next();
   }
 }
