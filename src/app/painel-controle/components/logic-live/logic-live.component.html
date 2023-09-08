@@ -1,0 +1,251 @@
+<div class="container px-0 px-md-2">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-12">
+      <h5 class="text-roxo">Configurações Logic Live</h5>
+
+      <div class="d-flex align-items-center mb-4">
+        <span class="text-gray-bold"> Status integração: </span>
+        <div
+          *ngIf="statusIntegracao.loading"
+          class="spinner-border spinner-border-sm text-roxo ml-3"
+          role="status">
+          <span class="sr-only">Carregando...</span>
+        </div>
+        <div
+          class="ativo ml-2"
+          *ngIf="
+            !statusIntegracao.erro &&
+            !statusIntegracao.loading &&
+            statusIntegracao.status
+          ">
+          Ativo
+        </div>
+        <div
+          class="inativo ml-2"
+          *ngIf="
+            !statusIntegracao.erro &&
+            !statusIntegracao.loading &&
+            !statusIntegracao.status
+          ">
+          Desativado
+        </div>
+        <div class="inativo" *ngIf="statusIntegracao.erro">Erro</div>
+      </div>
+
+      <div *ngIf="!info.loading">
+        <div *ngIf="info.data.games.length > 0">
+          <div *ngFor="let game of info.data.games">
+            <div class="container-game p-1 p-md-4">
+              <h6 class="text-roxo text-center">Game</h6>
+              <div class="card-item shadow-sm">
+                <div class="container-codigo d-none d-md-flex">
+                  {{ game.id }}
+                </div>
+                <div class="container-titulo mx-2 mx-md-4 my-2 my-md-4">
+                  <span class="titulo"
+                    >{{ game.nome }} -
+                    <span *ngIf="game.ativo" class="ativo">Ativo</span>
+                    <span *ngIf="!game.ativo" class="inativo"
+                      >Inativo</span
+                    ></span
+                  >
+                  <span class="titulo-subtitulo">{{ game.descricao }}</span>
+                </div>
+                <div class="container-acoes mr-2 mr-md-4 my-2 my-md-4">
+                  <button
+                    *ngIf="game.ativo"
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    (click)="statusGame(false, game.id)">
+                    Inativar
+                  </button>
+                  <button
+                    *ngIf="!game.ativo"
+                    type="button"
+                    class="btn btn-ativar btn-sm"
+                    (click)="statusGame(true, game.id)">
+                    Ativar
+                  </button>
+                </div>
+              </div>
+              <h6 class="text-roxo text-center mt-4">Modulos</h6>
+              <div class="mb-3" *ngIf="game.modulos.length > 0">
+                <div *ngFor="let modulo of game.modulos" class="mb-4">
+                  <div class="card-item shadow-sm">
+                    <div class="container-codigo d-none d-md-flex">
+                      {{ modulo.id }}
+                    </div>
+                    <div class="container-modulo mx-2 mx-md-4 my-2 my-md-4">
+                      <div class="d-flex">
+                        <div class="container-titulo">
+                          <span class="titulo"
+                            >{{ modulo.nome }} -
+                            <span *ngIf="modulo.ativo" class="ativo"
+                              >Ativo</span
+                            >
+                            <span *ngIf="!modulo.ativo" class="inativo"
+                              >Inativo</span
+                            >
+                          </span>
+                          <span class="titulo-subtitulo">{{
+                            modulo.descricao
+                          }}</span>
+                        </div>
+
+                        <div class="container-acoes">
+                          <button
+                            *ngIf="modulo.ativo"
+                            type="button"
+                            class="btn btn-secondary btn-sm"
+                            (click)="statusModulo(false, modulo.id)">
+                            Inativar
+                          </button>
+                          <button
+                            *ngIf="!modulo.ativo"
+                            type="button"
+                            class="btn btn-ativar btn-sm"
+                            (click)="statusModulo(true, modulo.id)">
+                            Ativar
+                          </button>
+                        </div>
+                      </div>
+                      <div *ngIf="modulo.niveis.length > 0">
+                        <div>
+                          <div
+                            class="container-nivel my-4"
+                            *ngFor="let nivel of modulo.niveis">
+                            <div class="d-block d-md-flex px-2 px-md-4 py-4">
+                              <div class="container-titulo mb-3 mb-md-0">
+                                <span class="titulo-nivel m-auto m-md-0">
+                                  #{{ nivel.id }} - {{ nivel.nome }}</span
+                                >
+                                <span class="titulo-subtitulo m-auto m-md-0">{{
+                                  nivel.descricao
+                                }}</span>
+                              </div>
+                              <div class="container-acoes-nivel">
+                                <button
+                                  *ngIf="nivel.exercicios == 0"
+                                  type="button"
+                                  class="btn btn-tabela btn-sm mr-3"
+                                  (click)="criarExercicios(nivel.id)">
+                                  Criar Exercicios
+                                </button>
+                                <button
+                                  *ngIf="nivel.ativo"
+                                  type="button"
+                                  class="btn btn-inativar-nivel btn-sm"
+                                  (click)="statusNivel(false, nivel.id)">
+                                  Inativar
+                                </button>
+                                <button
+                                  *ngIf="!nivel.ativo"
+                                  type="button"
+                                  class="btn btn-ativar-nivel btn-sm"
+                                  (click)="statusNivel(true, nivel.id)">
+                                  Ativar
+                                </button>
+                              </div>
+                            </div>
+                            <table
+                              *ngIf="nivel.exercicios.length > 0"
+                              class="table table-sm table-hover tabela-exercicios"
+                              style="
+                                background-color: transparent;
+                                border: 0px solid transparent;
+                              ">
+                              <thead>
+                                <tr>
+                                  <th
+                                    scope="col"
+                                    class="header-tabela-primeiro">
+                                    #
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    class="header-tabela">
+                                    Nome
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    class="header-tabela">
+                                    Descrição
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    class="header-tabela-ultimo text-center">
+                                    Ações
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let exercicio of nivel.exercicios">
+                                  <td  class="tabela-exercicios font-weight-bold">
+                                    {{ exercicio.id }}
+                                  </td>
+                                  <td  width="30%"  class="tabela-exercicios">
+                                    {{ exercicio.nome }}
+                                  </td>
+                                  <td width="70%" class="tabela-exercicios">
+                                    {{ exercicio.descricao }}
+                                  </td>
+                                  <td class="tabela-exercicios text-center">
+                                    <button
+                                      *ngIf="exercicio.ativo"
+                                      type="button"
+                                      class="btn btn-secondary btn-sm"
+                                      (click)="statusExercicio(false, exercicio.id)">
+                                      Inativar
+                                    </button>
+                                    <button
+                                      *ngIf="!exercicio.ativo"
+                                      type="button"
+                                      class="btn btn-ativar btn-sm"
+                                      (click)="statusExercicio(true, exercicio.id)">
+                                      Ativar
+                                    </button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="text-center my-3"
+                        *ngIf="modulo.niveis.length == 0">
+                        <button
+                          type="button"
+                          class="btn btn-tabela btn-sm"
+                          (click)="criarNiveis(modulo.id)">
+                          Criar Niveis
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mb-3" *ngIf="game.modulos.length == 0">
+                <button
+                  type="button"
+                  class="btn btn-tabela btn-sm"
+                  (click)="criarModulos(game.id)">
+                  Criar Modulos
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mb-3" *ngIf="info.data.games.length == 0">
+          <button
+            type="button"
+            class="btn btn-tabela btn-sm"
+            (click)="criarGame()">
+            Criar Games
+          </button>
+        </div>
+      </div>
+      <app-spinner *ngIf="info.loading"></app-spinner>
+    </div>
+  </div>
+</div>

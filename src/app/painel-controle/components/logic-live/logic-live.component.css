@@ -1,0 +1,121 @@
+.inativo {
+  background-color: #e74a3b;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  text-align: center;
+  border-radius: 5px;
+  padding: 3px;
+}
+.ativo {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  text-align: center;
+  border-radius: 5px;
+  padding: 3px;
+}
+.container-game {
+  border: 3px solid #f6f6f6;
+  border-radius: 15px;
+}
+.text-gray-bold {
+  color: #707070;
+  font-weight: bold;
+}
+.card-item {
+  display: flex;
+  background-color: #f8f9fa;
+  border-radius: 15px;
+}
+.container-codigo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background-color: #6a70d2;
+  border-radius: 15px 0 0 15px;
+  font-weight: bold;
+  color: #ffffff;
+  min-width: 70px;
+  text-align: center;
+}
+.container-acoes {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  text-align: center;
+}
+.container-acoes-nivel {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.container-titulo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+.titulo-subtitulo {
+  font-size: small;
+  color: #9aa0a5;
+}
+.titulo {
+  font-weight: bold;
+  color: #55d9ca;
+}
+.titulo-nivel {
+  font-size: small;
+  font-weight: bold;
+  color: #6c757d;
+}
+.container-modulo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.container-nivel {
+  background-color: #e0f7f6;
+  border-radius: 15px;
+}
+.container-status-nivel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-inativar-nivel {
+  border: 2px solid #e74a3b;
+  background-color: transparent;
+  color: #e74a3b;
+  font-weight: bold;
+  font-size: small;
+}
+.btn-inativar-nivel:hover {
+  font-size: small;
+  border: 2px solid #d63f31;
+  background-color: transparent;
+  color: #d63f31;
+  font-weight: bold;
+}
+.btn-ativar-nivel {
+  font-size: small;
+  border: 2px solid #28a745;
+  background-color: transparent;
+  color: #28a745;
+  font-weight: bold;
+}
+.btn-ativar-nivel:hover {
+  font-size: small;
+  border: 2px solid #259a40;
+  background-color: transparent;
+  color: #259a40;
+  font-weight: bold;
+}
+.tabela-exercicios {
+  font-size: small;
+  background-color: #fff8dc;
+  vertical-align: inherit !important;
+  color: #6c757d;
+}
