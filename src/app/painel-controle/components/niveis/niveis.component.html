@@ -18,6 +18,7 @@
           <thead>
             <tr>
               <th scope="col" class="header-tabela-primeiro">Nome</th>
+              <th scope="col" class="header-tabela text-center">LogicLive</th>
               <th scope="col" class="header-tabela text-center">Status</th>
               <th scope="col" class="header-tabela-ultimo text-center">
                 Ações
@@ -26,11 +27,17 @@
           </thead>
           <tbody>
             <tr *ngFor="let nivel of listaNiveis">
-              <td class=" col-sm-6" style="vertical-align: inherit">
+              <td class=" col-sm-4" style="vertical-align: inherit">
                 {{ nivel.nome }}
               </td>
+              <td 
+              class=" text-center col-sm-2" 
+              [ngClass]=" nivel.logic_live_id !=null ? 'logic-live-vinculado' : 'logic-live-nao-vinculado'"
+              style="vertical-align: inherit">
+                {{ nivel.logic_live_id !=null ? 'Vinculado' : 'Não Vinculado' }}
+              </td>
               <td
-                class="text-center col-sm-3"
+                class="text-center col-sm-2"
                 [ngClass]="nivel.ativo == 1 ? 'status-ativo' : 'status-inativo'"
                 style="vertical-align: inherit">
                 {{ nivel.ativo ? 'Ativo' :   'Inativo' }}
