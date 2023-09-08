@@ -100,6 +100,8 @@ export class RecompensasComponent implements OnInit {
 
         if (response.success) {
           this.hideModal();
+        } else {
+          this.error = true;
         }
       },
       error => {
@@ -119,6 +121,7 @@ export class RecompensasComponent implements OnInit {
         if (response.success) {
           this.hideModal();
         } else {
+          this.error = true;
         }
       },
       error => {

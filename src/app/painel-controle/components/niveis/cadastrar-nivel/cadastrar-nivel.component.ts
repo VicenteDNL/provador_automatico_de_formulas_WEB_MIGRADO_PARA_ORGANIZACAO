@@ -55,7 +55,7 @@ export class CadastrarNivelComponent implements OnInit {
 
   salvar() {
     this.requisitando = true;
-    if (this.semRecompensa === false) {
+    if (this.semRecompensa === true) {
       this.nivel.recompensa_id = undefined;
     }
     this.service.cadastrar(this.nivel).subscribe(

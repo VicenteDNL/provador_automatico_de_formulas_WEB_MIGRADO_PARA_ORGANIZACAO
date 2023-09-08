@@ -38,7 +38,7 @@
               class=" text-center col-sm-2" 
               [ngClass]=" nivel.logic_live_id !=null ? 'logic-live-vinculado' : 'logic-live-nao-vinculado'"
               style="vertical-align: inherit">
-                {{ nivel.logic_live_id !=null ? 'Vinculado' : 'Não Vinculado' }}
+                {{ nivel.logic_live_id !=null ? '#'+nivel.logic_live_id : 'Não Vinculado' }}
               </td>
               <td
                 class="text-center col-sm-2"
