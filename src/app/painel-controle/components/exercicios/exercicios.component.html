@@ -19,6 +19,8 @@
             <tr>
               <th scope="col" class="header-tabela-primeiro">Nível</th>
               <th scope="col" class="header-tabela">Nome</th>
+              <th scope="col" class="header-tabela text-center">Recompensa</th>
+              <th scope="col" class="header-tabela text-center">LogicLive</th>
               <th scope="col" class="header-tabela text-center">Status</th>
               <th scope="col" class="header-tabela-ultimo text-center">
                 Ações
@@ -31,6 +33,15 @@
                 {{ exercicio.nivel.nome }}
               </td>
               <td style="vertical-align: inherit">{{ exercicio.nome }}</td>
+              <td class="text-center" style="vertical-align: inherit">
+                {{exercicio.recompensa.pontuacao }}
+              </td>
+              <td 
+              class=" text-center" 
+              [ngClass]=" exercicio.logic_live_id !=null ? 'logic-live-vinculado' : 'logic-live-nao-vinculado'"
+              style="vertical-align: inherit">
+                {{ exercicio.logic_live_id !=null ? '#'+exercicio.logic_live_id : 'Não Vinculado' }}
+              </td>
               <td
                 style="vertical-align: inherit"
                 class="text-center"
