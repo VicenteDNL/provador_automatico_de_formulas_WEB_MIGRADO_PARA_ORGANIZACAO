@@ -18,6 +18,7 @@
           <thead>
             <tr>
               <th scope="col" class="header-tabela-primeiro">Nome</th>
+              <th scope="col" class="header-tabela text-center">Recompensa</th>
               <th scope="col" class="header-tabela text-center">LogicLive</th>
               <th scope="col" class="header-tabela text-center">Status</th>
               <th scope="col" class="header-tabela-ultimo text-center">
@@ -29,6 +30,9 @@
             <tr *ngFor="let nivel of listaNiveis">
               <td class=" col-sm-4" style="vertical-align: inherit">
                 {{ nivel.nome }}
+              </td>
+              <td class="text-center col-sm-4" style="vertical-align: inherit">
+                {{ nivel.recompensa ==null ? 'nenhuma': nivel.recompensa.pontuacao }}
               </td>
               <td 
               class=" text-center col-sm-2" 
