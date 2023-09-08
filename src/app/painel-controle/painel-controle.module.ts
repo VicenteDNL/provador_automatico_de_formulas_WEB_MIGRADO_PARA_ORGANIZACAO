@@ -13,7 +13,7 @@ import { CadastrarNivelComponent } from './components/niveis/cadastrar-nivel/cad
 import { EditarNivelComponent } from './components/niveis/editar-nivel/editar-nivel.component';
 import { PersonalizarArvoreComponent } from './common/components/personalizar-arvore/personalizar-arvore.component';
 import { InicioComponent } from './components/inicio/inicio.component';
-import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
+import { LogicLiveComponent } from './components/logic-live/logic-live.component';
 import { RecompensasComponent } from './components/recompensa/recompensas.component';
 import { EditarExercicioComponent } from './components/exercicios/editar-exercicio/editar-exercicio.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';

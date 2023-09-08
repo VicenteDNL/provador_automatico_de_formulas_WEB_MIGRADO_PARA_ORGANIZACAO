@@ -6,7 +6,7 @@ import { RespostasComponent } from './components/respostas/respostas.component';
 import { CadastrarNivelComponent } from './components/niveis/cadastrar-nivel/cadastrar-nivel.component';
 import { EditarNivelComponent } from './components/niveis/editar-nivel/editar-nivel.component';
 import { InicioComponent } from './components/inicio/inicio.component';
-import { LogicLiveComponent } from './configuracoes/logic-live/logic-live.component';
+import { LogicLiveComponent } from './components/logic-live/logic-live.component';
 import { EditarExercicioComponent } from './components/exercicios/editar-exercicio/editar-exercicio.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { CadastrarUsuarioComponent } from './components/usuarios/cadastrar-usuario/cadastrar-usuario.component';
