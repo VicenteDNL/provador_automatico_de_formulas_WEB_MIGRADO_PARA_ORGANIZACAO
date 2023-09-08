@@ -173,12 +173,18 @@
       </div>
     </div>
     <div class="col-12 text-right mb-3">
-      <div class="btn-group mx-2 mt-3">
+      <div class="btn-group mx-2 mt-3" *ngIf="!concluindo">
         <button class="btn btn btn-icon">
           <fa-icon [icon]="check"></fa-icon>
         </button>
         <button class="btn btn btn-func" (click)="concluir()">Concluir</button>
       </div>
+      <span
+        *ngIf="concluindo"
+        class="spinner-border spinner-border-sm pt-2 spinner-color"
+        role="status">
+        <span class="sr-only">Loading...</span>
+      </span>
     </div>
   </div>
 </div>

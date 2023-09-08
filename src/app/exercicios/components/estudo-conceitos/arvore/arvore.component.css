@@ -2,36 +2,32 @@
   color: #fff;
   background-color: #1cc88a;
 }
-
 .btn-func:hover {
   background-color: #2ca377;
 }
-
 .btn-icon {
   color: #fff;
   background-color: #1ca573;
 }
-
 .btn-icon:hover {
   background-color: #126144;
 }
-
+.spinner-color{
+  color: #1cc88a;
+}
 .custom-card-header {
   background-color: #f8f9fc !important;
   padding: 0.75rem 1.25rem !important;
   color: #4e73df !important;
 }
-
 code {
   font-size: 87.5%;
   color: #e83e8c;
   word-break: break-word;
 }
-
 .table-regras {
   display: inline-table;
 }
-
 .regra-negacao {
   background-color: white;
   padding: 8px 5px;
@@ -40,7 +36,6 @@ code {
   border-radius: 4px;
   border-left: 4px solid #4e73df;
 }
-
 .regra-conjuncao {
   background-color: white;
   padding: 8px 5px;
@@ -49,7 +44,6 @@ code {
   border-radius: 4px;
   border-left: 4px solid #36b9cc;
 }
-
 .regra-disjuncao {
   background-color: white;
   padding: 8px 5px;
@@ -58,7 +52,6 @@ code {
   border-radius: 4px;
   border-left: 4px solid #1cc88a;
 }
-
 .regra-condicional {
   background-color: white;
   padding: 8px 5px;
@@ -67,7 +60,6 @@ code {
   border-radius: 4px;
   border-left: 4px solid #e74a3b;
 }
-
 .regra-bicondicional {
   background-color: white;
   padding: 8px 5px;
