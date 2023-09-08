@@ -72,7 +72,6 @@ export class LogicLiveComponent implements OnInit {
           this.painelCpm.errorMensagen = response.msg;
           this.info.loading = false;
         }
-        this.info.loading = false;
       },
       error => {
         this.painelCpm.errorMensagen =
