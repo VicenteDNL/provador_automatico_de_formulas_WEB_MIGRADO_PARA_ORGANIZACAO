@@ -1,6 +1,6 @@
 /* "Barrel" of Http Interceptors */
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../auth/services/auth-interceptor.service';
+import { AuthInterceptor } from '../services/auth-interceptor.service';
 
 /** Http interceptor providers in outside-in order */
 export const httpInterceptorProviders = [
