@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabelaGramaticaComponent } from './tabela-gramatica/tabela-gramatica.component';
+import { VisualizadorArvoreComponent } from './visualizador-arvore/visualizador-arvore.component';
 
 @NgModule({
-  declarations: [TabelaGramaticaComponent],
+  declarations: [TabelaGramaticaComponent, VisualizadorArvoreComponent],
   imports: [CommonModule],
-  exports: [TabelaGramaticaComponent],
+  exports: [TabelaGramaticaComponent, VisualizadorArvoreComponent],
 })
 export class MyComponentsModule {}
