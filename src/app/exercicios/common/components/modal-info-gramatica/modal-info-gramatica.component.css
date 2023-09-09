@@ -1,0 +1,22 @@
+.titulo-modal-exercicio {
+  background: #f6f6f6;
+  color: #4e73df;
+  font-weight: bold;
+}
+.barra-modal-exercicio {
+  position: relative;
+  top: -2px;
+  height: 3px;
+  width: 100px;
+  background: #4e73df;
+}
+.btn-modal-exercicio {
+  background-color: #36b9cc;
+  color: #ffff;
+  font-weight: bold;
+}
+.btn-modal-exercicio:hover {
+  background-color: #2f9dae;
+  color: #ffff;
+  font-weight: bold;
+}

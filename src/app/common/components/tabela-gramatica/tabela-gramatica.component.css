@@ -3,7 +3,6 @@
 }
 
 .cor-fundo2 {
-  background-color: #36b9cc;
   color: #f0f8ff !important;
 }
 
@@ -21,15 +20,14 @@
   cursor: pointer;
 }
 
-.nav-link:hover {
+/* .nav-link:hover {
   color: #4e72dfab;
-}
+} */
 
 .nav-link.active {
   color: #4e73df;
   font-weight: bold;
   border-bottom: 5px solid #4e73df;
-  /* border-radius: 0% !important; */
   padding-bottom: 0px !important;
   background-color: transparent !important;
 }

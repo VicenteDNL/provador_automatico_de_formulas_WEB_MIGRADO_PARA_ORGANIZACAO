@@ -1,0 +1,38 @@
+<div
+  *ngIf="show"
+  [config]="{ show: true }"
+  (onHide)="onHide()"
+  bsModal
+  #autoShownModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body text-center p-0">
+        <div class="text-center titulo-modal-exercicio p-2">
+          <span>Informações Gramática</span>
+        </div>
+        <div class="text-center d-flex justify-content-center w-100">
+          <div class="barra-modal-exercicio"></div>
+        </div>
+        <div class="p-3 w-100 text-center">
+            <app-tabela-gramatica
+            colorBase="#4e73df"
+            colorSecundary="#36b9cc"
+          
+            ></app-tabela-gramatica>
+        </div>
+        <div class="pb-3 w-100 text-center">
+          <button
+            type="button"
+            class="btn btn-modal-exercicio mx-2"
+            (click)="hideModal()">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,36 +1,40 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ExercicioRoutingModule } from './exercicio-routing.modules';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-
-import { EstudoLivreComponent } from './components/modulos/estudo-livre/estudo-livre.component';
-import { FormsModule } from '@angular/forms';
-import { RegrasGramlogicComponent } from './components/regras-gramlogic/regras-gramlogic.component';
-import { VizualizadorArvoreComponent } from './components/vizualizador-arvore/vizualizador-arvore.component';
-import { ExercicioValidacaoComponent } from './components/modulos/exercicio-validacao/exercicio-validacao.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { RegrasComponent } from './components/modulos/estudo-conceitos/regras/regras.component';
-import { ArvoreComponent } from './components/modulos/estudo-conceitos/arvore/arvore.component';
-import { AcessoInvalidoComponent } from './components/acesso-invalido/acesso-invalido.component';
+
+import { EstudoLivreComponent } from './components/estudo-livre/estudo-livre.component';
+import { VizualizadorArvoreComponent } from './common/components/vizualizador-arvore/vizualizador-arvore.component';
+import { ExercicioValidacaoComponent } from './components/exercicio-validacao/exercicio-validacao.component';
+import { RegrasComponent } from './components/estudo-conceitos/regras/regras.component';
+import { ArvoreComponent } from './components/estudo-conceitos/arvore/arvore.component';
+import { AcessoInvalidoComponent } from './common/components/acesso-invalido/acesso-invalido.component';
+import { ModalErroGramaticaComponent } from './common/components/modal-erro-gramatica/modal-erro-gramatica.component';
+import { ModalInfoGramaticaComponent } from './common/components/modal-info-gramatica/modal-info-gramatica.component';
+import { MyComponentsModule } from '../common/components/my-components.module';
 
 @NgModule({
   declarations: [
-    ExercicioValidacaoComponent,
+    // ExercicioValidacaoComponent,
     EstudoLivreComponent,
-    AcessoInvalidoComponent,
-    RegrasGramlogicComponent,
+    // AcessoInvalidoComponent,
     VizualizadorArvoreComponent,
     RegrasComponent,
     ArvoreComponent,
+    ModalErroGramaticaComponent,
+    ModalInfoGramaticaComponent,
   ],
   imports: [
-    CommonModule,
     ModalModule.forRoot(),
     CollapseModule.forRoot(),
+    CommonModule,
     ExercicioRoutingModule,
     FontAwesomeModule,
     FormsModule,
+    MyComponentsModule,
   ],
 })
 export class ExerciciosModule {}

@@ -1,52 +1,66 @@
 <div class="row mt-5">
-  <div class="col-3 border-right d-flex align-items-stretch text-left">
+  <div
+    class="col-12 col-md-3 border-right d-flex align-items-stretch text-left">
     <div
-      class="nav flex-column rounded nav-pills cor-fundo1 shadow-sm"
+      class="nav flex-md-column rounded nav-pills cor-fundo1 shadow-sm"
       id="v-pills-tab"
       role="tablist"
       aria-orientation="vertical">
-      <div class="container rounded-top cor-fundo2 text-center p-2 mb-3">
+      <div class="container rounded-top cor-fundo2 text-center p-2 mb-3"
+      [style]="'background-color:' + colorSecundary"
+      >
         <h6 class="h6">Regras de Construção</h6>
       </div>
       <a
-        class="nav-link mx-2"
+        class="nav-link mx-2 resposividade-nav-pills"
         [ngClass]="{ active: modulos.conectivos == true }"
         id="s-conectivos"
+        (mouseenter)="onMouseEnter($event)"
+        (mouseleave)="onMouseLeave($event)"
         (click)="abrirInfo('conectivos')"
         >Conectivos</a
       >
       <a
-        class="nav-link mx-2"
+        class="nav-link mx-2 resposividade-nav-pills"
         [ngClass]="{ active: modulos.negacao == true }"
         id="s-negacao"
+        (mouseenter)="onMouseEnter($event)"
+        (mouseleave)="onMouseLeave($event)"
         (click)="abrirInfo('negacao')"
         >Negação</a
       >
       <a
-        class="nav-link mx-2"
+        class="nav-link mx-2 resposividade-nav-pills"
+        [style]="'nav-link:hover' "
         [ngClass]="{ active: modulos.letra == true }"
         id="s-letra"
+        (mouseenter)="onMouseEnter($event)"
+        (mouseleave)="onMouseLeave($event)"
         (click)="abrirInfo('letra')"
         >Letra Predicativas</a
       >
       <a
-        class="nav-link mx-2"
+        class="nav-link mx-2 resposividade-nav-pills"
         [ngClass]="{ active: modulos.conclusao == true }"
         id="s-conclusao"
+        (mouseenter)="onMouseEnter($event)"
+        (mouseleave)="onMouseLeave($event)"
         (click)="abrirInfo('conclusao')"
         >Conclusão</a
       >
       <a
-        class="nav-link mx-2 mb-2"
+        class="nav-link mx-2 mb-2 resposividade-nav-pills"
         [ngClass]="{ active: modulos.premissas == true }"
         id="s-premissas"
+        (mouseenter)="onMouseEnter($event)"
+        (mouseleave)="onMouseLeave($event)"
         (click)="abrirInfo('premissas')"
         >Premissas</a
       >
     </div>
   </div>
 
-  <div class="col-9 d-flex align-items-center">
+  <div class="col-12 col-md-9 mt-3 mt-md-0 d-flex align-items-center">
     <div class="tab-content" id="v-pills-tabContent">
       <div *ngIf="modulos.conectivos == true" id="conectivos">
         <p>
@@ -57,9 +71,24 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col">Operação</th>
-              <th scope="col">Conectivos</th>
-              <th scope="col">Estrutura Lógica</th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Operação
+              </th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Conectivos
+              </th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Estrutura Lógica
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -103,8 +132,16 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col">Negação de Predicados</th>
-              <th scope="col">
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Negação de Predicados
+              </th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
                 Negação de Predicados Relacionados por Conectivos
               </th>
             </tr>
@@ -138,8 +175,18 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col">Indicador de Conclusão</th>
-              <th scope="col">Argumento de Conclusão</th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Indicador de Conclusão
+              </th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Argumento de Conclusão
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -161,8 +208,18 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col">Premissa</th>
-              <th scope="col">Premissas</th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Premissa
+              </th>
+              <th
+                [style]="'background-color:' + colorBase"
+                style="color: white"
+                scope="col">
+                Premissas
+              </th>
             </tr>
           </thead>
           <tbody>

@@ -28,11 +28,11 @@ import { HeaderListagemComponent } from './common/components/header-listagem/hea
 import { NiveisComponent } from './components/niveis/niveis.component';
 import { ExerciciosComponent } from './components/exercicios/exercicios.component';
 import { CadastrarExercicioComponent } from './components/exercicios/cadastrar-exercicio/cadastrar-exercicio.component';
-import { TabelaGramaticaComponent } from './common/components/tabela-gramatica/tabela-gramatica.component';
 import { ModalVisualizadorArvoreComponent } from './common/components/modal-visualizador-arvore/modal-visualizador-arvore.component';
 import { ModalErroGramaticaComponent } from './common/components/modal-erro-gramatica/modal-erro-gramatica.component';
 import { ModalInfoGramaticaComponent } from './common/components/modal-info-gramatica/modal-info-gramatica.component';
 import { ModalLogoutComponent } from './common/components/modal-logout/modal-logout.component';
+import { MyComponentsModule } from '../common/components/my-components.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,6 @@ import { ModalLogoutComponent } from './common/components/modal-logout/modal-log
     CadastrarNivelComponent,
     EditarNivelComponent,
     CadastrarExercicioComponent,
-    TabelaGramaticaComponent,
     VisualizadorArvoreComponent,
     PersonalizarArvoreComponent,
     InicioComponent,
@@ -72,6 +71,7 @@ import { ModalLogoutComponent } from './common/components/modal-logout/modal-log
     PainelRoutingModule,
     FontAwesomeModule,
     FormsModule,
+    MyComponentsModule,
   ],
 })
 export class PainelControleModule {}

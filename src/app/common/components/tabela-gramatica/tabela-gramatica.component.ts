@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -7,6 +13,9 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./tabela-gramatica.component.css'],
 })
 export class TabelaGramaticaComponent implements OnInit {
+  @Input() colorBase: string;
+  @Input() colorSecundary: string;
+
   modulos = {
     conectivos: true,
     negacao: false,
@@ -17,9 +26,24 @@ export class TabelaGramaticaComponent implements OnInit {
 
   constructor() {}
 
+  @HostListener('mouseenter') onMouseEnter(e: any) {
+    if (e !== undefined) {
+      e.target.style.color = this.colorBase;
+      e.target.style.borderColor = this.colorBase;
+    }
+  }
+
+  @HostListener('mouseleave') onMouseLeave(e: any) {
+    if (e !== undefined) {
+      if (!e.target.classList.contains('active')) {
+        e.target.style.color = null;
+      }
+    }
+  }
+
   ngOnInit(): void {}
 
-  abrirInfo(info) {
+  abrirInfo(info: string) {
     this.modulos.conectivos = false;
     this.modulos.negacao = false;
     this.modulos.letra = false;
