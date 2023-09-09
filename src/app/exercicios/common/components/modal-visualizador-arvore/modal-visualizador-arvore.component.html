@@ -11,11 +11,11 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-body text-center p-0">
-        <div class="text-center titulo-modal p-2">
+        <div class="text-center titulo-modal-exercicio p-2">
           <span>Árvore Otimizada</span>
         </div>
         <div class="text-center d-flex justify-content-center w-100">
-          <div class="barra-modal"></div>
+          <div class="barra-modal-exercicio"></div>
         </div>
         <div class="p-3 w-100" style="overflow-x: auto;">
           <app-visualizador-arvore
@@ -24,16 +24,16 @@
             [impressaoLinha]="impressaoLinha"
             [width]="width"
             [height]="height"
-            colorBase="#7c81eb"
-            colorBaseFinal="#5b60b3"
-            colorSecundary="rgb(32, 178, 170)"
-            colorSecundaryFinal="rgb(0, 128, 128)"
+            colorSecundary="#4e73df"
+            colorSecundaryFinal="#3f5bad"
+            colorBase="#354c8f"
+            colorBaseFinal="#273d7e"
             ></app-visualizador-arvore>
         </div>
         <div class="pb-3 w-100 text-center">
           <button
             type="button"
-            class="btn btn-padrao mx-2"
+            class="btn btn-modal-exercicio mx-2"
             (click)="hideModal()">
             Fechar
           </button>

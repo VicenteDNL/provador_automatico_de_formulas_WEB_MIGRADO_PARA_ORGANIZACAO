@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { delay } from 'rxjs/operators';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tabela-gramatica',

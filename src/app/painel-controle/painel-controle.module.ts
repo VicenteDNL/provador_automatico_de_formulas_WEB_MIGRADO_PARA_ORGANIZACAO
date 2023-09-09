@@ -19,7 +19,6 @@ import { EditarExercicioComponent } from './components/exercicios/editar-exercic
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { CadastrarUsuarioComponent } from './components/usuarios/cadastrar-usuario/cadastrar-usuario.component';
 import { EditarUsuarioComponent } from './components/usuarios/editar-usuario/editar-usuario.component';
-import { VisualizadorArvoreComponent } from './common/components/visualizador-arvore/visualizador-arvore.component';
 import { HeaderFormularioComponent } from './common/components/header-formulario/header-formulario.component';
 import { SpinnerComponent } from './common/components/spinner/spinner.component';
 import { ModalDelecaoComponent } from './common/components/modal-delecao/modal-delecao.component';
@@ -43,7 +42,6 @@ import { MyComponentsModule } from '../common/components/my-components.module';
     CadastrarNivelComponent,
     EditarNivelComponent,
     CadastrarExercicioComponent,
-    VisualizadorArvoreComponent,
     PersonalizarArvoreComponent,
     InicioComponent,
     LogicLiveComponent,

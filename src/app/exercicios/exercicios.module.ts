@@ -7,7 +7,6 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { EstudoLivreComponent } from './components/estudo-livre/estudo-livre.component';
-import { VizualizadorArvoreComponent } from './common/components/vizualizador-arvore/vizualizador-arvore.component';
 import { ExercicioValidacaoComponent } from './components/exercicio-validacao/exercicio-validacao.component';
 import { RegrasComponent } from './components/estudo-conceitos/regras/regras.component';
 import { ArvoreComponent } from './components/estudo-conceitos/arvore/arvore.component';
@@ -15,17 +14,18 @@ import { AcessoInvalidoComponent } from './common/components/acesso-invalido/ace
 import { ModalErroGramaticaComponent } from './common/components/modal-erro-gramatica/modal-erro-gramatica.component';
 import { ModalInfoGramaticaComponent } from './common/components/modal-info-gramatica/modal-info-gramatica.component';
 import { MyComponentsModule } from '../common/components/my-components.module';
+import { ModalVisualizadorArvoreComponent } from './common/components/modal-visualizador-arvore/modal-visualizador-arvore.component';
 
 @NgModule({
   declarations: [
     // ExercicioValidacaoComponent,
     EstudoLivreComponent,
     // AcessoInvalidoComponent,
-    VizualizadorArvoreComponent,
     RegrasComponent,
     ArvoreComponent,
     ModalErroGramaticaComponent,
     ModalInfoGramaticaComponent,
+    ModalVisualizadorArvoreComponent,
   ],
   imports: [
     ModalModule.forRoot(),

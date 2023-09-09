@@ -14,6 +14,10 @@ export class VisualizadorArvoreComponent implements OnInit {
   @Input() impressaoLinha: Linha[];
   @Input() width: number;
   @Input() height: number;
+  @Input() colorBase: string;
+  @Input() colorBaseFinal: string;
+  @Input() colorSecundary: string;
+  @Input() colorSecundaryFinal: string;
 
   fillColor = 'url(#grad1)';
   constructor() {}
