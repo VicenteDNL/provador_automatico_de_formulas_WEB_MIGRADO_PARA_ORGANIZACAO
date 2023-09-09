@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-regras-gramlogic',
@@ -6,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./regras-gramlogic.component.css'],
 })
 export class RegrasGramlogicComponent implements OnInit {
+  @Input() openModal: Subject<boolean>;
+  @ViewChild('autoShownModal', { static: false })
+  autoShownModal?: ModalDirective;
+  show = false;
   modulos = {
     conectivos: true,
     negacao: false,
@@ -16,9 +22,27 @@ export class RegrasGramlogicComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.openModal.subscribe(value => {
+      if (value) {
+        this.showModal();
+      } else {
+        this.hideModal();
+      }
+    });
+  }
 
-  abrirInfo(info) {
+  showModal(): void {
+    this.show = true;
+  }
+  hideModal(): void {
+    this.autoShownModal?.hide();
+  }
+  onHide(): void {
+    this.show = false;
+  }
+
+  abrirInfo(info: string) {
     this.modulos.conectivos = false;
     this.modulos.negacao = false;
     this.modulos.letra = false;

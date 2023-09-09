@@ -1,0 +1,10 @@
+.conteudo-erro-gramatica {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .cor-tabela-error {
+    background: #f5f5f5;
+    color: #d22838;
+  }
+  

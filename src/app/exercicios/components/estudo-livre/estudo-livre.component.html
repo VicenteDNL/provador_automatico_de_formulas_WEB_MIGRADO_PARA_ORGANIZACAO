@@ -1,145 +1,87 @@
-<ng-template #modalInfoGramatica>
-  <div class="modal-body text-center p-0">
-    <div class="text-center titulo-modal-aluno p-2">
-      <span>Informações Gramatica</span>
-    </div>
-    <div class="text-center d-flex justify-content-center w-100">
-      <div class="barra-modal-aluno"></div>
-    </div>
-    <div class="p-3 w-100 text-center">
-      <app-regras-gramlogic></app-regras-gramlogic>
-    </div>
-    <div class="pb-3 w-100 text-center">
-      <button
-        type="button"
-        class="btn btn-sm btn-fechar"
-        (click)="fecharModal()">
-        Fechar
-      </button>
-    </div>
-  </div>
-</ng-template>
+<app-modal-erro-gramatica
+  [openModal]="formula.openModalErros"
+  [erros]="formula.mensagemErro">
+</app-modal-erro-gramatica>
+<app-regras-gramlogic [openModal]="formula.openModalInfoGramatica">
+</app-regras-gramlogic>
 
-<ng-template #modalErroGramatica>
-  <div class="modal-body text-center p-0">
-    <div class="text-center titulo-modal-aluno p-2">
-      <span>Erros da Fórmula</span>
-    </div>
-    <div class="text-center d-flex justify-content-center w-100">
-      <div class="barra-modal-aluno"></div>
-    </div>
-    <div class="p-3 w-100 conteudo-modal-error">
-      <div *ngFor="let item of formula.mensagemErro; &quot;text-center&quot;: mt - 2">
-        <div class="card mt-3">
-          <div class="card-header">
-            <h6>Erro na posição: {{ item.coluna }}</h6>
-          </div>
-          <div class="card-body">
-            <table class="table table-sm table-responsive">
-              <tbody>
-                <tr *ngFor="let info of item.info">
-                  <td class="cor-tabela-error dor">{{ info }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pb-3 w-100 text-center">
-      <button
-        type="button"
-        class="btn btn-sm btn-fechar"
-        (click)="fecharModal()">
-        Fechar
-      </button>
-    </div>
-  </div>
-</ng-template>
+<app-vizualizador-arvore
+  [impressaoNo]="arvoreAutomatica.arvore.visualizar.nos"
+  [impressaoAresta]="arvoreAutomatica.arvore.visualizar.arestas"
+  [impressaoLinha]="arvoreAutomatica.arvore.visualizar.linhas"
+  [width]="arvoreAutomatica.arvore.visualizar.width"
+  [height]="450"
+  [abrirArvoreSubject]="arvoreAutomatica.openModal">
+</app-vizualizador-arvore>
 
-<ng-template #modalVizualizarArvore>
-  <div class="modal-body text-center p-0">
-    <div class="text-center titulo-modal-aluno p-2">
-      <span>Árvore Otimizada</span>
-    </div>
-    <div class="text-center d-flex justify-content-center w-100">
-      <div class="barra-modal-aluno"></div>
-    </div>
-    <div class="p-3 w-100">
-      <app-vizualizador-arvore
-        [impressaoNo]="arvoreAutomatica.visualizar.nos"
-        [impressaoAresta]="arvoreAutomatica.visualizar.arestas"
-        [impressaoLinha]="arvoreAutomatica.visualizar.linhas"
-        [exibirLinha]="true"
-        [width]="arvoreAutomatica.visualizar.width"
-        [height]="660">
-      </app-vizualizador-arvore>
-    </div>
-    <div class="pb-3 w-100 text-center">
-      <button
-        type="button"
-        class="btn btn-sm btn-fechar"
-        (click)="fecharModal()">
-        Fechar
-      </button>
-    </div>
-  </div>
-</ng-template>
-
-<div style="height: 100%;">
-  <div class="container-fluid" style="height: 100%;">
-    <div class="row px-0 py-3" style="height: 100%;">
-      <div class="col-12" style="height: 100%;">
-        <div class="card mb-5 d-flex" style="height: 100%;" >
+<div style="height: 100%">
+  <div class="container-fluid" style="height: 100%">
+    <div class="row px-0 py-3" style="height: 100%">
+      <div class="col-12" style="height: 100%">
+        <div class="card mb-5 d-flex" style="height: 100%">
           <div class="card-header custom-card-header py-3 d-flex">
             <h6 class="m-0 font-weight-bold mr-auto">Validação:</h6>
           </div>
           <div class="card-body imagem-back d-flex">
-            <div class="row" style="width: 100%;">
+            <div class="row" style="width: 100%">
               <div class="col-md-8 p-0 mb-3">
                 <div
                   class="grupo-controles text-center d-flex"
-                  style="overflow: auto;height: 100%;flex-direction: column;" >
+                  style="overflow: auto; height: 100%; flex-direction: column">
                   <!-- Str Formula -->
                   <div class="container-str-formula text-center">
-                    <h6 class="formula-str mb-2">{{ arvore.formula.texto }}</h6>
+                    <h6 class="formula-str mb-2">{{arvoreManager.getArvore().formula.texto || 'Crie uma fórmula'}}</h6>
 
                     <div class="form-group col-12 mb-2">
-                      <div *ngIf="!etapasEmProgresso.derivacao && !etapasEmProgresso.inicializacao" class="d-flex">
+                      <div
+                        *ngIf="
+                          !etapasEmProgresso.derivacao() &&
+                          !etapasEmProgresso.inicializacao()
+                        "
+                        class="d-flex">
                         <input
                           type="text"
                           (blur)="validarFormula()"
                           class="form-control form-control-sm"
-                          id="formula.texto"
-                          name="formula.texto"
+                          id="formula"
+                          name="formula"
                           [(ngModel)]="formula.texto"
                           [ngClass]="{
-                            errorFormulaInput: !formula.isValida && formula.mensagemErro != '' }"
+                            errorFormulaInput:
+                              !formula.isValida && formula.mensagemErro != ''
+                          }"
                           required />
                         <div class="btn-group">
                           <button
                             *ngIf="formula.isValida"
                             type="button"
                             class="btn btn-inf-formula-2 btn-sm"
-                            (click)="abirModal(modalVizualizarArvore,'arvore')"
-                            [disabled]="!formula.isValida && formula.mensagemErro != '' ">
-                                <span
-                                *ngIf="spinners.criandoArvoreOtimizada"
-                                class="spinner-border spinner-border-sm mr-2"
-                                role="status">
-                                  <span class="sr-only">Loading...</span>
-                                </span>
-                              <fa-icon *ngIf="!spinners.criandoArvoreOtimizada" class="mx-1" [icon]="visual"></fa-icon>
+                            (click)="abrirArvore()"
+                            [disabled]="
+                              !formula.isValida && formula.mensagemErro != ''
+                            ">
+                            <span
+                              *ngIf="arvoreAutomatica.loading"
+                              class="spinner-border spinner-border-sm mr-2"
+                              role="status">
+                              <span class="sr-only">Loading...</span>
+                            </span>
+                            <fa-icon
+                              *ngIf="!arvoreAutomatica.loading"
+                              class="mx-1"
+                              [icon]="visual"></fa-icon>
                           </button>
                           <button
-                            *ngIf="!formula.isValida && formula.mensagemErro!=''"
+                            *ngIf="
+                              !formula.isValida && formula.mensagemErro != ''
+                            "
                             class="btn btn-inf-formula-2 btn-sm"
-                            (click)="abirModal(modalErroGramatica,'erroFormula')">
+                            (click)="abrirErrosGramatica()">
                             <fa-icon class="mx-1" [icon]="erro"></fa-icon>
                           </button>
                           <button
                             class="btn btn-sm btn-inf-formula-1"
-                            (click)="abirModal(modalInfoGramatica,'gramatica')">
+                            (click)="abrirInfoGramatica()">
                             <fa-icon class="mx-1" [icon]="duvida"></fa-icon>
                           </button>
                         </div>
@@ -147,7 +89,12 @@
                     </div>
                   </div>
                   <svg width="700" height="660">
-                    <g *ngFor="let item of arvore.visualizar.arestas; let i = index">
+                    <g
+                      *ngFor="
+                        let item of arvoreManager.getArvore().visualizar
+                          .arestas;
+                        let i = index
+                      ">
                       <line
                         [attr.x1]="item.linhaX1"
                         [attr.y1]="item.linhaY1"
@@ -157,7 +104,11 @@
                         stroke-width="1"
                         stroke-linecap="butt" />
                     </g>
-                    <g *ngFor="let item of arvore.visualizar.linhas; let i = index">
+                    <g
+                      *ngFor="
+                        let item of arvoreManager.getArvore().visualizar.linhas;
+                        let i = index
+                      ">
                       <text
                         font-size="20"
                         font-weight="bold"
@@ -168,9 +119,12 @@
                       </text>
                     </g>
                     <g
-                      *ngFor="let item of arvore.visualizar.nos; let i = index"
-                      (mouseover)="eventoMouseover(i)"
-                      (mouseleave)="eventoMouseleave(i)"
+                      *ngFor="
+                        let item of arvoreManager.getArvore().visualizar.nos;
+                        let i = index
+                      "
+                      (mouseover)="arvoreManager.eventoMouseover(i)"
+                      (mouseleave)="arvoreManager.eventoMouseleave(i)"
                       (click)="eventoOnclickNo(i)">
                       <circle
                         [attr.cx]="item.posX"
@@ -291,11 +245,14 @@
 
               <div class="col-md-4 p-0">
                 <div
-                  *ngIf="!etapasEmProgresso.derivacao && !etapasEmProgresso.inicializacao"
+                  *ngIf="
+                    !etapasEmProgresso.derivacao() &&
+                    !etapasEmProgresso.inicializacao()
+                  "
                   class="container-controles justify-content-center align-items-center mx-4">
                   <div class="grupo-emoji">
                     <div
-                      *ngIf="arvore.formula.xml == '' && formula.mensagemErro == ''"
+                      *ngIf="formula.xml == '' && formula.mensagemErro == ''"
                       class="text-center">
                       <img
                         class="img-fluid"
@@ -303,11 +260,17 @@
                         alt="condicional"
                         style="max-width: 124px; max-height: 130px" />
                       <h6 class="formula-str mb-3">
-                        Muito bom ver você aqui colocando em prática seu conchecimento. Mas primeiro você pricisa criar uma fórmula.
+                        Muito bom ver você aqui colocando em prática seu
+                        conchecimento. Mas primeiro você pricisa criar uma
+                        fórmula.
                       </h6>
                     </div>
                     <div
-                      *ngIf="formula.isValida && formula.mensagemErro == '' && !arvore.isCompleto"
+                      *ngIf="
+                        formula.isValida &&
+                        formula.mensagemErro == '' &&
+                        !arvoreManager.getArvore().isCompleto
+                      "
                       class="text-center"
                       class="text-center">
                       <img
@@ -316,7 +279,8 @@
                         alt="condicional"
                         style="max-width: 124px; max-height: 130px" />
                       <h6 class="formula-str">
-                        Parabéns! Você criou uma fórmula, agora já pode começar deriva-la.
+                        Parabéns! Você criou uma fórmula, agora já pode começar
+                        deriva-la.
                       </h6>
                       <div class="grupo-btn-iniciar">
                         <button
@@ -325,18 +289,19 @@
                           (click)="iniciarEstudo()"
                           [disabled]="!formula.isValida">
                           <span
-                              *ngIf="spinners.iniciandoEstudo"
-                              class="spinner-border spinner-border-sm mr-2"
-                              role="status">
-                              <span class="sr-only">Loading...</span>
+                            *ngIf="iniciandoEstudo"
+                            class="spinner-border spinner-border-sm mr-2"
+                            role="status">
+                            <span class="sr-only">Loading...</span>
                           </span>
-                          <span *ngIf="!spinners.iniciandoEstudo" > Começar</span>
-                          
+                          <span *ngIf="!iniciandoEstudo">
+                            Começar</span
+                          >
                         </button>
                       </div>
                     </div>
                     <div
-                      *ngIf="!formula.isValida && formula.mensagemErro != '' "
+                      *ngIf="!formula.isValida && formula.mensagemErro != ''"
                       class="text-center">
                       <img
                         class="img-fluid"
@@ -347,7 +312,10 @@
                         Ops, algo de errado na fórmula
                       </h6>
                     </div>
-                    <div *ngIf="arvore.isCompleto" class="text-center" class="text-center">
+                    <div
+                      *ngIf="arvoreManager.getArvore().isCompleto"
+                      class="text-center"
+                      class="text-center">
                       <img
                         class="img-fluid"
                         src="assets/img/emoji-feliz.png"
@@ -355,25 +323,38 @@
                         style="max-width: 124px; max-height: 130px" />
                       <h6 class="formula-str">Parabéns, fórmula derivada!</h6>
                       <div class="grupo-btn-iniciar">
+                        
                         <button
                           type="button"
                           class="btn btn-sm btn-func btn-block mt-3"
-                          (click)="reiniciarEstudo()">
-                          Reiniciar
+                          (click)="concluir()">
+                          <span
+                            *ngIf="concluindoEstudo"
+                            class="spinner-border spinner-border-sm mr-2"
+                            role="status">
+                            <span class="sr-only">Loading...</span>
+                          </span>
+                            <span *ngIf="!concluindoEstudo">
+                              Finalizar</span
+                            >
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div
-                  *ngIf="etapasEmProgresso.derivacao || etapasEmProgresso.inicializacao"
+                  *ngIf="
+                    (etapasEmProgresso.derivacao() ||
+                      etapasEmProgresso.inicializacao()) &&
+                    formula.isValida
+                  "
                   class="container-controles pl-md-4 pl-0">
                   <!-- Console de mensagens -->
                   <div class="grupo-controles mb-3">
                     <div class="d-flex">
                       <div class="icon-loading">
                         <span
-                          *ngIf="console.isCarregando"
+                          *ngIf="console.isLoading()"
                           class="spinner-border spinner-border-sm"
                           role="status">
                           <span class="sr-only">Loading...</span>
@@ -381,36 +362,37 @@
                       </div>
                       <div
                         class="mensaggem-console d-flex justify-content-center align-items-center">
-                        <code>
+                         <code>
                           <span
-                            *ngIf="console.tipo == 'info'"
+                            *ngIf="console.lastLog().tipo == 'info'"
                             class="info-msg"
-                            >{{ console.msg }}</span
+                            >{{ console.lastLog().msg }}</span
                           >
                           <span
-                            *ngIf="console.tipo == 'error'"
+                            *ngIf="console.lastLog().tipo == 'erro'"
                             class="error-msg"
-                            >{{ console.msg }}</span
+                            >{{ console.lastLog().msg }}</span
                           >
                           <span
-                            *ngIf="console.tipo == 'sucesso'"
+                            *ngIf="console.lastLog().tipo == 'sucesso'"
                             class="sucesso-msg"
-                            >{{ console.msg }}</span
+                            >{{ console.lastLog().msg }}</span
                           >
-                        </code>
+                        </code> 
                       </div>
                     </div>
                   </div>
 
                   <!-- Posicionamento dos Primeiros nós na arvore -->
                   <div
-                    *ngIf="etapasEmProgresso.inicializacao"
+                    *ngIf="etapasEmProgresso.inicializacao()"
                     class="grupo-controles p-3 flex-item">
                     <div class="grupo-check flex-um">
                       <div
                         class="form-check mb-2"
                         *ngFor="
-                          let arg of arvore.iniciar.opcoesDisponiveis;
+                          let arg of arvoreManager.getArvore().iniciar
+                            .opcoesDisponiveis;
                           let i = index
                         ">
                         <input
@@ -419,11 +401,11 @@
                           name="radioArgumentos"
                           id="{{ arg.id }}"
                           value="{{ arg.id }}"
-                          (click)="seleciona(arg)" />
+                          (click)="passos.setArgumentoInsercao(arg)" />
                         <label
                           class="form-check-label col-form-label-sm"
                           for="{{ arg.id }}"
-                          (click)="seleciona(arg)">
+                          (click)="passos.setArgumentoInsercao(arg)">
                           {{ arg.texto }}
                         </label>
                       </div>
@@ -432,20 +414,20 @@
                       <button
                         type="button"
                         class="btn btn-sm btn-inserir btn-block mt-3"
-                        (click)="adicionaPremissaConclucao(false)"
+                        (click)="adicionar(false)"
                         [disabled]="
-                          passosInicializacao.no.id == '' ||
-                          console.isCarregando == true
+                          passos.getInicializacao().no == null ||
+                          console.isLoading() == true
                         ">
                         Inserir
                       </button>
                       <button
                         type="button"
                         class="btn btn-sm btn-fechar-ramo btn-block"
-                        (click)="adicionaPremissaConclucao(true)"
+                        (click)="adicionar(true)"
                         [disabled]="
-                          passosInicializacao.no.id == '' ||
-                          console.isCarregando == true
+                          passos.getInicializacao().no == null ||
+                          console.isLoading() == true
                         ">
                         Negar e Inserir
                       </button>
@@ -454,22 +436,27 @@
 
                   <!-- Derivação dos elementos da árvore -->
                   <div
-                    *ngIf="etapasEmProgresso.derivacao"
+                    *ngIf="etapasEmProgresso.derivacao()"
                     class="grupo-controles p-3 mb-3">
-                    <div class="form-check" *ngFor="let item of arvore.derivar.regras; let i = index">
+                    <div
+                      class="form-check"
+                      *ngFor="
+                        let item of arvoreManager.getArvore().derivar.regras;
+                        let i = index
+                      ">
                       <input
                         class="form-check-input form-control-sm"
                         type="radio"
-                        name="exampleRadios"
-                        (click)="regra(item)"
-                        id="{{item.codigo}}"
-                        value="{{item.codigo}}"
-                        [disabled]="!botoesEnable.derivacao" />
+                        name="regrasDerivacao"
+                        (click)="passos.setRegraDerivacao(item)"
+                        id="{{ item.codigo }}"
+                        value="{{ item.codigo }}"
+                        [disabled]="!selecao.getBotoesEnable().derivacao" />
                       <label
                         class="form-check-label col-form-label-sm"
-                        for="{{item.codigo}}"
-                        (click)="regra(item)">
-                        {{item.nome}}
+                        for="{{ item.codigo }}"
+                        (click)="passos.setRegraDerivacao(item)">
+                        {{ item.nome }}
                       </label>
                     </div>
                     <div class="btn-acoes">
@@ -478,9 +465,9 @@
                         class="btn btn-sm btn-inserir btn-block mt-3"
                         (click)="derivar()"
                         [disabled]="
-                          regra == null ||
-                          console.isCarregando == true ||
-                          !botoesEnable.derivacao
+                          passos.getDerivacao().regra == null ||
+                          console.isLoading() == true ||
+                          !selecao.getBotoesEnable().derivacao
                         ">
                         Derivar
                       </button>
@@ -488,14 +475,14 @@
                   </div>
 
                   <!-- botões para fechar e ticar um nó -->
-                  <div *ngIf="etapasEmProgresso.derivacao">
+                  <div *ngIf="etapasEmProgresso.derivacao()">
                     <div class="grupo-controles p-3">
                       <button
                         type="button"
                         class="btn btn-sm btn-fechar-ramo btn-block"
                         [disabled]="
-                          botoesEnable.fecharRamo == false ||
-                          console.isCarregando == true
+                          selecao.getBotoesEnable().fecharRamo == false ||
+                          console.isLoading() == true
                         "
                         (click)="fechar()">
                         Fechar Ramo
@@ -504,8 +491,8 @@
                         type="button"
                         class="btn btn-sm btn-ticar btn-block"
                         [disabled]="
-                        botoesEnable.ticarNo == false ||
-                          console.isCarregando == true
+                          selecao.getBotoesEnable().ticarNo == false ||
+                          console.isLoading() == true
                         "
                         (click)="ticar()">
                         Ticar Nó
