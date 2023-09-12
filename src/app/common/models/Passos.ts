@@ -3,14 +3,17 @@ import { Regra } from '../interfaces/arvore/regra.model.';
 import { PassoDerivacao } from '../interfaces/passo/passoDerivacao';
 import { PassoFechamento } from '../interfaces/passo/passoFechamento';
 import { PassoInicializacao } from '../interfaces/passo/passoInicializacao';
+import { PassoFinalizar } from '../interfaces/passo/PassoFinalizar';
 import { PassoTicagem } from '../interfaces/passo/passoTicagem';
 import { Selecao } from './Selecao';
+import { Resposta } from '../enums/Resposta';
 
 export class Passos {
   private inicializacao: PassoInicializacao;
   private derivacao: PassoDerivacao;
   private ticagem: PassoTicagem;
   private fechamento: PassoFechamento;
+  private finalizar: PassoFinalizar;
 
   constructor() {
     this.restart();
@@ -36,6 +39,10 @@ export class Passos {
     this.fechamento = {
       noContraditorio: null,
       noFolha: null,
+    };
+
+    this.finalizar = {
+      resposta: null,
     };
   }
 
@@ -89,5 +96,12 @@ export class Passos {
     this.derivacao.noDerivacao = selecao.getVermelho();
     this.derivacao.nosInsercoes = selecao.getAmarelos();
     return this.derivacao;
+  }
+
+  setFinalizar(resposta: Resposta) {
+    this.finalizar.resposta = resposta.valueOf();
+  }
+  getFinalizar() {
+    return this.finalizar;
   }
 }

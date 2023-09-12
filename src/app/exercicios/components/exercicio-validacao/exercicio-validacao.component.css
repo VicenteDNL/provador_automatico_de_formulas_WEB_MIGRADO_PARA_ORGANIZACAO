@@ -1,34 +1,157 @@
-.custom-card-header {
+body,
+html {
+  height: 100%;
+}
+
+.spinner-color{
+  color: #1cc88a;
+}
+ .custom-card-header {
   background-color: #f8f9fc !important;
   padding: 0.75rem 1.25rem !important;
   color: #4e73df !important;
 }
-.controle-flex {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.formula-str {
-  color: rgb(114, 114, 114);
-}
-.container-str-formula {
-  padding: 12px;
-  background-color: #4e73df0a;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-.enunciado {
-  color: rgb(114, 114, 114);
-}
-
 .imagem-back {
   background-color: white;
   background-image: url('/assets/img/back-padrao.png');
   background-repeat: no-repeat;
   background-position: bottom right;
 }
+.texto-painel {
+  display: table;
+  border-bottom: 1px solid #88888836;
+  border-top: 1px solid #88888836;
+  border-right: 1px solid #88888836;
+  padding: 5px;
+  color: white;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: #6c757d;
+}
+.container-str-formula {
+  padding: 15px;
+  background-color: #4e73df0a;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.mensagem-console {
+  min-height: 50px;
+  overflow: auto;
+  background-color: #f8f9fc;
+  flex: 1;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.erro-msg {
+  color: #aa3434;
+  font-weight: bold;
+}
+.sucesso-msg {
+  color: #48aa34;
+  font-weight: bold;
+}
+.info-msg {
+  color: #888888;
+  font-weight: bold;
+}
+.grupo-controles {
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+.container-controles {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.icon-loading {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #dee2e6;
+  color: #4e73df;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.btn-func {
+  color: #fff;
+  background-color: #1cc88a;
+}
+.btn-func:hover {
+  background-color: #2ca377;
+}
+.btn-icon {
+  color: #fff;
+  background-color: #1ca573;
+}
+.btn-icon:hover {
+  background-color: #243e57;
+}
+.enunciado {
+  background: #fff8dc;
+  border-radius: 4px;
+  padding: 15px;
+  color: rgb(114, 114, 114);
+}
+.icon-painel {
+  display: table;
+  border: 1px solid#88888836;
+  padding: 5px;
+  color: white;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.comAtencao {
+  background-color: #ffc107;
+}
+.comRisco {
+  background-color: #ea5547;
+  animation: neon 1s alternate infinite ease-in-out;
+}
+.semRisco {
+  background-color: #1cc88a !important;
+}
+.btn-ticar {
+  color: #fff;
+  background-color: #36b9cc;
+  border-color: #36b9cc;
+}
+.btn-ticar:hover {
+  background-color: #227683;
+}
+.btn-inserir {
+  color: #fff;
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+.btn-inserir:hover {
+  background-color: #235d94;
+}
+.btn-fechar-ramo {
+  color: #fff;
+  background-color: #dc3582;
+  border-color: #dc3582;
+}
+.btn-fechar-ramo:hover {
+  background-color: #912859;
+}
+.formula-str {
+  color: rgb(114, 114, 114);
+}
+/*
+.controle-flex {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+
+
 .controle-titulo {
   color: white;
   background: #4e73df;
@@ -62,96 +185,18 @@
   flex: 1;
 }
 
-.btn-ticar {
-  color: #fff;
-  background-color: #36b9cc;
-  border-color: #36b9cc;
-}
 
-.btn-ticar:hover {
-  background-color: #227683;
-}
 
-.btn-inserir {
-  color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
-}
 
-.btn-inserir:hover {
-  background-color: #235d94;
-}
 
-.btn-fechar-ramo {
-  color: #fff;
-  background-color: #dc3582;
-  border-color: #dc3582;
-}
 
-.btn-fechar-ramo:hover {
-  background-color: #912859;
-}
 
-.grupo-controles {
-  border-radius: 0.25rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-}
 
-.btn-func {
-  color: #fff;
-  background-color: #1cc88a;
-}
 
-.btn-func:hover {
-  background-color: #2ca377;
-}
 
-.btn-icon {
-  color: #fff;
-  background-color: #1ca573;
-}
 
-.btn-icon:hover {
-  background-color: #243e57;
-}
 
-.mensaggem-console {
-  min-height: 50px;
-  overflow: auto;
-  background-color: #f8f9fc;
-  flex: 1;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
 
-.icon-loading {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #dee2e6;
-  color: #4e73df;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
-.error-msg {
-  color: #aa3434;
-  font-weight: bold;
-}
-.sucesso-msg {
-  color: #48aa34;
-  font-weight: bold;
-}
-.info-msg {
-  color: #888888;
-  font-weight: bold;
-}
-
-.semRisco {
-  background-color: #1cc88a !important;
-}
 
 @keyframes neon {
   from {
@@ -162,35 +207,11 @@
   }
 }
 
-.comAtencao {
-  background-color: #ffc107;
-}
-.comRisco {
-  background-color: #ea5547;
-  animation: neon 1s alternate infinite ease-in-out;
-}
 
-.icon-painel {
-  display: table;
-  border: 1px solid#88888836;
-  padding: 5px;
-  color: white;
 
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
-}
 
-.texto-painel {
-  display: table;
-  border-bottom: 1px solid #88888836;
-  border-top: 1px solid #88888836;
-  border-right: 1px solid #88888836;
-  padding: 5px;
-  color: white;
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
-  background-color: #6c757d;
-}
+
+
 
 .imagem-sem-vida {
   background-image: url('src/assets/img/sem-tentativa.png');
@@ -216,11 +237,7 @@
   min-height: 200px;
 }
 
-.container-controles {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
+
 .container-erros {
   flex: 1;
   display: flex;
@@ -272,4 +289,4 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-}
+} */

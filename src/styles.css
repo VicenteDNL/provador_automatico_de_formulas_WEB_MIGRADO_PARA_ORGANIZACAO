@@ -8,10 +8,7 @@ html {
   margin: 0;
 }
 
-.tamanho-conteudo {
-  height: 100%;
-  width: 100%;
-}
+
 
 .nav-bar {
   /* background: rgb(85,217,202); */
@@ -32,10 +29,7 @@ html {
   }
 }
 
-.base-conteudo {
-  display: flex;
-  flex-direction: column;
-}
+
 
 .flex-conteudo {
   flex: 1;
@@ -45,25 +39,6 @@ html {
   display: table !important;
 }
 
-.conteudo {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  background-image: url('src/assets/img/back-padrao.png');
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  /* box-shadow:         3px 4px 10px 0px rgba(50, 50, 50, 0.85); */
-}
-.conteudo-interno {
-  display: flex;
-  flex-direction: column;
-}
-
-.container-central {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 
 .botao-primario {
   background-color: #a852d2;
@@ -77,23 +52,10 @@ html {
   background-color: #bc74e0;
 }
 
-.barra-navegacao {
-  border-radius: 0 0 15px 15px;
-  box-shadow: 0px 4px 16px -7px rgb(0 0 0 / 60%);
-  background-color: #f6f6f6;
-  width: 100%;
-}
+
 .grupo-itens {
   display: flex;
   justify-content: flex-end;
-}
-
-.item-navegacao {
-  cursor: pointer;
-  display: flex;
-  align-items: flex-end;
-  font-weight: bold;
-  color: #dcdcdc;
 }
 
 .navegacao-ativa {
@@ -113,13 +75,7 @@ html {
   transition: all 0.5s;
 }
 
-.barra-ativa-interna {
-  height: 7px;
-  width: 50px;
-  background: #6e52d2;
-  transition: all 0.5s;
-  border-radius: 15px;
-}
+
 
 .item-cor {
   color: #6e52d2;
@@ -147,15 +103,16 @@ html {
 }
 
 .btn-padrao {
+  background-color: #FFFFFF;
   color: #6e52d2;
   font-weight: bold;
-  border: 3px solid #6e52d2;
+  border: 1px solid #6e52d2;
   /* border-radius: 0% !important; */
 }
 
 .btn-padrao:hover {
-  color: #4b3d80;
-  border: 3px solid #4b3d80;
+  color: #6e52d2;
+  border: 1px solid #6e52d2;
   background-color: #fbfbfb;
 }
 
@@ -181,22 +138,13 @@ html {
   background: #b83270;
 }
 
-.btn-paginacao {
+.btn-ativar {
   color: white;
-  background: #56d6ca;
+  background: #ffc107;
 }
-.btn-paginacao-desabilitado {
+.btn-ativar:hover {
   color: white;
-  background: #56d6ca;
-}
-.btn-paginacao-desabilitado:hover {
-  color: white;
-  background: #56d6ca;
-}
-
-.btn-paginacao:hover {
-  color: white;
-  background: #3e9b91;
+  background: #dea807;
 }
 
 .btn-voltar {
@@ -251,12 +199,7 @@ th {
   background: #6e52d2;
 }
 
-.container-mensagem {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
+
 
 .btn-add-recompensa {
   background: #efefef;
@@ -273,11 +216,6 @@ th {
   border-bottom-right-radius: 0 !important;
 }
 
-.footer-painel {
-  font-weight: bold;
-  color: #9ea0c9;
-  padding-bottom: 10px;
-}
 
 .header-tabela-primeiro {
   background-color: rgb(85, 217, 202) !important;
@@ -296,4 +234,57 @@ th {
   background-color: rgb(85, 217, 202) !important;
   color: white !important;
   padding: 10px;
+}
+
+/* ###============== Novo*/
+
+.status-ativo {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+.status-inativo {
+  color: #dc3545!important  ;
+  font-weight: bold;
+}
+
+.folder-tabela-listagem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.tabela-listagem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.conteudo-formulario {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.conteudo-pagina{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.btn-inf{
+  background: #efefef;
+  color: #b2b2b2;
+  border-radius: 0.2rem !important;
+  border: 1px solid !important;
+}
+
+.logic-live-vinculado{
+  color: #5e5e5e!important;
+  font-weight: bold;
+}
+
+.logic-live-nao-vinculado{
+  color: #dea807!important;
+  font-weight: bold;
 }

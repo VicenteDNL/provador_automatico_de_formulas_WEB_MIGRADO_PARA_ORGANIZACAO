@@ -1,452 +1,468 @@
-<!-- <div class="">
-  <div class="container-fluid py-2">
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-5">
-          <div class="card-header custom-card-header py-3">
-            <h6 class="m-0 font-weight-bold">Orientação:</h6>
-          </div>
-          <div class="card-body">
-            <p class="enunciado mb-0">{{ exercicio.enunciado }}</p>
-          </div>
+<div class="container-fluid py-2">
+  <div *ngIf="buscandoExercicio" class="text-center my-4">
+    <span class="spinner-border spinner-border spinner-color" role="status">
+      <span class="sr-only">Loading...</span>
+    </span>
+  </div>
+  <div class="row" *ngIf="!buscandoExercicio">
+    <div class="col-12 p-0 p-md-3">
+      <div class="card">
+        <div class="card-header custom-card-header py-3 d-flex">
+          <h6 class="m-0 font-weight-bold mr-auto">Validação:</h6>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-5">
-          <div class="card-header custom-card-header py-3 d-flex">
-            <h6 class="m-0 font-weight-bold mr-auto">Validação:</h6>
+        <div class="card-body imagem-back px-0 px-md-4">
+          <div class="row enunciado mb-4 mx-0">
+            <p class="mb-0">{{ exercicio.enunciado }}</p>
           </div>
-
-          <div class="card-body imagem-back">
-            <div class="row">
-              <div class="col-md-4 mb-md-4 mb-2">
-                <div class="d-flex justify-content-center">
-                  <div class="icon-painel shadow-sm" [ngClass]="classTentativa">
-                    <fa-icon [icon]="heart"></fa-icon>
-                  </div>
-                  <div class="texto-painel shadow-sm" *ngIf="tentativas.erros == null">
-                    Sem limite de erros
-                  </div>
-                  <div class="texto-painel shadow-sm" *ngIf="tentativas.erros != null">
-                    Tentativas restantes = {{ tentativas.erros }}
-                  </div>
+          <div class="row mx-0">
+            <div class="col-md-4 mb-md-4 mb-2">
+              <div class="d-flex justify-content-center">
+                <div class="icon-painel shadow-sm" [ngClass]="classTentativa">
+                  <fa-icon [icon]="iconHeart"></fa-icon>
                 </div>
-              </div>
-              <div class="col-md-4 mb-md-4 mb-2">
-                <div class="d-flex justify-content-center">
-                  <div class="icon-painel shadow-sm" [ngClass]="classPontuacao">
-                    <fa-icon [icon]="trophy"></fa-icon>
-                  </div>
-                  <div class="texto-painel shadow-sm">
-                    Pontuação =
-                    <span> {{ tentativas.pontuacao.ponto }}</span>
-                  </div>
+                <div
+                  class="texto-painel shadow-sm"
+                  *ngIf="saude.tentativas == null">
+                  Sem limite de erros
                 </div>
-              </div>
-              <div class="col-md-4 mb-md-4 mb-2">
-                <div class="d-flex justify-content-center">
-                  <div
-                    class="icon-painel shadow-sm"
-                    [ngClass]="classRiscoTempo">
-                    <fa-icon [icon]="clock"></fa-icon>
-                  </div>
-                  <div
-                    class="texto-painel shadow-sm"
-                    *ngIf="tentativas.tempo.minutos != null">
-                    Tempo restante =
-                    <span> {{ tentativas.tempo.minutos }} Min </span>
-                    <span> {{ tentativas.tempo.segundos }} Seg </span>
-                  </div>
-                  <div
-                    class="texto-painel shadow-sm"
-                    *ngIf="tentativas.tempo.minutos == null">
-                    Sem limite de tempo
-                  </div>
+                <div
+                  class="texto-painel shadow-sm"
+                  *ngIf="saude.tentativas != null">
+                  Tentativas restantes:
+                  <span style="font-weight: bold">{{
+                    saude.tentativas.atual
+                  }}</span>
                 </div>
               </div>
             </div>
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-8 p-0 mb-3">
-                  <div
-                    class="grupo-controles text-center"
-                    style="overflow: auto"> -->
-                    <!-- Str Formula -->
-                    <!-- <div class="container-str-formula text-center">
-                      <h6 class="formula-str mb-0">{{ arvore.strformula }}</h6>
-                    </div>
-                    <svg width="700" height="660">
-                      <g *ngFor="let item of arvore.arestas; let i = index">
-                        <line
-                          [attr.x1]="item.linhaX1"
-                          [attr.y1]="item.linhaY1"
-                          [attr.x2]="item.linhaX2"
-                          [attr.y2]="item.linhaY2"
-                          stroke="rgb(175,175,175)"
-                          stroke-width="1"
-                          stroke-linecap="butt" />
-                      </g>
+            <div class="col-md-4 mb-md-4 mb-2">
+              <div class="d-flex justify-content-center">
+                <div class="icon-painel shadow-sm" [ngClass]="classPontuacao">
+                  <fa-icon [icon]="iconTrophy"></fa-icon>
+                </div>
+                <div class="texto-painel shadow-sm">
+                  Pontuação:
+                  <span style="font-weight: bold">
+                    {{ saude.pontuacao.atual }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-md-4 mb-2">
+              <div class="d-flex justify-content-center">
+                <div
+                  class="icon-painel shadow-sm"
+                  [ngClass]="validacaoTempo.classes">
+                  <fa-icon [icon]="iconClock"></fa-icon>
+                </div>
+                <div
+                  class="texto-painel shadow-sm"
+                  *ngIf="saude.tempo.atual != null">
+                  Tempo restante:
+                  <span style="font-weight: bold">
+                    {{ saude.tempo.atual }} Seg
+                  </span>
+                </div>
+                <div
+                  class="texto-painel shadow-sm"
+                  *ngIf="saude.tempo.atual == null">
+                  Sem limite de tempo
+                </div>
+              </div>
+            </div>
+          </div>
 
-                      <g
-                        *ngFor="let item of arvore.nos; let i = index"
-                        (mouseover)="alterarcor(i)"
-                        (mouseleave)="voltarcor(i)"
-                        (click)="selecionarNo(i)">
-                        <circle
-                          [attr.cx]="item.posX"
-                          [attr.cy]="item.posY + 27"
-                          r="3"
-                          fill="#AFAFA4" />
-                        <circle
-                          [attr.cx]="item.posX"
-                          [attr.cy]="item.posY - 27"
-                          r="3"
-                          fill="#AFAFAF" />
+          <div class="row mx-0">
+            <div class="col-md-8 mb-3">
+              <div class="grupo-controles text-center">
+                <!-- Str Formula -->
+                <div class="container-str-formula text-center">
+                  <h6 class="formula-str mb-0">
+                    {{ arvoreManager.getArvore().formula.texto }}
+                  </h6>
+                </div>
+                <div style="overflow: auto">
+                  <svg width="700" height="660">
+                    <g
+                      *ngFor="
+                        let item of arvoreManager.getArvore().visualizar
+                          .arestas;
+                        let i = index
+                      ">
+                      <line
+                        [attr.x1]="item.linhaX1"
+                        [attr.y1]="item.linhaY1"
+                        [attr.x2]="item.linhaX2"
+                        [attr.y2]="item.linhaY2"
+                        stroke="rgb(175,175,175)"
+                        stroke-width="1"
+                        stroke-linecap="butt" />
+                    </g>
+                    <g
+                      *ngFor="
+                        let item of arvoreManager.getArvore().visualizar.linhas;
+                        let i = index
+                      ">
+                      <text
+                        font-size="20"
+                        font-weight="bold"
+                        fill="rgb(175,175,175)"
+                        [attr.x]="item.posX"
+                        [attr.y]="item.posY">
+                        {{ item.texto }}
+                      </text>
+                    </g>
+                    <g
+                      *ngFor="
+                        let item of arvoreManager.getArvore().visualizar.nos;
+                        let i = index
+                      "
+                      (mouseover)="arvoreManager.eventoMouseover(i)"
+                      (mouseleave)="arvoreManager.eventoMouseleave(i)"
+                      (click)="arvoreManager.eventoClickNo(i, selecao)">
+                      <circle
+                        [attr.cx]="item.posX"
+                        [attr.cy]="item.posY + 27"
+                        r="3"
+                        fill="#AFAFA4" />
+                      <circle
+                        [attr.cx]="item.posX"
+                        [attr.cy]="item.posY - 27"
+                        r="3"
+                        fill="#AFAFAF" />
+                      <text
+                        font-size="20"
+                        font-weight="bold"
+                        fill="rgb(175,175,175)"
+                        [attr.x]="30"
+                        [attr.y]="item.posY + 5">
+                        Linha {{ item.linha }}
+                      </text>
+                      <defs>
+                        <linearGradient
+                          id="grad1"
+                          x1="30%"
+                          y1="0%"
+                          x2="90%"
+                          y2="50%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #4e73df; stop-opacity: 1" />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #3f5bad; stop-opacity: 1" />
+                        </linearGradient>
+                        <linearGradient
+                          id="grad2"
+                          x1="30%"
+                          y1="0%"
+                          x2="90%"
+                          y2="50%">
+                          <stop
+                            offset="0%"
+                            style="stop-color: #354c8f; stop-opacity: 1" />
+                          <stop
+                            offset="100%"
+                            style="stop-color: #273d7e; stop-opacity: 1" />
+                        </linearGradient>
+                        <linearGradient
+                          id="grad3"
+                          x1="0%"
+                          y1="0%"
+                          x2="0%"
+                          y2="100%">
+                          <stop offset="50%" stop-color="#FFFF00" />
+                          <stop offset="70%" stop-color="#b91d1d" />
+                        </linearGradient>
+                      </defs>
+                      <a class="curso-svg">
+                        <rect
+                          [attr.x]="item.posXno"
+                          [attr.y]="item.posY - 20"
+                          rx="20"
+                          ry="20"
+                          [attr.width]="item.tmh"
+                          height="40"
+                          [attr.fill]="item.fill"
+                          [attr.stroke]="item.strokeColor"
+                          [attr.stroke-width]="item.strokeWidth"
+                          id="no01" />
                         <text
-                          font-size="20"
+                          text-anchor="middle"
+                          font-size="15"
+                          font-weight="bold"
+                          fill="white"
+                          font-family="Helvetica, sans-serif, Arial"
+                          [attr.x]="item.posX"
+                          [attr.y]="item.posY + 5">
+                          {{ item.str }}
+                        </text>
+                        <text
+                          font-size="15"
                           font-weight="bold"
                           fill="rgb(175,175,175)"
-                          [attr.x]="30"
-                          [attr.y]="item.posY + 5">
-                          Linha {{ item.linha }}
+                          [attr.x]="item.posXlinhaDerivacao"
+                          [attr.y]="item.posY + 25">
+                          {{ item.linhaDerivacao }}
                         </text>
-                        <defs>
-                          <linearGradient
-                            id="grad1"
-                            x1="30%"
-                            y1="0%"
-                            x2="90%"
-                            y2="50%">
-                            <stop
-                              offset="0%"
-                              style="stop-color: #4e73df; stop-opacity: 1" />
-                            <stop
-                              offset="100%"
-                              style="stop-color: #3f5bad; stop-opacity: 1" />
-                          </linearGradient>
-                          <linearGradient
-                            id="grad2"
-                            x1="30%"
-                            y1="0%"
-                            x2="90%"
-                            y2="50%">
-                            <stop
-                              offset="0%"
-                              style="stop-color: #354c8f; stop-opacity: 1" />
-                            <stop
-                              offset="100%"
-                              style="stop-color: #273d7e; stop-opacity: 1" />
-                          </linearGradient>
-                          <linearGradient
-                            id="grad3"
-                            x1="0%"
-                            y1="0%"
-                            x2="0%"
-                            y2="100%">
-                            <stop offset="50%" stop-color="#FFFF00" />
-                            <stop offset="70%" stop-color="#b91d1d" />
-                          </linearGradient>
-                        </defs>
-                        <a class="curso-svg">
-                          <rect
-                            [attr.x]="item.posXno"
-                            [attr.y]="item.posY - 20"
-                            rx="20"
-                            ry="20"
-                            [attr.width]="item.tmh"
-                            height="40"
-                            [attr.fill]="item.fill"
-                            [attr.stroke]="item.strokeColor"
-                            [attr.stroke-width]="item.strokeWidth"
-                            id="no01" />
-                          <text
-                            text-anchor="middle"
-                            font-size="15"
-                            font-weight="bold"
-                            fill="white"
-                            font-family="Helvetica, sans-serif, Arial"
-                            [attr.x]="item.posX"
-                            [attr.y]="item.posY + 5">
-                            {{ item.str }}
-                          </text>
-                          <text
-                            font-size="15"
-                            font-weight="bold"
-                            fill="rgb(175,175,175)"
-                            [attr.x]="item.posXlinhaDerivacao"
-                            [attr.y]="item.posY + 25">
-                            {{ item.linhaDerivacao }}
-                          </text>
-                        </a>
-                        <g *ngIf="item.utilizado == true">
-                          <svg
-                            [attr.x]="item.posXlinhaDerivacao + 12"
-                            [attr.y]="item.posY - 10"
-                            fill="#61CE61">
-                            <path
-                              d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
-                          </svg>
-                        </g>
-                        <g *ngIf="item.fechado == true">
-                          <line
-                            [attr.x1]="item.posX - 15"
-                            [attr.y1]="item.posY + 15"
-                            [attr.x2]="item.posX + 15"
-                            [attr.y2]="item.posY + 40"
-                            stroke="#DC0F4B"
-                            stroke-width="4"
-                            stroke-dasharray="1" />
-                          <line
-                            [attr.x1]="item.posX + 15"
-                            [attr.y1]="item.posY + 15"
-                            [attr.x2]="item.posX - 15"
-                            [attr.y2]="item.posY + 40"
-                            stroke="#DC0F4B"
-                            stroke-width="4"
-                            stroke-dasharray="1" />
-                          <text
-                            font-size="17"
-                            fill="#DC0F4B"
-                            [attr.x]="item.posX - 5"
-                            [attr.y]="item.posY + 70">
-                            {{ item.linhaContradicao }}
-                          </text>
-                        </g>
+                      </a>
+                      <g *ngIf="item.utilizado == true">
+                        <svg
+                          [attr.x]="item.posXlinhaDerivacao + 12"
+                          [attr.y]="item.posY - 10"
+                          fill="#61CE61">
+                          <path
+                            d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+                        </svg>
                       </g>
-                    </svg>
+                      <g *ngIf="item.fechado == true">
+                        <line
+                          [attr.x1]="item.posX - 15"
+                          [attr.y1]="item.posY + 15"
+                          [attr.x2]="item.posX + 15"
+                          [attr.y2]="item.posY + 40"
+                          stroke="#DC0F4B"
+                          stroke-width="4"
+                          stroke-dasharray="1" />
+                        <line
+                          [attr.x1]="item.posX + 15"
+                          [attr.y1]="item.posY + 15"
+                          [attr.x2]="item.posX - 15"
+                          [attr.y2]="item.posY + 40"
+                          stroke="#DC0F4B"
+                          stroke-width="4"
+                          stroke-dasharray="1" />
+                        <text
+                          font-size="17"
+                          fill="#DC0F4B"
+                          [attr.x]="item.posX - 5"
+                          [attr.y]="item.posY + 70">
+                          {{ item.linhaContradicao }}
+                        </text>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="container-controles">
+                <!-- Console de mensagens -->
+                <div class="grupo-controles mb-3">
+                  <div class="d-flex ">
+                    <div class="icon-loading">
+                      <span
+                        *ngIf="console.isLoading()"
+                        class="spinner-border spinner-border-sm"
+                        role="status">
+                        <span class="sr-only">Loading...</span>
+                      </span>
+                    </div>
+                    <div
+                      class="mensagem-console d-flex justify-content-center align-items-center">
+                      <code>
+                        <span
+                          *ngIf="console.lastLog().tipo == 'info'"
+                          class="info-msg"
+                          >{{ console.lastLog().msg }}</span
+                        >
+                        <span
+                          *ngIf="console.lastLog().tipo == 'erro'"
+                          class="erro-msg"
+                          >{{ console.lastLog().msg }}</span
+                        >
+                        <span
+                          *ngIf="console.lastLog().tipo == 'sucesso'"
+                          class="sucesso-msg"
+                          >{{ console.lastLog().msg }}</span
+                        >
+                      </code>
+                    </div>
                   </div>
                 </div>
-
-                <div class="col-md-4 p-0">
-                  <div class="container-controles pl-md-4 pl-0"> -->
-                    <!-- Console de mensagens -->
-                    <!-- <div class="grupo-controles mb-3">
-                      <div class="d-flex">
-                        <div class="icon-loading">
-                          <span
-                            *ngIf="carregamentoConsole"
-                            class="spinner-border spinner-border-sm"
-                            role="status">
-                            <span class="sr-only">Loading...</span>
-                          </span>
-                        </div>
-                        <div
-                          class="mensaggem-console d-flex justify-content-center align-items-center">
-                          <code>
-                            <span
-                              *ngIf="msgConsole.tipo == 'info'"
-                              class="info-msg"
-                              >{{ msgConsole.msg }}</span
-                            >
-                            <span
-                              *ngIf="msgConsole.tipo == 'error'"
-                              class="error-msg"
-                              >{{ msgConsole.msg }}</span
-                            >
-                            <span
-                              *ngIf="msgConsole.tipo == 'sucesso'"
-                              class="sucesso-msg"
-                              >{{ msgConsole.msg }}</span
-                            >
-                          </code>
-                        </div>
-                      </div>
-                    </div> -->
-
-                    <!-- Elementos para exibição do fim das tentativas -->
-                    <!-- <div
+                <div class="grupo-controles">
+                  <!-- Elementos para exibição do fim das tentativas -->
+                  <div
+                    *ngIf="
+                      saude.tempo.atual == 0 || saude.tentativas.atual == 0
+                    "
+                    class="container-erros">
+                    <div
                       *ngIf="
-                        (tentativas.tempo.minutos == 0 && tentativas.tempo.segundos == 0) ||
-                        tentativas.erros == 0
+                        saude.tempo.atual != 0 && saude.tentativas.atual == 0
                       "
-                      class="container-erros">
-                      <div
-                        *ngIf="
-                          tentativas.tempo.minutos != 0 &&
-                          tentativas.tempo.segundos != 0 &&
-                          tentativas.erros == 0
-                        "
-                        class="imagem-sem-vida"></div>
-                      <div
-                        *ngIf="
-                          tentativas.tempo.minutos == 0 &&
-                          tentativas.tempo.segundos == 0 &&
-                          tentativas.erros != 0
-                        "
-                        class="imagem-sem-tempo"></div>
-                      <div
-                        *ngIf="
-                          tentativas.tempo.minutos == 0 &&
-                          tentativas.tempo.segundos == 0 &&
-                          tentativas.erros == 0
-                        "
-                        class="sem-tentativas-vida"></div>
-                      <div class="container-btn-nova-tentativa">
-                        <button
-                          type="button"
-                          class="btn btn-sm btn-func btn-block"
-                          (click)="tentarNovamente()">
-                          Tentar Novamente
-                        </button>
-                      </div>
-                    </div> -->
-
-                    <!-- Elementos do painel de controle -->
-                    <!-- <div
+                      class="imagem-sem-vida"></div>
+                    <div
                       *ngIf="
-                      tentativas.erros != 0 &&
-                        (tentativas.tempo.minutos != 0 || tentativas.tempo.segundos != 0) &&
-                        arvore.finalizada == false
-                      "> -->
-                      <!-- Posicionamento dos Primeiros nós na arvore -->
-                      <!-- <div
-                        *ngIf="!arvore.inicio.completa"
-                        class="grupo-controles p-3 flex-item">
-                        <div class="grupo-check flex-um">
-                          <div
-                            class="form-check mb-2"
-                            *ngFor="
-                              let arg of arvore.inicio.opcoes;
-                              let i = index
-                            ">
-                            <input
-                              class="form-check-input form-control-sm"
-                              type="radio"
-                              name="radioArgumentos"
-                              id="{{ arg.id }}"
-                              value="{{ arg.id }}"
-                              (click)="selecionado(i)" />
-                            <label
-                              class="form-check-label col-form-label-sm"
-                              for="{{ arg.id }}"
-                              (click)="selecionado(i)">
-                              {{ arg.str }}
-                            </label>
-                          </div>
+                        saude.tempo.atual == 0 && saude.tentativas.atual != 0
+                      "
+                      class="imagem-sem-tempo"></div>
+                    <div
+                      *ngIf="
+                        saude.tempo.atual == 0 && saude.tentativas.atual == 0
+                      "
+                      class="sem-tentativas-vida"></div>
+                    <div class="container-btn-nova-tentativa">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-func btn-block"
+                        (click)="tentarNovamente()">
+                        Tentar Novamente
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Elementos do painel de controle -->
+                  <div
+                    *ngIf="
+                      saude.tentativas.atual != 0 &&
+                      saude.tempo.atual != 0 &&
+                      arvoreManager.getArvore().isCompleto == false
+                    ">
+                    <!-- Posicionamento dos Primeiros nós na arvore -->
+                    <div
+                      *ngIf="etapasEmProgresso.inicializacao()"
+                      class="grupo-controles p-3 flex-item">
+                      <div class="grupo-check flex-um">
+                        <div
+                          class="form-check mb-2"
+                          *ngFor="
+                            let arg of arvoreManager.getArvore().iniciar
+                              .opcoesDisponiveis;
+                            let i = index
+                          ">
+                          <input
+                            class="form-check-input form-control-sm"
+                            type="radio"
+                            name="radioArgumentos"
+                            id="{{ arg.id }}"
+                            value="{{ arg.id }}"
+                            (click)="passos.setArgumentoInsercao(arg)" />
+                          <label
+                            class="form-check-label col-form-label-sm"
+                            for="{{ arg.id }}"
+                            (click)="passos.setArgumentoInsercao(arg)">
+                            {{ arg.texto }}
+                          </label>
                         </div>
                         <div>
                           <button
                             type="button"
                             class="btn btn-sm btn-inserir btn-block mt-3"
-                            (click)="adicionaNo(0)"
+                            (click)="adicionar(false)"
                             [disabled]="
-                              arvore.inicio.no == null ||
-                              carregamentoConsole == true
+                              passos.getInicializacao().no == null ||
+                              console.isLoading() == true
                             ">
                             Inserir
                           </button>
                           <button
                             type="button"
                             class="btn btn-sm btn-fechar-ramo btn-block"
-                            (click)="adicionaNo(1)"
+                            (click)="adicionar(true)"
                             [disabled]="
-                              arvore.inicio.no == null ||
-                              carregamentoConsole == true
+                              passos.getInicializacao().no == null ||
+                              console.isLoading() == true
                             ">
                             Negar e Inserir
                           </button>
                         </div>
-                      </div> -->
-
-                      <!-- Derivação dos elementos da árvore -->
-                      <!-- <div
-                        *ngIf="arvore.inicio.completa"
-                        class="grupo-controles p-3 mb-3">
-                        <div
-                          class="form-check"
-                          *ngFor="let reg of arvore.regras; let i = index">
-                          <input
-                            class="form-check-input form-control-sm"
-                            type="radio"
-                            name="exampleRadios"
-                            (click)="regra(reg.id)"
-                            id="{{ 'regra' + reg.id }}"
-                            value="{{ 'opcao' + reg.id }}"
-                            [disabled]="!ativosCheckDerivacao" />
-                          <label
-                            class="form-check-label col-form-label-sm"
-                            for="{{ 'regra' + reg.id }}"
-                            (click)="regra(reg.id)">
-                            {{ reg.str }}
-                          </label>
-                        </div>
-                        <div class="btn-acoes">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-inserir btn-block mt-3"
-                            (click)="derivar()"
-                            [disabled]="
-                              regra == null ||
-                              carregamentoConsole == true ||
-                              !ativosCheckDerivacao
-                            ">
-                            Derivar
-                          </button>
-                        </div>
-                      </div> -->
-
-                      <!-- botões para fechar e ticar um nó -->
-                      <!-- <div *ngIf="arvore.inicio.completa">
-                        <div
-                          *ngIf="!arvore.fechar.auto || !arvore.ticar.auto"
-                          class="grupo-controles p-3">
-                          <button
-                            *ngIf="!arvore.fechar.auto"
-                            type="button"
-                            class="btn btn-sm btn-fechar-ramo btn-block"
-                            [disabled]="
-                              ativosBtnFecharRamo == false ||
-                              carregamentoConsole == true
-                            "
-                            (click)="fechar()">
-                            Fechar Ramo
-                          </button>
-                          <button
-                            *ngIf="!arvore.ticar.auto"
-                            type="button"
-                            class="btn btn-sm btn-ticar btn-block"
-                            [disabled]="
-                              ativosBtnTicarNo == false ||
-                              carregamentoConsole == true
-                            "
-                            (click)="ticar()">
-                            Ticar Nó
-                          </button>
-                        </div>
                       </div>
                     </div>
+
+                    <!-- Derivação dos elementos da árvore -->
                     <div
-                      *ngIf="
-                        arvore.finalizada &&
-                        tentativas.erros != 0 &&
-                        (tentativas.tempo.minutos != 0 || tentativas.tempo.segundos != 0)
-                      "
+                      *ngIf="etapasEmProgresso.derivacao()"
+                      class="grupo-controles p-3 mb-3">
+                      <div
+                        class="form-check"
+                        *ngFor="
+                          let item of arvoreManager.getArvore().derivar.regras;
+                          let i = index
+                        ">
+                        <input
+                          class="form-check-input form-control-sm"
+                          type="radio"
+                          name="regrasDerivacao"
+                          (click)="passos.setRegraDerivacao(item)"
+                          id="{{ item.codigo }}"
+                          value="{{ item.codigo }}"
+                          [disabled]="!selecao.getBotoesEnable().derivacao" />
+                        <label
+                          class="form-check-label col-form-label-sm"
+                          for="{{ item.codigo }}"
+                          (click)="passos.setRegraDerivacao(item)">
+                          {{ item.nome }}
+                        </label>
+                      </div>
+                      <div class="btn-acoes">
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-inserir btn-block mt-3"
+                          (click)="derivar()"
+                          [disabled]="
+                            passos.getDerivacao().regra == null ||
+                            console.isLoading() == true ||
+                            !selecao.getBotoesEnable().derivacao
+                          ">
+                          Derivar
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- botões para fechar e ticar um nó -->
+                    <div *ngIf="etapasEmProgresso.derivacao()">
+                      <div class="grupo-controles p-3">
+                        <button
+                          *ngIf="!arvoreManager.getArvore().fechar.isAutomatico"
+                          type="button"
+                          class="btn btn-sm btn-fechar-ramo btn-block"
+                          [disabled]="
+                            selecao.getBotoesEnable().fecharRamo == false ||
+                            console.isLoading() == true
+                          "
+                          (click)="fechar()">
+                          Fechar Ramo
+                        </button>
+                        <button
+                          *ngIf="!arvoreManager.getArvore().ticar.isAutomatico"
+                          type="button"
+                          class="btn btn-sm btn-ticar btn-block"
+                          [disabled]="
+                            selecao.getBotoesEnable().ticarNo == false ||
+                            console.isLoading() == true
+                          "
+                          (click)="ticar()">
+                          Ticar Nó
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Pergunta final -->
+                    <div
+                      *ngIf="arvoreManager.getArvore().isCompleto"
                       class="botoes-fim mt-2">
-                      <div *ngIf="resultado == null" class="text-center">
+                      <div *ngIf="resposta.sucesso == null" class="text-center">
                         <img
                           class="img-fluid"
                           src="assets/img/emoji-simpatico.png"
-                          alt="condicional"
                           style="max-width: 124px; max-height: 130px" />
                         <h6 class="formula-str mb-3">
                           Derivação finalizada, agora responda!
                         </h6>
                       </div>
                       <div
-                        *ngIf="resultado == false"
+                        *ngIf="resposta.sucesso == false"
                         class="text-center"
                         class="text-center">
                         <img
                           class="img-fluid"
                           src="assets/img/emoji-triste.png"
-                          alt="condicional"
                           style="max-width: 124px; max-height: 130px" />
                         <h6 class="formula-str">Ops, resposta incorreta!</h6>
                       </div>
                       <div
-                        *ngIf="resultado == true"
+                        *ngIf="resposta.sucesso == true"
                         class="text-center"
                         class="text-center">
                         <img
@@ -464,18 +480,18 @@
                         <div class="resposta-final">
                           <div
                             class="tautologia"
-                            (click)="respostaExercicio('T')">
+                            (click)="respostaExercicio('TAUTOLOGIA')">
                             <div
                               class="icon-select-tautologia"
-                              [ngClass]="selectTautologia"></div>
+                              [ngClass]="resposta.classes.tautologia"></div>
                             <span>Tautologia</span>
                           </div>
                           <div
                             class="contradicao"
-                            (click)="respostaExercicio('C')">
+                            (click)="respostaExercicio('CONTRADICAO')">
                             <div
                               class="icon-select-contradicao"
-                              [ngClass]="selectContradicao"></div>
+                              [ngClass]="resposta.classes.contradicao"></div>
                             <span>Contradição</span>
                           </div>
                         </div>
@@ -484,24 +500,24 @@
                           <div
                             class="btn-group mx-2 mt-3"
                             *ngIf="
-                              tentativas.erros != 0 &&
-                              (tentativas.tempo.minutos != 0 || tentativas.tempo.segundos != 0)
+                              saude.tentativas.atual != 0 &&
+                              saude.tempo.atual != 0
                             ">
                             <button
                               class="btn btn-sm btn-icon"
-                              [disabled]="carregamentoConsole == true">
-                              <fa-icon [icon]="check"></fa-icon>
+                              [disabled]="console.isLoading() == true">
+                              <fa-icon [icon]="iconCheck"></fa-icon>
                             </button>
                             <button
                               class="btn btn-sm btn-func"
                               (click)="validarResposta()"
-                              [disabled]="carregamentoConsole == true">
+                              [disabled]="console.isLoading() == true">
                               Validar resposta
                             </button>
                           </div>
                         </div>
                         <div
-                          *ngIf="carregamentoConsole"
+                          *ngIf="console.isLoading() == true"
                           class="spinner-border spinner-border-sm text-center text-roxo"
                           role="status">
                           <span class="sr-only">Loading...</span>
@@ -517,4 +533,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>

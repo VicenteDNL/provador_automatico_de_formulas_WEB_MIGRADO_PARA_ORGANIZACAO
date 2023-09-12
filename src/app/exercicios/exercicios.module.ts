@@ -18,7 +18,7 @@ import { ModalVisualizadorArvoreComponent } from './common/components/modal-visu
 
 @NgModule({
   declarations: [
-    // ExercicioValidacaoComponent,
+    ExercicioValidacaoComponent,
     EstudoLivreComponent,
     // AcessoInvalidoComponent,
     RegrasComponent,

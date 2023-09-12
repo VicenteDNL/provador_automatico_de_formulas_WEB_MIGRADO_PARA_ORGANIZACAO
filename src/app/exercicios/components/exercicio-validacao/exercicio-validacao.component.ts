@@ -12,12 +12,24 @@ import {
   faInfinity,
   faClock,
   faTrophy,
+  faPlay,
 } from '@fortawesome/free-solid-svg-icons';
 import { ValidacaoService } from '../../service/validacao.service';
 import { Arvore } from 'src/app/common/interfaces/arvore/arvore.model';
 import { Exercicio } from 'src/app/common/interfaces/exercicio.model';
-import { Tentativas } from 'src/app/common/interfaces/tentativas.model';
+import { Saude } from 'src/app/common/interfaces/saude';
 import { Riscos } from 'src/app/common/interfaces/riscos.model';
+import { ExercicioValidacaoResponse, HashInput } from './interfaces';
+import { ExercicioValidacaoService } from './exercicio-validacao.service';
+import { Console } from 'src/app/common/models/Console';
+import { EtapasEmProgresso } from 'src/app/common/models/EtapasEmProgresso';
+import { ArvoreManager } from 'src/app/common/models/ArvoreManager';
+import { Selecao } from 'src/app/common/models/Selecao';
+import { Passos } from 'src/app/common/models/Passos';
+import { Acoes } from 'src/app/common/enums/Acoes';
+import { ArvoreResponse } from '../../common/services/interfaces';
+import { Logs } from 'src/app/common/enums/Logs';
+import { Resposta } from 'src/app/common/enums/Resposta';
 // import { ExercicioValidacaoResponse, HashExecicioInput } from 'src/app/exercicios/service/interfaces';
 @Component({
   selector: 'app-exercicio-validacao',
@@ -26,23 +38,22 @@ import { Riscos } from 'src/app/common/interfaces/riscos.model';
 })
 export class ExercicioValidacaoComponent implements OnInit {
   // close = faWindowClose;
-  // check = faCheckSquare;
+  iconPlay = faPlay;
+  iconCheck = faCheckSquare;
   // limpar = faTrashAlt;
-  // clock = faClock;
+  iconClock = faClock;
   // min = faCaretSquareUp;
   // max = faCaretSquareDown;
-  // heart = faHeart;
+  iconHeart = faHeart;
   // plus = faPlus;
   // infinity = faInfinity;
-  // trophy = faTrophy;
+  iconTrophy = faTrophy;
 
   // // Variaveis do CONSOLE
   // msgConsole: Mensagem = {msg:'',tipo:'sucesso'};
   // carregamentoConsole = false;
 
   // arvore: Arvore | null;
-  // exercicio: Exercicio|null;
-  // tentativas: Tentativas |null;
 
   // // Variaveis da etapa de INICIALIZACAO
   // vermelho = null;
@@ -58,25 +69,254 @@ export class ExercicioValidacaoComponent implements OnInit {
 
   // // controle tempo
   // acabouRestante = false;
-  // interval;
 
-  // classTentativa: Riscos = {semRisco: true, comAtencao: false,comRisco: false};
-  // classPontuacao: Riscos = {semRisco: true, comAtencao: false,comRisco: false};
-  // classRiscoTempo: Riscos = {semRisco: true, comAtencao: false,comRisco: false};
+  classTentativa: Riscos = {
+    semRisco: true,
+    comAtencao: false,
+    comRisco: false,
+  };
+  classPontuacao: Riscos = {
+    semRisco: true,
+    comAtencao: false,
+    comRisco: false,
+  };
 
-  // selectContradicao = { 'select-contradicao': false };
-  // selectTautologia = { 'select-tautologia': false };
-  // resultado = null;
+  exercicio: Exercicio | null;
+  saude: Saude | null;
+  resposta = {
+    sucesso: null,
+    classes: {
+      contradicao: { 'select-contradicao': false },
+      tautologia: { 'select-tautologia': false },
+    },
+  };
+  validacaoTempo = {
+    isFinalizado: false,
+    classes: {
+      semRisco: true,
+      comAtencao: false,
+      comRisco: false,
+    },
+  };
+
+  buscandoExercicio = false;
+  hashInput: HashInput;
+  console: Console = new Console();
+  etapasEmProgresso: EtapasEmProgresso = new EtapasEmProgresso();
+  arvoreManager: ArvoreManager = new ArvoreManager();
+  selecao: Selecao = new Selecao();
+  passos: Passos = new Passos();
   constructor(
-    private service: ValidacaoService,
+    private service: ExercicioValidacaoService,
     private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe(params => {
-    //   const hash: HashExecicioInput = {usu_hash:params.usu_hash || '',exe_hash:params.exe_hash || ''};
-    //   this.buscarExercicio(hash);
-    // });
+    this.route.queryParams.subscribe(queryParams => {
+      if (
+        queryParams.usu_hash === undefined ||
+        queryParams.usu_hash === undefined
+      ) {
+        this.router.navigate(['exercicio/usuario-invalido']);
+      }
+      this.hashInput = {
+        usuHash: queryParams.usu_hash,
+        exeHash: queryParams.exe_hash,
+      };
+      this.buscandoExercicio = true;
+      this.service.buscarExercicio(this.hashInput).subscribe(
+        response => {
+          if (response.success) {
+            this.arvoreManager.atualizarArvore(response.data.arvore);
+            this.exercicio = response.data.exercicio;
+            this.saude = response.data.saude;
+            this.iniciarExercicio();
+          } else {
+            // redirecionar pagina de erro
+          }
+          this.buscandoExercicio = false;
+        },
+        error => {
+          // this.buscandoExercicio = false;
+        }, // redirecionar pagina de erro
+      );
+    });
+  }
+
+  iniciarExercicio() {
+    this.console.addLog('Boa sorte :)', Logs.sucesso, false);
+    this.etapasEmProgresso.startInicializacao();
+    this.inicializarRelogio();
+  }
+
+  adicionar(negar: boolean) {
+    const inicializacao = this.passos.setInicializacao(negar);
+
+    this.console.addLogByAcao(Acoes.adicionar, null, inicializacao.no);
+
+    this.service
+      .adicionar(this.arvoreManager.getArvore(), inicializacao)
+      .subscribe(
+        response => this.sucessoNaRequisicao(response, Acoes.adicionar),
+        error => this.erroNaRequisicao(error),
+      );
+  }
+
+  derivar() {
+    const derivacao = this.passos.setDerivacao(this.selecao);
+
+    this.console.addLogByAcao(Acoes.derivar, derivacao.noDerivacao);
+
+    this.service.derivar(this.arvoreManager.getArvore(), derivacao).subscribe(
+      response => this.sucessoNaRequisicao(response, Acoes.derivar),
+      error => this.erroNaRequisicao(error),
+    );
+  }
+
+  ticar() {
+    const ticagem = this.passos.setTicagem(this.selecao);
+
+    this.console.addLogByAcao(Acoes.ticar, ticagem.no);
+
+    this.service.ticar(this.arvoreManager.getArvore(), ticagem).subscribe(
+      response => this.sucessoNaRequisicao(response, Acoes.ticar),
+      error => this.erroNaRequisicao(error),
+    );
+  }
+
+  fechar() {
+    const fechamento = this.passos.setFechamento(this.selecao);
+
+    this.console.addLogByAcao(Acoes.fechar, fechamento.noFolha);
+
+    this.service.fechar(this.arvoreManager.getArvore(), fechamento).subscribe(
+      response => this.sucessoNaRequisicao(response, Acoes.fechar),
+      error => this.erroNaRequisicao(error),
+    );
+  }
+
+  validarResposta() {
+    this.console.addLog('Validando resposta', Logs.info, true);
+    this.service
+      .validar(this.arvoreManager.getArvore(), this.passos.getFinalizar())
+      .subscribe(
+        response => {
+          if (response.success) {
+            this.resposta.sucesso = true;
+            this.console.addLog('Exercício finalizado', Logs.sucesso, false);
+          } else {
+            this.resposta.sucesso = false;
+            this.console.addLog(
+              'Resposta errada, tente novamente!',
+              Logs.erro,
+              false,
+            );
+          }
+        },
+        error => this.erroNaRequisicao(error),
+      );
+  }
+
+  respostaExercicio(resp: string) {
+    if (resp === 'TAUTOLOGIA') {
+      this.resposta.classes.contradicao = { 'select-contradicao': false };
+      this.resposta.classes.tautologia = { 'select-tautologia': true };
+      this.passos.setFinalizar(Resposta.tautologia);
+    } else if (resp === 'CONTRADICAO') {
+      this.resposta.classes.contradicao = { 'select-contradicao': true };
+      this.resposta.classes.tautologia = { 'select-tautologia': false };
+      this.passos.setFinalizar(Resposta.contradicao);
+    }
+  }
+  tentarNovamente() {
+    this.console.addLog('Recomençando exercicio', Logs.info, true);
+    //   this.service
+    //     .tentarNovamente(
+    //       this.arvore.id_exercicio,
+    //       {
+    //         usu_hash: this.arvore.usu_hash,
+    //         exe_hash: this.arvore.exe_hash
+    //       },
+    //     )
+    //     .subscribe(
+    //       response => {
+    //         this.recomecar(response);
+    //       },
+    //       error => {
+    //         this.carregamentoConsole = false;
+    //       },
+    //     );
+  }
+
+  sucessoNaRequisicao(response: ExercicioValidacaoResponse, acao: Acoes) {
+    this.console.stopLoading();
+
+    if (!response.success) {
+      this.console.addLog(response.msg, Logs.erro, false);
+      return;
+    }
+    this.console.sucessoLogByAcao(
+      acao,
+      this.passos.getFechamento().noFolha ??
+        this.passos.getTicagem().no ??
+        this.passos.getDerivacao().noDerivacao,
+      this.passos.getInicializacao().no,
+    );
+
+    this.selecao.restart();
+    this.passos.restart();
+    this.arvoreManager.atualizarArvore(response.data.arvore);
+    this.etapasEmProgresso.atualizarEtapa(this.arvoreManager);
+  }
+
+  erroNaRequisicao(erro: any) {
+    this.console.cleanLogs();
+    this.console.addLog(
+      erro?.error.msg ??
+        'Ocorreu um erro ao inserir o argumento, tente novamente.',
+      Logs.erro,
+      false,
+    );
+  }
+
+  inicializarRelogio() {
+    if (this.saude.tempo == null) {
+      this.validacaoTempo.classes = {
+        semRisco: true,
+        comAtencao: false,
+        comRisco: false,
+      };
+      this.validacaoTempo.isFinalizado = false;
+      return;
+    }
+
+    if (this.saude.tempo.atual <= 0) {
+      this.validacaoTempo.classes = {
+        semRisco: false,
+        comAtencao: false,
+        comRisco: true,
+      };
+      this.validacaoTempo.isFinalizado = true;
+      return;
+    }
+
+    setInterval(() => {
+      this.validacaoTempo.classes =
+        this.saude.tempo.atual === 0
+          ? { semRisco: false, comAtencao: false, comRisco: true }
+          : this.saude.tempo.atual < this.saude.tempo.inicial / 3
+          ? { semRisco: false, comAtencao: true, comRisco: false }
+          : { semRisco: true, comAtencao: false, comRisco: false };
+
+      if (this.saude.tempo.atual > 0) {
+        this.saude.tempo.atual--;
+      } else {
+        if (this.saude.tempo.atual <= 0) {
+          this.validacaoTempo.isFinalizado = true;
+        }
+      }
+    }, 1000);
   }
 
   // buscarExercicio(hash: HashExecicioInput) {
@@ -89,11 +329,9 @@ export class ExercicioValidacaoComponent implements OnInit {
   // }
 
   // preparaExercicio(response: ExercicioValidacaoResponse) {
-
   //   if (!response.success) {
   //     // redirecionar pagina de erro
   //   }
-
   //   const {data}= response;
   //   const {arvore, exercicio, tentativas}= data;
   //   this.arvore = arvore;
@@ -149,77 +387,11 @@ export class ExercicioValidacaoComponent implements OnInit {
   //   }
   // }
 
-  // respostaExercicio(resp: string) {
-  //   if (resp === 'T') {
-  //     this.selectContradicao = { 'select-contradicao': false };
-  //     this.selectTautologia = { 'select-tautologia': true };
-  //     this.arvore.resposta = 'TAUTOLOGIA';
-  //   } else {
-  //     this.selectContradicao = { 'select-contradicao': true };
-  //     this.selectTautologia = { 'select-tautologia': false };
-  //     this.arvore.resposta = 'CONTRADICAO';
-  //   }
-  // }
-
-  // validarResposta() {
-  //   this.carregamentoConsole = true;
-  //   this.exibirNoConsole('Validando resposta', 'info');
-  //   this.service.validarResposta(this.arvore).subscribe(
-  //     response => {
-  //       if (response.success) {
-  //         this.resultado = true;
-  //         this.carregamentoConsole = false;
-  //         this.exibirNoConsole('Exercício finalizado', 'sucesso');
-  //       } else {
-  //         this.resultado = false;
-  //         this.carregamentoConsole = false;
-  //         this.exibirNoConsole('Resposta invalida', 'error');
-  //         this.tentativas = response.data;
-  //       }
-  //     },
-  //     error => (this.resultado = null),
-  //   );
-  // }
-
   // exibirNoConsole(msg: string, tipo: string) {
   //   this.msgConsole ={msg,tipo} ;
   // }
 
-  // inicializarRelogio() {
-  //   if (this.tentativas.tempo.minutos === 0 && this.tentativas.tempo.segundos === 0) {
-  //     this.classRiscoTempo = {
-  //       semRisco: false,
-  //       comAtencao: false,
-  //       comRisco: true,
-  //     };
-  //     this.acabouRestante = true;
-  //     return;
-  //   }
-
-  //   if (this.tentativas.tempo.minutos != null) {
-  //     this.interval = setInterval(() => {
-  //       this.classRiscoTempo =
-  //         this.tentativas.tempo.minutos === 0
-  //           ? { semRisco: false, comAtencao: false, comRisco: true }
-  //           : this.tentativas.tempo.minutos < 3
-  //           ? { semRisco: false, comAtencao: true, comRisco: false }
-  //           : { semRisco: true, comAtencao: false, comRisco: false };
-  //       if (this.tentativas.tempo.segundos > 0) {
-  //         this.tentativas.tempo.segundos--;
-  //       } else {
-  //         if (this.tentativas.tempo.minutos <= 0) {
-  //           this.acabouRestante = true;
-  //         } else {
-  //           this.tentativas.tempo.segundos = 59;
-  //           this.tentativas.tempo.minutos--;
-  //         }
-  //       }
-  //     }, 1000);
-  //   }
-  // }
-
-  // inicalizarClasses(){
-
+  // inicalizarClasses() {
   //   const semrisco = { semRisco: true, comAtencao: false, comRisco: false };
   //   const comrisco = { semRisco: false, comAtencao: false, comRisco: true };
   //   const comatencao = { semRisco: false, comAtencao: true, comRisco: false };
@@ -233,36 +405,16 @@ export class ExercicioValidacaoComponent implements OnInit {
   //       ? comatencao
   //       : comrisco;
 
-  //   const pontuacao =this.tentativas.pontuacao.ponto;
-  //   const repeticao =this.tentativas.pontuacao.maximo;
+  //   const pontuacao = this.tentativas.pontuacao.ponto;
+  //   const repeticao = this.tentativas.pontuacao.maximo;
   //   this.classPontuacao =
-  //   pontuacao >= repeticao * 0.7
+  //     pontuacao >= repeticao * 0.7
   //       ? semrisco
   //       : pontuacao >= repeticao * 0.5
   //       ? comatencao
   //       : pontuacao >= repeticao * 0.3
   //       ? comrisco
   //       : semrisco;
-  // }
-
-  // tentarNovamente() {
-  //   this.carregamentoConsole = true;
-  //   this.service
-  //     .tentarNovamente(
-  //       this.arvore.id_exercicio,
-  //       {
-  //         usu_hash: this.arvore.usu_hash,
-  //         exe_hash: this.arvore.exe_hash
-  //       },
-  //     )
-  //     .subscribe(
-  //       response => {
-  //         this.recomecar(response);
-  //       },
-  //       error => {
-  //         this.carregamentoConsole = false;
-  //       },
-  //     );
   // }
 
   // recomecar(response: ExercicioValidacaoResponse) {
