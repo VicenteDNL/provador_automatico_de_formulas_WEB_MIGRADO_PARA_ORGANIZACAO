@@ -1,0 +1,44 @@
+.container-console {
+    background: #ffffff;
+  }
+  .titulo-modal-console  {
+      font-weight: bold;
+    }
+  .titulo-console {
+    display: flex;
+    justify-content: space-between;
+    background: #f6f6f6;
+    font-weight: bold;
+  }
+  .btn-limpar {
+    color: rgb(160 160 160);
+    background-color: transparent;
+  }
+  
+  .barra-modal-console {
+    position: relative;
+    top: -2px;
+    height: 3px;
+    width: 100px;
+    border-radius: 2px;
+  }
+  .mensagem-console {
+    height: 100px;
+    overflow: auto;
+  }
+  .console-ul {
+    padding: 0 !important;
+  }
+  .console-li {
+    list-style-type: none;
+  }
+  .erro-msg {
+    color: #aa3434;
+  }
+  .sucesso-msg {
+    color: #48aa34;
+  }
+  .info-msg {
+    color: #888888;
+  }
+  

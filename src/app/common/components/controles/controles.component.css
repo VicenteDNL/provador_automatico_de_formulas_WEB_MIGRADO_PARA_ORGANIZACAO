@@ -1,0 +1,57 @@
+.conteudo-controles {
+  background: #ffffff;
+}
+.titulo-modal-controles {
+  background: #f6f6f6;
+  font-weight: bold;
+}
+.barra-modal-controles {
+  position: relative;
+  top: -2px;
+  height: 3px;
+  width: 100px;
+  border-radius: 2px;
+}
+.container-etapas {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.sem-inicializacao {
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: rgb(114, 114, 114);
+  font-size: small;
+}
+.grupo-controles {
+  border: 1px solid #88888836;
+  border-radius: 0.25rem;
+}
+.formula {
+  background: rgb(255 123 242 / 61%) !important;
+  padding: 0.6rem;
+  border-radius: 0.25rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+.btn-inserir {
+  background: rgba(95, 165, 206, 1);
+  color: #ffffff;
+}
+.btn-inserir:hover {
+  background: rgb(141, 194, 224);
+}
+.btn-negar {
+  background: rgba(106, 112, 210, 1);
+  color: #ffffff;
+}
+.btn-negar:hover {
+  background: rgb(150, 155, 243);
+}
+.grupo-btn-acoes {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: flex-end;
+}

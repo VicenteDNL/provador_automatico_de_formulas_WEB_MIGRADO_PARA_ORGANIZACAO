@@ -1,0 +1,37 @@
+.conteudo-placar {
+  background: #ffffff;
+}
+.titulo-modal-placar {
+  background: #f6f6f6;
+  font-weight: bold;
+}
+.barra-modal-placar {
+  position: relative;
+  top: -2px;
+  height: 3px;
+  width: 100px;
+  border-radius: 2px;
+}
+.container-pontuacao {
+  justify-content: space-around;
+}
+.iconHeart {
+  scale: 1.4;
+  color: #ea5547;
+}
+.iconTrophy {
+  scale: 1.4;
+  color: #ffc107;
+}
+.iconClock {
+  scale: 1.4;
+  color: #36b9cc;
+}
+.texto-pontuacao {
+  font-weight: bold;
+  color: #6c757d;
+}
+.enunciado {
+    color: rgb(114, 114, 114);
+    font-size: small;
+  }

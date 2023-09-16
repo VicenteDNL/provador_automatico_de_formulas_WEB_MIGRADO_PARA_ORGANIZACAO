@@ -1,0 +1,40 @@
+<div class="container-console shadow-sm ">
+    <div class="titulo-console p-2">
+      <button
+        type="button"
+        (click)="console.cleanLogs()"
+        class="btn btn-limpar btn-sm py-0">
+        <fa-icon [icon]="iconLimpar"></fa-icon>
+      </button>
+      <div class="titulo-modal-console mr-auto ml-auto" [style]="'color:'+color+';'">Console</div>
+      <div style="width: 34px;">
+          <div
+          *ngIf="console.isLoading()"
+          class="spinner-border spinner-border-sm " [style]="'color: '+color+';'">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+  
+    </div>
+    <div class="text-center d-flex justify-content-center w-100">
+      <div class="barra-modal-console" [style]="'background-color: '+color+';'"></div>
+    </div>
+    <div class="mensagem-console m-1">
+      <code>
+        <ul class="console-ul">
+          <li class="console-li" *ngFor="let log of console.showLogs()">
+            <span *ngIf="log.tipo == 'info'" class="info-msg">
+              {{ log.tipo }}: {{ log.msg }}</span
+            >
+            <span *ngIf="log.tipo == 'erro'" class="erro-msg">
+              {{ log.tipo }}: {{ log.msg }}</span
+            >
+            <span *ngIf="log.tipo == 'sucesso'" class="sucesso-msg"
+              >{{ log.tipo }}: {{ log.msg }}</span
+            >
+          </li>
+        </ul>
+      </code>
+    </div>
+  </div>
+  

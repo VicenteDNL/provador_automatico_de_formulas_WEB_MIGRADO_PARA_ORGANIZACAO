@@ -1,0 +1,143 @@
+<div class="conteudo-derivacao shadow-sm h-100">
+  <div
+    class="text-center titulo-modal-derivacao p-2"
+    [style]="'color:' + color + ';'">
+    <span>Árvore de Refutação</span>
+  </div>
+  <div class="text-center d-flex justify-content-center w-100">
+    <div
+      class="barra-modal-derivacao"
+      [style]="'background-color:' + color + ';'"></div>
+  </div>
+
+  <div class="text-center" style="overflow: auto">
+    <svg [attr.width]="arvoreManager.getArvore().visualizar.width" height="660">
+      <g
+        *ngFor="
+          let item of arvoreManager.getArvore().visualizar.arestas;
+          let i = index
+        ">
+        <line
+          [attr.x1]="item.linhaX1"
+          [attr.y1]="item.linhaY1"
+          [attr.x2]="item.linhaX2"
+          [attr.y2]="item.linhaY2"
+          stroke="rgb(175,175,175)"
+          stroke-width="1"
+          stroke-linecap="butt" />
+      </g>
+      <g
+        *ngFor="
+          let item of arvoreManager.getArvore().visualizar.linhas;
+          let i = index
+        ">
+        <text
+          font-size="20"
+          font-weight="bold"
+          fill="rgb(175,175,175)"
+          [attr.x]="item.posX"
+          [attr.y]="item.posY">
+          {{ item.texto }}
+        </text>
+      </g>
+      <g
+        *ngFor="
+          let item of arvoreManager.getArvore().visualizar.nos;
+          let i = index
+        "
+        (mouseover)="arvoreManager.eventoMouseover(i)"
+        (mouseleave)="arvoreManager.eventoMouseleave(i)"
+        (click)="arvoreManager.eventoClickNo(i, selecao)">
+        <circle
+          [attr.cx]="item.posX"
+          [attr.cy]="item.posY + 27"
+          r="3"
+          fill="#AFAFA4" />
+        <circle
+          [attr.cx]="item.posX"
+          [attr.cy]="item.posY - 27"
+          r="3"
+          fill="#AFAFAF" />
+        <defs>
+            <linearGradient id="grad1" x1="30%" y1="0%" x2="90%" y2="50%">
+                <stop
+                  offset="0%"
+                  [style]="'stop-color:'+colorSecundary+'; stop-opacity: 1'" />
+                <stop
+                  offset="100%"
+                  [style]="'stop-color:'+colorSecundaryFinal+'; stop-opacity: 1'" />
+              </linearGradient>
+              <linearGradient id="grad2" x1="30%" y1="0%" x2="90%" y2="50%">
+                <stop offset="0%" [style]="'stop-color: '+colorBase+'; stop-opacity: 1'" />
+                <stop offset="100%" [style]="'stop-color: '+colorBaseFinal+'; stop-opacity: 1'" />
+              </linearGradient>
+        </defs>
+        <a class="curso-svg">
+          <rect
+            [attr.x]="item.posXno"
+            [attr.y]="item.posY - 20"
+            rx="20"
+            ry="20"
+            [attr.width]="item.tmh"
+            height="40"
+            [attr.fill]="item.fill"
+            [attr.stroke]="item.strokeColor"
+            [attr.stroke-width]="item.strokeWidth"
+            id="no01" />
+          <text
+            text-anchor="middle"
+            font-size="15"
+            font-weight="bold"
+            fill="white"
+            font-family="Helvetica, sans-serif, Arial"
+            [attr.x]="item.posX"
+            [attr.y]="item.posY + 5">
+            {{ item.str }}
+          </text>
+          <text
+            font-size="15"
+            font-weight="bold"
+            fill="rgb(175,175,175)"
+            [attr.x]="item.posXlinhaDerivacao"
+            [attr.y]="item.posY + 25">
+            {{ item.linhaDerivacao }}
+          </text>
+        </a>
+        <g *ngIf="item.utilizado == true">
+          <svg
+            [attr.x]="item.posXlinhaDerivacao + 12"
+            [attr.y]="item.posY - 10"
+            fill="#61CE61">
+            <path
+              d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
+          </svg>
+        </g>
+        <g *ngIf="item.fechado == true">
+          <line
+            [attr.x1]="item.posX - 15"
+            [attr.y1]="item.posY + 15"
+            [attr.x2]="item.posX + 15"
+            [attr.y2]="item.posY + 40"
+            stroke="#DC0F4B"
+            stroke-width="4"
+            stroke-dasharray="1" />
+          <line
+            [attr.x1]="item.posX + 15"
+            [attr.y1]="item.posY + 15"
+            [attr.x2]="item.posX - 15"
+            [attr.y2]="item.posY + 40"
+            stroke="#DC0F4B"
+            stroke-width="4"
+            stroke-dasharray="1" />
+          <text
+            font-size="17"
+            fill="#DC0F4B"
+            [attr.x]="item.posX - 5"
+            [attr.y]="item.posY + 70">
+            {{ item.linhaContradicao }}
+          </text>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>

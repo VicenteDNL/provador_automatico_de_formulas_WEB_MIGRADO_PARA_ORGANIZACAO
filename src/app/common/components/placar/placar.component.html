@@ -1,0 +1,38 @@
+<div class="conteudo-placar shadow-sm d-flex flex-column">
+  <div
+    class="text-center titulo-modal-placar p-2"
+    [style]="'color:' + color + ';'">
+    <span>Placar</span>
+  </div>
+  <div class="text-center d-flex justify-content-center w-100">
+    <div class="barra-modal-placar" [style]="'background-color:' + color + ';'"></div>
+  </div>
+
+  <div class="container-pontuacao d-flex mt-3">
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <span class="iconHeart"><fa-icon [icon]="iconHeart"></fa-icon></span>
+      <span *ngIf="saude.tentativas != null" class="texto-pontuacao">{{
+        saude.tentativas.atual
+      }}</span>
+      <span *ngIf="saude.tentativas == null" class="texto-pontuacao"
+        ><fa-icon [icon]="iconInfinity"></fa-icon
+      ></span>
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <span class="iconTrophy"><fa-icon [icon]="iconTrophy"></fa-icon></span>
+      <span class="texto-pontuacao">
+        {{ saude.pontuacao.atual }}/{{ saude.pontuacao.inicial }}</span
+      >
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <span class="iconClock"><fa-icon [icon]="iconClock"></fa-icon></span>
+      <span *ngIf="saude.tempo != null" class="texto-pontuacao">
+        {{ saude.tempo.atual }}s</span
+      >
+      <span *ngIf="saude.tempo == null" class="texto-pontuacao">
+        <fa-icon [icon]="iconInfinity"></fa-icon
+      ></span>
+    </div>
+  </div>
+  <p class="my-3 enunciado text-center">{{enunciado }}</p>
+</div>

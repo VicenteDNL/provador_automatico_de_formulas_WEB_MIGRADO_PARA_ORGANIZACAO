@@ -1,0 +1,143 @@
+<div class="conteudo-controles flex-item shadow-sm h-100">
+  <div
+    class="text-center titulo-modal-controles p-2"
+    [style]="'color:' + color + ';'">
+    <span>Controles</span>
+  </div>
+  <div class="text-center d-flex justify-content-center w-100">
+    <div
+      class="barra-modal-controles"
+      [style]="'background-color:' + color + ';'"></div>
+  </div>
+  <div
+    class="m-3 container-etapas"
+    *ngIf="etapasEmProgresso.derivacao() || etapasEmProgresso.inicializacao()">
+    <div class="formula mb-3 text-center">
+      <span>{{ textoFormula }}</span>
+    </div>
+
+    <!-- Posicionamento dos Primeiros nós na arvore -->
+    <div
+      *ngIf="etapasEmProgresso.inicializacao()"
+      class="grupo-controles p-3 flex-item">
+      <div class="flex-um">
+        <div
+          class="form-check mb-2"
+          *ngFor="
+            let arg of arvoreManager.getArvore().iniciar.opcoesDisponiveis;
+            let i = index
+          ">
+          <input
+            class="form-check-input form-control-sm"
+            type="radio"
+            name="radioArgumentos"
+            id="{{ arg.id }}"
+            value="{{ arg.id }}"
+            (click)="passos.setArgumentoInsercao(arg)" />
+          <label
+            class="form-check-label col-form-label-sm"
+            for="{{ arg.id }}"
+            (click)="passos.setArgumentoInsercao(arg)">
+            {{ arg.texto }}
+          </label>
+        </div>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-sm btn-inserir btn-block"
+          (click)="adicionar(false)"
+          [disabled]="
+            passos.getInicializacao().no == null || console.isLoading() == true
+          ">
+          Inserir
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-negar btn-block"
+          (click)="adicionar(true)"
+          [disabled]="
+            passos.getInicializacao().no == null || console.isLoading() == true
+          ">
+          Negar e Inserir
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapa de derivação -->
+    <div
+      *ngIf="etapasEmProgresso.derivacao()"
+      class="grupo-controles p-3 mb-3 flex-item">
+      <div class="flex-um flex-item">
+        <div
+          class="form-check"
+          *ngFor="
+            let item of arvoreManager.getArvore().derivar.regras;
+            let i = index
+          ">
+          <input
+            class="form-check-input form-control-sm"
+            type="radio"
+            name="regrasDerivacao"
+            (click)="passos.setRegraDerivacao(item)"
+            id="{{ item.codigo }}"
+            value="{{ item.codigo }}"
+            [disabled]="!selecao.getBotoesEnable().derivacao" />
+          <label
+            class="form-check-label col-form-label-sm"
+            for="{{ item.codigo }}"
+            (click)="passos.setRegraDerivacao(item)">
+            {{ item.nome }}
+          </label>
+        </div>
+        <div class="grupo-btn-acoes flex-um align-itens-end">
+          <div style="width: 100%">
+            <button
+              type="button"
+              class="btn btn-sm btn-inserir btn-block"
+              (click)="derivar()"
+              [disabled]="
+                passos.getDerivacao().regra == null ||
+                console.isLoading() == true ||
+                !selecao.getBotoesEnable().derivacao
+              ">
+              Derivar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botões para fechar e ticar um nó -->
+    <div *ngIf="etapasEmProgresso.derivacao()" class="grupo-controles p-3">
+      <button
+        type="button"
+        class="btn btn-sm btn-inserir btn-block"
+        [disabled]="
+          selecao.getBotoesEnable().fecharRamo == false ||
+          console.isLoading() == true
+        "
+        (click)="fechar()">
+        Fechar Ramo
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-negar btn-block"
+        [disabled]="
+          selecao.getBotoesEnable().ticarNo == false ||
+          console.isLoading() == true
+        "
+        (click)="ticar()">
+        Ticar Nó
+      </button>
+    </div>
+  </div>
+  <div
+    class="m-3 container-etapas sem-inicializacao"
+    *ngIf="
+      etapasEmProgresso.derivacao() == false &&
+      etapasEmProgresso.inicializacao() == false
+    ">
+    Nenhuma etapa foi inicializada
+  </div>
+</div>
