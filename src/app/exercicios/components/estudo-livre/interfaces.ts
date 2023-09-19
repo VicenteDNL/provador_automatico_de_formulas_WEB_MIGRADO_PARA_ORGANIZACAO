@@ -8,3 +8,6 @@ export interface ConcluirEstudoLivreInput {
   exeHash: string;
   arvore: Arvore;
 }
+export interface ArvoreResponse extends Response {
+  data?: Arvore;
+}

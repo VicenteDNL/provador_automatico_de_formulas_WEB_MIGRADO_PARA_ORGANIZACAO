@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { environment } from 'src/environments/environment';
 import { ArvoreAutomatica } from 'src/app/common/interfaces/arvore/arvoreAutomatica';
-import { ArvoreResponse } from 'src/app/exercicios/service/interfaces';
+
 import { Console } from 'src/app/common/models/Console';
 import { ArvoreManager } from 'src/app/common/models/ArvoreManager';
 import { Selecao } from 'src/app/common/models/Selecao';
@@ -19,7 +19,7 @@ import { Logs } from 'src/app/common/enums/Logs';
 import { Subject } from 'rxjs';
 import { ArvoreService } from '../../common/services/arvore.service';
 import { EstudoLivreService } from './estudo-livre.service';
-import { ConcluirEstudoLivreInput } from './interfaces';
+import { ArvoreResponse, ConcluirEstudoLivreInput } from './interfaces';
 declare let gramLogic: any;
 
 @Component({
@@ -101,7 +101,7 @@ export class EstudoLivreComponent implements OnInit {
         queryParams.usu_hash === undefined ||
         queryParams.usu_hash === undefined
       ) {
-        this.router.navigate(['exercicio/usuario-invalido']);
+        this.router.navigate(['exercicio/erro']);
       }
       this.concluirInput = {
         usuHash: queryParams.usu_hash,

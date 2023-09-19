@@ -25,7 +25,7 @@ export class RegrasComponent implements OnInit {
         queryParams.usu_hash === undefined ||
         queryParams.usu_hash === undefined
       ) {
-        this.router.navigate(['exercicio/usuario-invalido']);
+        this.router.navigate(['exercicio/erro']);
       }
       this.concluirInput = {
         usuHash: queryParams.usu_hash,

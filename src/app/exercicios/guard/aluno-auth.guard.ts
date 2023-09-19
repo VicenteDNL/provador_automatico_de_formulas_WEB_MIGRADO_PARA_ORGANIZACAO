@@ -26,7 +26,7 @@ export class AlunoAuthGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean {
     if (next.queryParams.usu_hash === undefined) {
-      this.router.navigate(['exercicio/usuario-invalido']);
+      this.router.navigate(['exercicio/erro']);
       return false;
     }
     return this.validate(next.queryParams.usu_hash);
@@ -41,7 +41,7 @@ export class AlunoAuthGuard implements CanActivate, CanActivateChild {
     | boolean
     | UrlTree {
     if (next.queryParams.usu_hash === undefined) {
-      this.router.navigate(['exercicio/usuario-invalido']);
+      this.router.navigate(['exercicio/erro']);
       return false;
     }
     return this.validate(next.queryParams.usu_hash);
@@ -54,7 +54,7 @@ export class AlunoAuthGuard implements CanActivate, CanActivateChild {
       })
       .pipe(
         catchError((__, _) => {
-          this.router.navigate(['exercicio/usuario-invalido']);
+          this.router.navigate(['exercicio/erro']);
           return new Observable<BaseResponse>();
         }),
         map(response => {
@@ -62,11 +62,11 @@ export class AlunoAuthGuard implements CanActivate, CanActivateChild {
             if (response.success) {
               return true;
             } else {
-              this.router.navigate(['exercicio/usuario-invalido']);
+              this.router.navigate(['exercicio/erro']);
               return false;
             }
           } catch (e) {
-            this.router.navigate(['exercicio/usuario-invalido']);
+            this.router.navigate(['exercicio/erro']);
             return false;
           }
         }),

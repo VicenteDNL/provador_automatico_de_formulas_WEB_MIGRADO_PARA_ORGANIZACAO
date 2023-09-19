@@ -7,7 +7,7 @@ import { AlunoAuthGuard } from './guard/aluno-auth.guard';
 import { ExercicioValidacaoComponent } from './components/exercicio-validacao/exercicio-validacao.component';
 import { ArvoreComponent } from './components/estudo-conceitos/arvore/arvore.component';
 import { RegrasComponent } from './components/estudo-conceitos/regras/regras.component';
-import { AcessoInvalidoComponent } from './common/components/acesso-invalido/acesso-invalido.component';
+import { ErroInternoComponent } from './common/components/erro-interno/erro-interno.component';
 
 export const routes: Routes = [
   {
@@ -34,8 +34,8 @@ export const routes: Routes = [
   },
 
   {
-    path: 'error/token',
-    component: AcessoInvalidoComponent,
+    path: 'erro',
+    component: ErroInternoComponent,
   },
 ];
 

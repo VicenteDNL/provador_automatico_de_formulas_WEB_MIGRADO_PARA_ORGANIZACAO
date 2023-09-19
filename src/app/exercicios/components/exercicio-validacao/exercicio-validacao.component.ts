@@ -54,7 +54,7 @@ export class ExercicioValidacaoComponent implements OnInit {
         queryParams.usu_hash === undefined ||
         queryParams.usu_hash === undefined
       ) {
-        this.router.navigate(['exercicio/usuario-invalido']);
+        this.router.navigate(['exercicio/erro']);
       }
       this.hashInput = {
         usuHash: queryParams.usu_hash,
@@ -67,12 +67,12 @@ export class ExercicioValidacaoComponent implements OnInit {
             this.exercicio = response.data.exercicio;
             this.inicializarRelogio();
           } else {
-            this.router.navigate(['exercicio/usuario-invalido']);
+            this.router.navigate(['exercicio/erro']);
           }
           this.buscandoExercicio = false;
         },
         error => {
-          this.router.navigate(['exercicio/usuario-invalido']);
+          this.router.navigate(['exercicio/erro']);
         },
       );
     });
