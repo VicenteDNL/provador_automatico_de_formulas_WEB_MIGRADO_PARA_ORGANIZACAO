@@ -176,7 +176,7 @@
                     *ngIf="console.isLoading() != true"
                     class="btn btn-sm btn-tentar-novamente"
                     (click)="validarResposta()"
-                    [disabled]="console.isLoading() == true">
+                    [disabled]=" passos.getFinalizar().resposta==null">
                     Validar resposta
                   </button>
                 </div>

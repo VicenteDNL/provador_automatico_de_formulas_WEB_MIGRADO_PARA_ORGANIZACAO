@@ -90,7 +90,6 @@ export class ExercicioValidacaoService {
   }
 
   concluir(arvore: Arvore, passo: PassoFinalizar, hash: HashInput) {
-    passo.resposta = 'asdasdas';
     return this.http
       .post<Response>(
         `${this.api}concluir`,
