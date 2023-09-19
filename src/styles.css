@@ -288,3 +288,11 @@ th {
   color: #dea807!important;
   font-weight: bold;
 }
+.flex-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.flex-um {
+  flex: 1;
+}
