@@ -69,6 +69,7 @@
   justify-content: center;
   align-items: center;
   color: #757575;
+  height: 100%;
 }
 .header-exercicio{
   color: #757575;
@@ -92,4 +93,18 @@
   font-weight: bold;
   color: #6e52d2;
   font-size: small;
+}
+.titulo-check{
+  padding-bottom: 5px;
+  padding-right: 10px;
+  font-weight: bold;
+  color: #757575;
+}
+.btn-delete {
+  color: #e83e8c;
+  background: transparent;
+}
+.btn-tabela-delete:hover {
+  color: #b83270;
+  background: transparent;
 }

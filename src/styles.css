@@ -296,3 +296,13 @@ th {
 .flex-um {
   flex: 1;
 }
+.btn-pesquisar {
+  background: #56d6ca;
+  color: #ffffff;
+  border-radius:  0.2rem !important;
+  border: 1px solid !important;
+}
+.btn-pesquisar:hover {
+  color: white;
+  background: #3e9b91;
+}

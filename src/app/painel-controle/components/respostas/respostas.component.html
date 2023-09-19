@@ -1,75 +1,179 @@
 <div class="container conteudo-pagina">
   <div class="row justify-content-between my-md-3">
     <div class="col-sm-12 col-md-auto">
-      <h5 class="text-roxo m-0">Respostas Exercícios </h5>
+      <h5 class="text-roxo m-0">Respostas Exercícios</h5>
     </div>
   </div>
-  
+  <div class="row mb-4">
+    <form #formNivel="ngForm" *ngIf="!pesquisando" style="width: 100%">
+      <div class="form-row">
+        <div class="form-group col-md-5 col-12 mb-2">
+          <label class="col-form-label-sm mb-0" for="nome">Jogadores</label>
+          <select
+            id="jogador_id"
+            name="jogador_id"
+            [(ngModel)]="search.jogador_id"
+            class="form-control form-control-sm">
+            <option value="">Todos</option>
+            <option
+              *ngFor="let jogador of listaJogadores"
+              value="{{ jogador.id }}">
+              {{ jogador.nome }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-3 col-12 mb-2">
+          <label class="col-form-label-sm mb-0" for="nome">Exercícios</label>
+          <select
+            id="exercicio_id"
+            name="exercicio_id"
+            [(ngModel)]="search.exercicio_id"
+            class="form-control form-control-sm">
+            <option value="">Todos</option>
+
+            <option
+              *ngFor="let exercicio of listaExercicios"
+              value="{{ exercicio.id }}">
+              {{ exercicio.nome }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-1 col-12 mb-2">
+          <label class="col-form-label-sm mb-0" for="ativa">Status</label>
+          <select
+            id="ativa"
+            name="ativa"
+            [(ngModel)]="search.ativa"
+            class="form-control form-control-sm">
+            <option value="">Todos</option>
+            <option value="1">Ativo</option>
+            <option value="0">Inativo</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-1 col-12 mb-2">
+          <label class="col-form-label-sm mb-0" for="completa">Resolução</label>
+          <select
+            id="completa"
+            name="completa"
+            [(ngModel)]="search.completa"
+            class="form-control form-control-sm">
+            <option value="">Todas</option>
+            <option value="1">Completa</option>
+            <option value="0">Incompleta</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2 col-12 mb-2 d-flex align-items-end">
+          <button
+            type="button"
+            class="btn btn-sm btn-pesquisar btn-block"
+            (click)="carregarLista(1)">
+            Pesquisar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <div class="row mb-4">
     <div class="col-md-12 m-auto pt-2 px-0">
       <div *ngFor="let resposta of listaResposta" class="">
         <div class="container-resposta">
           <div class="grupo-status">
-            <div class="inativo" *ngIf="!resposta.resposta_ativa">
-              Inativo
-            </div>
-            <div class="ativo" *ngIf="resposta.resposta_ativa">Ativo</div>
+            <div class="inativo" *ngIf="!resposta.ativa">Inativo</div>
+            <div class="ativo" *ngIf="resposta.ativa">Ativo</div>
           </div>
           <div class="card-resposta shadow-sm row">
-            <div class="col-md-6 col-12 mb-2 mb-md-0">
+            <div class="col-md-5 col-12 mb-2 mb-md-0">
               <div class="d-flex align-items-center">
                 <div class="container-imagem-jogador mr-2">
                   <img
-                    [src]="resposta.avatar || 'assets/img/user-icon.png'"
+                    [src]="
+                      resposta.jogador.avatar || 'assets/img/user-icon.png'
+                    "
                     alt=""
                     class="imagem-jogador" />
                 </div>
-                <h6 class="">{{ resposta.nome }}</h6>
+                <h6 class="">{{ resposta.jogador.nome }}</h6>
               </div>
             </div>
-            <div class="col-md-6 col-12 d-block d-md-none mb-2 text-center">
-              <div class=" header-exercicio mx-3">
-                <span class="titulo text-center">{{ resposta.exercicio_nome }}</span>
+            <div class="col-md-2 col-12 mb-3 mb-md-0">
+              <div class="grupo mx-3 text-center">
+                <span class="titulo">{{ resposta.exercicio.nome }}</span>
               </div>
             </div>
-            <div class="col-md-6 col-12">
-              <div class="d-flex align-items-center justify-content-md-end justify-content-center">
-                <div class="grupo mx-3 d-none d-md-block">
-                  <span class="titulo text-center">{{ resposta.exercicio_nome }}</span>
-                </div>
-                <div class="grupo mx-3">
+            <div class="col-md-1 col-12 mb-3 mb-md-0">
+              <div class="grupo mx-3">
+                <span class="incompleta" *ngIf="!resposta.concluida"
+                  >Incompleta</span
+                >
+                <span class="completa" *ngIf="resposta.concluida"
+                  >Completa</span
+                >
+              </div>
+            </div>
+            <div class="col-md-1 col-4">
+              <div class="grupo mx-3">
+                <span class="titulo">Tempo</span>
+                <span class="tempo text-center" *ngIf="!resposta.concluida"
+                  >vazio</span
+                >
+                <span class="tempo text-center" *ngIf="resposta.concluida">
+                  <span class="pontuacao-total"> {{ resposta.tempo }}s</span>
                   <span
-                    class="incompleta"
-                    *ngIf="resposta.resposta_concluida == 0"
-                    >Incompleta</span
+                    style="font-size: small"
+                    *ngIf="resposta.exercicio.tempo != null"
+                    >/</span
                   >
                   <span
-                    class="completa"
-                    *ngIf="resposta.resposta_concluida == 1"
-                    >Completa</span
+                    class="pontuacao-final"
+                    *ngIf="resposta.exercicio.tempo != null"
+                    >{{ resposta.exercicio.tempo }}s</span
                   >
-                </div>
-                <div class="grupo mx-3">
-                  <span class="titulo">Tempo</span>
-                  <span class="tempo text-center" *ngIf="resposta.exercicio_tempo == null"
-                    >vazio</span
+                </span>
+              </div>
+            </div>
+            <div class="col-md-1 col-4">
+              <div class="grupo mx-3">
+                <span class="titulo">Erros</span>
+                <span
+                  class="tempo text-center"
+                  *ngIf="resposta.exercicio.qndt_erros == null"
+                  >vazio</span
+                >
+                <span
+                  class="tempo text-center"
+                  *ngIf="resposta.exercicio.qndt_erros != null">
+                  <span class="pontuacao-total">
+                    {{ resposta.tentativas_invalidas }}</span
                   >
-                  <span class="tempo text-center" *ngIf="resposta.exercicio_tempo != null"
-                    >{{ resposta.exercicio_tempo }} minutos</span
-                  >
-                </div>
-                <div class="grupo mx-3">
-                  <span class="titulo text-center">Pontuação</span>
-                  <span class="text-center">
-                    <span class="pontuacao-total">
-                      {{ resposta.recompensas_pontuacao }}</span
-                    >
-                    <span style="font-size: small">/</span>
-                    <span class="pontuacao-final">{{
-                      resposta.resposta_pontuacao
-                    }}</span>
-                  </span>
-                </div>
+                  <span style="font-size: small">/</span>
+                  <span class="pontuacao-final">{{
+                    resposta.exercicio.qndt_erros
+                  }}</span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-1 col-4">
+              <div class="grupo mx-3">
+                <span class="titulo text-center">Pontuação</span>
+                <span class="text-center">
+                  <span class="pontuacao-total"> {{ resposta.pontuacao }}</span>
+                  <span style="font-size: small">/</span>
+                  <span class="pontuacao-final">{{
+                    resposta.exercicio.recompensa.pontuacao
+                  }}</span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-1 col-12 mt-3 mt-md-0">
+              <div class="grupo mx-3">
+                <button
+                  type="button"
+                  class="btn btn-delete"
+                  (click)="desativar(resposta.id)">
+                  <fa-icon class="mx-1" [icon]="iconDeletar"></fa-icon>
+                </button>
               </div>
             </div>
           </div>
