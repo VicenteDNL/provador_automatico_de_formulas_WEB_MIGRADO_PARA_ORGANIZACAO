@@ -123,5 +123,7 @@
       }
     }
   },
-  "defaultProject": "WEB"
+  "cli": {
+    "analytics": false
+  }
 }
