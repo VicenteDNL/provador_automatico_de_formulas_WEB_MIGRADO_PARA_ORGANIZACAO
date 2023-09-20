@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { Console } from '../../models/Console';
+import { Console } from '../../../../common/models/Console';
 
 @Component({
   selector: 'app-console',

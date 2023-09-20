@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ArvoreManager } from '../../models/ArvoreManager';
-import { Selecao } from '../../models/Selecao';
+import { ArvoreManager } from '../../../../common/models/ArvoreManager';
+import { Selecao } from '../../../../common/models/Selecao';
 
 @Component({
   selector: 'app-derivacao',

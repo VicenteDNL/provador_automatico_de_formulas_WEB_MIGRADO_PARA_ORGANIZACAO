@@ -18,3 +18,10 @@
 .curso-svg:hover {
   text-decoration: none !important;
 }
+.btn-func {
+  color: #fff;
+  background-color: #1cc88a;
+}
+.btn-func:hover {
+  background-color: #2ca377;
+}

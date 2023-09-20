@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EtapasEmProgresso } from '../../models/EtapasEmProgresso';
-import { ArvoreManager } from '../../models/ArvoreManager';
-import { Passos } from '../../models/Passos';
-import { Console } from '../../models/Console';
-import { Selecao } from '../../models/Selecao';
+import { EtapasEmProgresso } from '../../../../common/models/EtapasEmProgresso';
+import { ArvoreManager } from '../../../../common/models/ArvoreManager';
+import { Passos } from '../../../../common/models/Passos';
+import { Console } from '../../../../common/models/Console';
+import { Selecao } from '../../../../common/models/Selecao';
 
 @Component({
   selector: 'app-controles',

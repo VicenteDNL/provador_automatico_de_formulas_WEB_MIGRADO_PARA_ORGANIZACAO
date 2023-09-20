@@ -1,0 +1,113 @@
+<app-modal-erro-gramatica
+  [openModal]="openModalErros"
+  [erros]="formula.getErro()">
+</app-modal-erro-gramatica>
+<app-modal-info-gramatica [openModal]="openModalInfoGramatica">
+</app-modal-info-gramatica>
+
+<app-modal-visualizador-arvore
+  [impressaoNo]="arvoreAutomatica.arvore.visualizar.nos"
+  [impressaoAresta]="arvoreAutomatica.arvore.visualizar.arestas"
+  [impressaoLinha]="arvoreAutomatica.arvore.visualizar.linhas"
+  [width]="arvoreAutomatica.arvore.visualizar.width"
+  [height]="450"
+  [abrirArvoreSubject]="openModalArvore">
+</app-modal-visualizador-arvore>
+<div class="conteudo-formula shadow-sm h-100 d-flex flex-column">
+  <div class="text-center titulo-modal-formula p-2">
+    <span>Criação Fórmula</span>
+  </div>
+  <div class="text-center d-flex justify-content-center w-100">
+    <div class="barra-modal-formula"></div>
+  </div>
+  <div class="p-3">
+    <div class="d-flex mb-3">
+      <input
+        type="text"
+        (blur)="validarFormula()"
+        class="form-control form-control-sm"
+        id="formula"
+        name="formula"
+        [(ngModel)]="formulaInput"
+        [ngClass]="{
+          errorFormulaInput: !formula.isValida() && formula.getErro() != null
+        }"
+        required />
+      <div class="btn-group">
+        <button
+          *ngIf="formula.isValida()"
+          type="button"
+          class="btn btn-inf-formula-2 btn-sm"
+          (click)="abrirArvore()"
+          [disabled]="!formula.isValida() && formula.getErro() != null">
+          <span
+            *ngIf="arvoreAutomatica.loading"
+            class="spinner-border spinner-border-sm mr-2"
+            role="status">
+            <span class="sr-only">Loading...</span>
+          </span>
+          <fa-icon
+            *ngIf="!arvoreAutomatica.loading"
+            class="mx-1"
+            [icon]="iconVisual"></fa-icon>
+        </button>
+        <button
+          *ngIf="!formula.isValida() && formula.getErro() != null"
+          class="btn btn-inf-formula-2 btn-sm"
+          (click)="abrirErrosGramatica()">
+          <fa-icon class="mx-1" [icon]="iconErro"></fa-icon>
+        </button>
+        <button
+          class="btn btn-sm btn-inf-formula-1"
+          (click)="abrirInfoGramatica()">
+          <fa-icon class="mx-1" [icon]="iconDuvida"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <div class="grupo-emoji">
+      <div
+        *ngIf="formula.getXml() == null && formula.getErro() == null"
+        class="text-center">
+        <img
+          class="img-fluid"
+          src="assets/img/emoji-simpatico.png"
+          alt="condicional"
+          style="max-width: 124px; max-height: 130px" />
+        <div class="formula-str mb-3">
+          Muito bom ver você aqui colocando em prática seu conchecimento. Mas
+          primeiro você pricisa criar uma fórmula.
+        </div>
+      </div>
+      <div
+        *ngIf="formula.isValida() && formula.getErro() == null"
+        class="text-center">
+        <img
+          class="img-fluid"
+          src="assets/img/emoji-feliz.png"
+          alt="condicional"
+          style="max-width: 124px; max-height: 130px" />
+        <div class="formula-str">
+          Parabéns! Você criou uma fórmula, agora já pode começar deriva-la.
+        </div>
+        <div class="grupo-btn-iniciar">
+          <button
+            type="button"
+            class="btn btn-sm btn-func btn-block mt-3"
+            (click)="comecar()">
+            Começar
+          </button>
+        </div>
+      </div>
+      <div
+        *ngIf="!formula.isValida() && formula.getErro() != null"
+        class="text-center">
+        <img
+          class="img-fluid"
+          src="assets/img/emoji-triste.png"
+          alt="condicional"
+          style="max-width: 124px; max-height: 130px" />
+        <div class="formula-str">Ops, algo de errado na fórmula</div>
+      </div>
+    </div>
+  </div>
+</div>

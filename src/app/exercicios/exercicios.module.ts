@@ -15,6 +15,12 @@ import { ModalInfoGramaticaComponent } from './common/components/modal-info-gram
 import { MyComponentsModule } from '../common/components/my-components.module';
 import { ModalVisualizadorArvoreComponent } from './common/components/modal-visualizador-arvore/modal-visualizador-arvore.component';
 import { ErroInternoComponent } from './common/components/erro-interno/erro-interno.component';
+import { FormulaComponent } from './common/components/formula/formula.component';
+import { PerguntaFinalComponent } from './common/components/pergunta-final/pergunta-final.component';
+import { ConsoleComponent } from './common/components/console/console.component';
+import { ControlesComponent } from './common/components/controles/controles.component';
+import { DerivacaoComponent } from './common/components/derivacao/derivacao.component';
+import { PlacarComponent } from './common/components/placar/placar.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,12 @@ import { ErroInternoComponent } from './common/components/erro-interno/erro-inte
     ModalInfoGramaticaComponent,
     ModalVisualizadorArvoreComponent,
     ErroInternoComponent,
+    FormulaComponent,
+    PerguntaFinalComponent,
+    ConsoleComponent,
+    ControlesComponent,
+    DerivacaoComponent,
+    PlacarComponent,
   ],
   imports: [
     ModalModule.forRoot(),

@@ -6,7 +6,6 @@ import {
   faQuestionCircle,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { environment } from 'src/environments/environment';
 import { ArvoreAutomatica } from 'src/app/common/interfaces/arvore/arvoreAutomatica';
 
 import { Console } from 'src/app/common/models/Console';
@@ -20,7 +19,9 @@ import { Subject } from 'rxjs';
 import { ArvoreService } from '../../common/services/arvore.service';
 import { EstudoLivreService } from './estudo-livre.service';
 import { ArvoreResponse, ConcluirEstudoLivreInput } from './interfaces';
-declare let gramLogic: any;
+import { Resposta } from 'src/app/common/enums/Resposta';
+import { Formula } from 'src/app/common/models/Formula';
+import { PassoFinalizar } from 'src/app/common/interfaces/passo/PassoFinalizar';
 
 @Component({
   selector: 'app-estudo-livre',
@@ -28,9 +29,6 @@ declare let gramLogic: any;
   styleUrls: ['./estudo-livre.component.css'],
 })
 export class EstudoLivreComponent implements OnInit {
-  duvida = faQuestionCircle;
-  visual = faEye;
-  erro = faExclamationTriangle;
   iconFechar = faTimes;
 
   console: Console = new Console();
@@ -38,46 +36,9 @@ export class EstudoLivreComponent implements OnInit {
   arvoreManager: ArvoreManager = new ArvoreManager();
   selecao: Selecao = new Selecao();
   passos: Passos = new Passos();
+  formula: Formula = new Formula();
 
   concluirInput: ConcluirEstudoLivreInput | null = null;
-  formula: {
-    texto: string;
-    xml: string;
-    isValida: boolean;
-    loading: boolean;
-    openModalErros: Subject<boolean>;
-    openModalInfoGramatica: Subject<boolean>;
-    mensagemErro: string;
-  } = {
-    texto: '',
-    xml: '',
-    isValida: false,
-    loading: false,
-    openModalErros: new Subject<boolean>(),
-    openModalInfoGramatica: new Subject<boolean>(),
-    mensagemErro: '',
-  };
-  arvoreAutomatica: {
-    arvore: ArvoreAutomatica;
-    loading: boolean;
-    openModal: Subject<boolean>;
-  } = {
-    arvore: {
-      formula: {
-        texto: '',
-        xml: '',
-      },
-      visualizar: {
-        arestas: [],
-        linhas: [],
-        nos: [],
-        height: 500,
-        width: 500,
-      },
-    },
-    loading: false,
-    openModal: new Subject<boolean>(),
-  };
 
   iniciandoEstudo = false;
   concluindoEstudo = false;
@@ -87,7 +48,6 @@ export class EstudoLivreComponent implements OnInit {
     isAberto: false,
   };
 
-  private readonly production = `${environment.production}`;
   constructor(
     private service: EstudoLivreService,
     private router: Router,
@@ -109,10 +69,6 @@ export class EstudoLivreComponent implements OnInit {
         arvore: this.arvoreManager.getArvore(),
       };
     });
-  }
-
-  eventoOnclickNo(index: number) {
-    this.arvoreManager.eventoClickNo(index, this.selecao);
   }
 
   adicionar(negar: boolean) {
@@ -195,47 +151,6 @@ export class EstudoLivreComponent implements OnInit {
       false,
     );
   }
-  abrirInfoGramatica() {
-    this.formula.openModalInfoGramatica.next(true);
-  }
-  abrirErrosGramatica() {
-    this.formula.openModalErros.next(true);
-  }
-
-  abrirArvore() {
-    this.arvoreAutomatica.loading = true;
-    if (this.formula.xml !== '') {
-      this.serviceArvore.arvore(this.formula.xml).subscribe(
-        response => {
-          if (response.success) {
-            this.arvoreAutomatica.arvore = response.data;
-            this.arvoreAutomatica.openModal.next(true);
-          } else {
-            this.abrirAvisoError(response.msg);
-          }
-          this.arvoreAutomatica.loading = false;
-        },
-        error => {
-          this.arvoreAutomatica.loading = false;
-          this.abrirAvisoError('Ops! Ocorreu um erro ao gerar a árvore');
-        },
-      );
-    }
-  }
-
-  validarFormula() {
-    if (this.formula.texto) {
-      const validacao = gramLogic.validar(this.formula.texto, this.production);
-
-      this.formula.isValida = validacao.sucesso;
-      this.formula.xml = validacao.sucesso ? validacao.xml : '';
-      this.formula.mensagemErro = validacao.sucesso ? '' : validacao.mensagem;
-
-      return;
-    }
-    this.formula.xml = '';
-    this.formula.isValida = false;
-  }
 
   fecharAvisoError() {
     this.globalErro.msg = '';
@@ -250,10 +165,11 @@ export class EstudoLivreComponent implements OnInit {
     }, 5000);
   }
 
-  iniciarEstudo() {
-    this.iniciandoEstudo = true;
-    if (this.formula.isValida && this.formula.xml !== '') {
-      this.serviceArvore.iniciar(this.formula.xml).subscribe(
+  iniciarEstudo(formula: Formula) {
+    this.formula = formula;
+    this.console.addLog('Iniciando exercício', Logs.info, true);
+    if (this.formula.isValida && this.formula.getXml() !== '') {
+      this.serviceArvore.iniciar(this.formula.getXml()).subscribe(
         response => {
           if (response.success) {
             this.arvoreManager.atualizarArvore(response.data);
@@ -273,7 +189,7 @@ export class EstudoLivreComponent implements OnInit {
     }
   }
 
-  concluir() {
+  concluir(passo: PassoFinalizar) {
     this.concluindoEstudo = true;
     this.concluirInput.arvore = this.arvoreManager.getArvore();
     this.service.concluir(this.concluirInput).subscribe(
@@ -285,9 +201,7 @@ export class EstudoLivreComponent implements OnInit {
           this.arvoreManager = new ArvoreManager();
           this.selecao = new Selecao();
           this.passos = new Passos();
-          this.formula.texto = '';
-          this.formula.xml = '';
-          this.formula.isValida = false;
+          this.formula = new Formula();
         } else {
           this.abrirAvisoError(response.msg);
         }

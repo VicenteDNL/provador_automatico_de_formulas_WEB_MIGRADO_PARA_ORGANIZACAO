@@ -1,0 +1,78 @@
+.conteudo-pergunta-final {
+  background: #ffffff;
+}
+.titulo-modal-pergunta-final {
+  background: #f6f6f6;
+  font-weight: bold;
+  color: #4e73df;
+}
+.barra-modal-pergunta-final {
+  position: relative;
+  top: -2px;
+  height: 3px;
+  width: 100px;
+  border-radius: 2px;
+  background-color: #4e73df;
+}
+.botoes-fim {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+.formula-str {
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: rgb(114, 114, 114);
+  font-size: small;
+}
+.tautologia {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+.contradicao {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+.btn-tentar-novamente {
+  color: #fff;
+  background-color: #1cc88a;
+}
+.btn-tentar-novamente:hover {
+  background-color: #2ca377;
+}
+.spinner-color {
+  color: #1cc88a;
+}
+.select-tautologia {
+    background-image: url('/assets/svg/check-azul.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  .select-contradicao {
+    background-image: url('/assets/svg/check-vermelho.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  .icon-select-tautologia {
+    border: 1px solid #6c757d;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+  .icon-select-contradicao {
+    border: 1px solid #6c757d;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }

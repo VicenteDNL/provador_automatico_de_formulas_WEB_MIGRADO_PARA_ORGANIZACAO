@@ -2,13 +2,7 @@
 .spinner-color{
   color: #1cc88a;
 }
-.btn-tentar-novamente{
-  color: #fff;
-  background-color: #1cc88a;
-}
-.btn-tentar-novamente:hover {
-  background-color: #2ca377;
-}
+
 
 .texto-game-over{
   color: #6c757d;
@@ -42,42 +36,4 @@ font-weight: bold;
 }
 .formula-str {
   color: rgb(114, 114, 114);
-}
-.tautologia {
-  display: flex;
-  margin: 10px;
-  align-items: center;
-  cursor: pointer;
-}
-.contradicao {
-  display: flex;
-  margin: 10px;
-  align-items: center;
-  cursor: pointer;
-}
-.select-tautologia {
-  background-image: url('/assets/svg/check-azul.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-.select-contradicao {
-  background-image: url('/assets/svg/check-vermelho.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-.icon-select-tautologia {
-  border: 1px solid #6c757d;
-  width: 20px;
-  height: 20px;
-  border-radius: 3px;
-  margin-right: 5px;
-}
-.icon-select-contradicao {
-  border: 1px solid #6c757d;
-  width: 20px;
-  height: 20px;
-  border-radius: 3px;
-  margin-right: 5px;
 }

@@ -14,6 +14,7 @@ import { Acoes } from 'src/app/common/enums/Acoes';
 import { Logs } from 'src/app/common/enums/Logs';
 import { Resposta } from 'src/app/common/enums/Resposta';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { PassoFinalizar } from 'src/app/common/interfaces/passo/PassoFinalizar';
 @Component({
   selector: 'app-exercicio-validacao',
   templateUrl: './exercicio-validacao.component.html',
@@ -122,7 +123,7 @@ export class ExercicioValidacaoComponent implements OnInit {
       );
   }
 
-  validarResposta() {
+  concluir(passo: PassoFinalizar) {
     this.console.addLog('Validando resposta', Logs.info, true);
     this.service
       .concluir(
@@ -146,18 +147,6 @@ export class ExercicioValidacaoComponent implements OnInit {
         },
         error => this.erroNaRequisicao(error),
       );
-  }
-
-  respostaExercicio(resp: string) {
-    if (resp === 'TAUTOLOGIA') {
-      this.resposta.classes.contradicao = { 'select-contradicao': false };
-      this.resposta.classes.tautologia = { 'select-tautologia': true };
-      this.passos.setFinalizar(Resposta.tautologia);
-    } else if (resp === 'CONTRADICAO') {
-      this.resposta.classes.contradicao = { 'select-contradicao': true };
-      this.resposta.classes.tautologia = { 'select-tautologia': false };
-      this.passos.setFinalizar(Resposta.contradicao);
-    }
   }
 
   tentarNovamente() {

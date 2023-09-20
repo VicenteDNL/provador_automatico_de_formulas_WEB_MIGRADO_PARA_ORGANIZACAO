@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Saude } from '../../interfaces/saude';
+import { Saude } from '../../../../common/interfaces/saude';
 import {
   faClock,
   faHeart,
