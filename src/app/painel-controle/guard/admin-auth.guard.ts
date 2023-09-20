@@ -10,10 +10,10 @@ import {
   UrlTree,
   Router,
   CanLoad,
+  Route,
 } from '@angular/router';
 import { Observable, Subscription, throwError } from 'rxjs';
 
-import { Route } from '@angular/compiler/src/core';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
