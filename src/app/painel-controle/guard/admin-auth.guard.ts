@@ -2,16 +2,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  CanActivateChild,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  Router,
-  CanLoad,
-  Route,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, Route } from '@angular/router';
 import { Observable, Subscription, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
@@ -22,7 +13,7 @@ import { BaseResponse } from 'src/app/common/interfaces/baseResponse.model';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuardAdmin implements CanActivate, CanActivateChild, CanLoad {
+export class AuthGuardAdmin  {
   private readonly api = `${environment.api}`;
   constructor(
     private auth: AuthService,

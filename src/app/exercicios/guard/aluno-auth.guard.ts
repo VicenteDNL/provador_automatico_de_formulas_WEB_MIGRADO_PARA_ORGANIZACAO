@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -17,7 +10,7 @@ import { BaseResponse } from 'src/app/common/interfaces/baseResponse.model';
 @Injectable({
   providedIn: 'root',
 })
-export class AlunoAuthGuard implements CanActivate, CanActivateChild {
+export class AlunoAuthGuard  {
   private readonly api = `${environment.api}`;
   constructor(private router: Router, private http: HttpClient) {}
 
